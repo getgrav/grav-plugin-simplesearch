@@ -120,7 +120,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Set needed variables to display the search results.
      */
-    public function onAfterSiteTwigVars()
+    public function onAfterTwigSiteVars()
     {
         if (!$this->active) {
             return;
