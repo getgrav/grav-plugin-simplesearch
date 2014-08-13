@@ -1,17 +1,17 @@
-Grav SimpleSearch Plugin
-========================
-`SimpleSearch` is a simple, yet very powerful [Grav](http://github.com/getgrav/grav) Plugin that adds search capabilities to your Grav instance.
+# Grav SimpleSearch Plugin
 
-Installation
-============
-To install this plugin, just download the zip version of this repository and unzip it under `/your/site/grav/user/plugins`. Then rename the folder to `simplesearch`.
+`SimpleSearch` is a simple, yet very powerful [Grav][grav] plugin that adds search capabilities to your Grav instance.
+
+# Installation
+
+To install this plugin, just download the zip version of this repository and unzip it under `/your/site/grav/user/plugins` and rename the folder to `simplesearch`.
 
 You should now have all the plugin files under
 
 	/your/site/grav/user/plugins/simplesearch
+	
+# Usage
 
-Usage
-=====
 `SimpleSearch` creates a **route** that you define and based on the **taxonomy** filters generates a search result.
 
 To make a search call, this is the URL you would go to:
@@ -23,11 +23,11 @@ http://yoursite.com/search/query:something
 1. `/search`: This is the **route** setting and it can be changed
 2. `/query:something`: This is the query itself, where `something` is what you are searching for.
 
-To customize the plugin you firstly need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml](simplesearch.yaml) config file in there.
+To customize the plugin, you frst need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml][simplesearch] config file in there.
 
 You can also completely customize the look and feel of the results by overriding the template. There are two methods to do this.
 
-1. Copy the file [templates/simplesearch_results.html.twig](templates/simplesearch_results.html.twig) under your theme templates `user/themes/_your-theme_/templates/` and customize it.
+1. Copy the file [templates/simplesearch_results.html.twig][results] under your theme templates `user/themes/_your-theme_/templates/` and customize it.
 
 
 2. Create your very own results output. For this you need to change the `template` reference in the config (let's say **mysearch_results**). In your theme you would then create the new template under `user/themes/_your-theme_/templates/mysearch_results.html.twig` and write your customizations. This is how it looks by default:
@@ -47,10 +47,10 @@ You can also completely customize the look and feel of the results by overriding
     {% endblock %}
     ```
 
-For further help with the `filters` settings, please refer to our [Taxonomy][taxonomy] and [Headers](headers) documentation.
+For further help with the `filters` settings, please refer to our [Taxonomy][taxonomy] and [Headers][headers] documentation.
 
-Config Defaults
-============
+# Config Defaults
+
 ```
 route: /search
 template: simplesearch_results
@@ -60,3 +60,6 @@ filters:
 
 [taxonomy]: http://learn.getgrav.org/content/taxonomy
 [headers]: http://learn.getgrav.org/content/headers
+[grav]: http://github.com/getgrav/grav
+[simplesearch]: simplesearch.yaml
+[results]: templates/simplesearch_results.html.twig
