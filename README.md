@@ -9,7 +9,9 @@ To install this plugin, just download the zip version of this repository and unz
 You should now have all the plugin files under
 
 	/your/site/grav/user/plugins/simplesearch
-	
+
+>> NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav), the [Error](https://github.com/getgrav/grav-plugin-error) and [Problems](https://github.com/getgrav/grav-plugin-problems) plugins, and a theme to be installed in order to operate.
+
 # Usage
 
 `SimpleSearch` creates a **route** that you define and based on the **taxonomy** filters generates a search result.
