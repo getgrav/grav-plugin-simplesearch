@@ -3,18 +3,12 @@ namespace Grav\Plugin;
 
 use Grav\Common\Page\Collection;
 use Grav\Common\Plugin;
-use Grav\Common\Registry;
 use Grav\Common\Uri;
 use Grav\Common\Page\Page;
 use Grav\Common\Taxonomy;
 
 class SimplesearchPlugin extends Plugin
 {
-    /**
-     * @var bool
-     */
-    protected $active = false;
-
     /**
      * @var array
      */
@@ -31,12 +25,20 @@ class SimplesearchPlugin extends Plugin
     protected $collection;
 
     /**
+     * @return array
+     */
+    public static function getSubscribedEvents() {
+        return [
+            'onAfterInitPlugins' => ['onAfterInitPlugins', 0]
+        ];
+    }
+    /**
      * Enable search only if url matches to the configuration.
      */
     public function onAfterInitPlugins()
     {
         /** @var Uri $uri */
-        $uri = Registry::get('Uri');
+        $uri = $this->grav['uri'];
         $query = $uri->param('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
@@ -48,7 +50,12 @@ class SimplesearchPlugin extends Plugin
                 $this->config->set('system.debugger.enabled', false);
             }
 
-            $this->active = true;
+            $this->enable([
+                'onAfterGetPages' => ['onAfterGetPages', 0],
+                'onAfterGetPage' => ['onAfterGetPage', 0],
+                'onAfterTwigTemplatesPaths' => ['onAfterTwigTemplatesPaths', 0],
+                'onAfterTwigSiteVars' => ['onAfterTwigSiteVars', 0]
+            ]);
         }
     }
 
@@ -57,12 +64,8 @@ class SimplesearchPlugin extends Plugin
      */
     public function onAfterGetPages()
     {
-        if (!$this->active) {
-            return;
-        }
-
         /** @var Taxonomy $taxonomy_map */
-        $taxonomy_map = Registry::get('Taxonomy');
+        $taxonomy_map = $this->grav['taxonomy'];
 
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
 
@@ -73,6 +76,7 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
+        /** @var Page $page */
         foreach ($this->collection as $page) {
             foreach ($this->query as $query) {
                 $query = trim($query);
@@ -89,10 +93,6 @@ class SimplesearchPlugin extends Plugin
      */
     public function onAfterGetPage()
     {
-        if (!$this->active) {
-            return;
-        }
-
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
 
@@ -102,7 +102,7 @@ class SimplesearchPlugin extends Plugin
             $page->template($template_override);
         }
 
-        Registry::get('Grav')->page = $page;
+        $this->grav['page'] = $page;
     }
 
     /**
@@ -110,11 +110,7 @@ class SimplesearchPlugin extends Plugin
      */
     public function onAfterTwigTemplatesPaths()
     {
-        if (!$this->active) {
-            return;
-        }
-
-        Registry::get('Twig')->twig_paths[] = __DIR__ . '/templates';
+        $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
     }
 
     /**
@@ -122,17 +118,13 @@ class SimplesearchPlugin extends Plugin
      */
     public function onAfterTwigSiteVars()
     {
-        if (!$this->active) {
-            return;
-        }
-
-        $twig = Registry::get('Twig');
+        $twig = $this->grav['twig'];
         $twig->twig_vars['query'] = implode(', ', $this->query);
 
         $twig->twig_vars['search_results'] = $this->collection;
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
-            Registry::get('Assets')->add('@plugin/simplesearch/css:simplesearch.css');
+            $this->grav['assets']->add('@plugin/simplesearch/css:simplesearch.css');
         }
     }
 }
