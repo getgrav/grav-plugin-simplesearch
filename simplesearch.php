@@ -29,13 +29,13 @@ class SimplesearchPlugin extends Plugin
      */
     public static function getSubscribedEvents() {
         return [
-            'onAfterInitPlugins' => ['onAfterInitPlugins', 0]
+            'onPluginsInitialized' => ['onPluginsInitialized', 0]
         ];
     }
     /**
      * Enable search only if url matches to the configuration.
      */
-    public function onAfterInitPlugins()
+    public function onPluginsInitialized()
     {
         /** @var Uri $uri */
         $uri = $this->grav['uri'];
@@ -51,10 +51,10 @@ class SimplesearchPlugin extends Plugin
             }
 
             $this->enable([
-                'onAfterGetPages' => ['onAfterGetPages', 0],
-                'onAfterGetPage' => ['onAfterGetPage', 0],
-                'onAfterTwigTemplatesPaths' => ['onAfterTwigTemplatesPaths', 0],
-                'onAfterTwigSiteVars' => ['onAfterTwigSiteVars', 0]
+                'onPagesInitialized' => ['onPagesInitialized', 0],
+                'onPageInitialized' => ['onPageInitialized', 0],
+                'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+                'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
             ]);
         }
     }
@@ -62,7 +62,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Build search results.
      */
-    public function onAfterGetPages()
+    public function onPagesInitialized()
     {
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
@@ -91,7 +91,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Create search result page.
      */
-    public function onAfterGetPage()
+    public function onPageInitialized()
     {
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
@@ -108,7 +108,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Add current directory to twig lookup paths.
      */
-    public function onAfterTwigTemplatesPaths()
+    public function onTwigTemplatePaths()
     {
         $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
     }
@@ -116,7 +116,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Set needed variables to display the search results.
      */
-    public function onAfterTwigSiteVars()
+    public function onTwigSiteVariables()
     {
         $twig = $this->grav['twig'];
         $twig->twig_vars['query'] = implode(', ', $this->query);
