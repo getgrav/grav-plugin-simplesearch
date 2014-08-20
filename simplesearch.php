@@ -124,7 +124,7 @@ class SimplesearchPlugin extends Plugin
         $twig->twig_vars['search_results'] = $this->collection;
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
-            $this->grav['assets']->add('@plugin/simplesearch/css:simplesearch.css');
+            $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
         }
     }
 }
