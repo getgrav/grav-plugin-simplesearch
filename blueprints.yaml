@@ -1,0 +1,17 @@
+name: GitHub Plugin
+version: 1.0.0
+description: Provides the ability to access GitHub API from Grav
+validation: strict
+
+form:
+  fields:
+    enabled:
+        type: toggle
+        label: Plugin status
+        highlight: 1
+        default: 1
+        options:
+            1: Enabled
+            0: Disabled
+        validate:
+            type: bool
