@@ -102,6 +102,10 @@ class SimplesearchPlugin extends Plugin
             $page->template($template_override);
         }
 
+        // allows us to redefine the page service without triggering RuntimeException: Cannot override frozen service
+        // "page" issue
+        unset($this->grav['page']);
+        
         $this->grav['page'] = $page;
     }
 
