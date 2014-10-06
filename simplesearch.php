@@ -39,7 +39,7 @@ class SimplesearchPlugin extends Plugin
     {
         /** @var Uri $uri */
         $uri = $this->grav['uri'];
-        $query = $uri->param('query');
+        $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
         if ($route && $route == $uri->path() && $query) {
