@@ -5,7 +5,9 @@ use Grav\Common\Page\Collection;
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Common\Page\Page;
+use Grav\Common\Page\Types;
 use Grav\Common\Taxonomy;
+use Guzzle\Common\Event;
 
 class SimplesearchPlugin extends Plugin
 {
@@ -29,7 +31,8 @@ class SimplesearchPlugin extends Plugin
      */
     public static function getSubscribedEvents() {
         return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 0]
+            'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onGetPageTemplates' => ['onGetPageTemplates', 0],
         ];
     }
     /**
@@ -105,8 +108,18 @@ class SimplesearchPlugin extends Plugin
         // allows us to redefine the page service without triggering RuntimeException: Cannot override frozen service
         // "page" issue
         unset($this->grav['page']);
-        
+
         $this->grav['page'] = $page;
+    }
+
+    /**
+     * Add page template types.
+     */
+    public function onGetPageTemplates(Event $event)
+    {
+        /** @var Types $types */
+        $types = $event->types;
+        $types->scanTemplates('plugins://simplesearch/templates');
     }
 
     /**
