@@ -7,7 +7,7 @@ use Grav\Common\Uri;
 use Grav\Common\Page\Page;
 use Grav\Common\Page\Types;
 use Grav\Common\Taxonomy;
-use Guzzle\Common\Event;
+use RocketTheme\Toolbox\Event\Event;
 
 class SimplesearchPlugin extends Plugin
 {
