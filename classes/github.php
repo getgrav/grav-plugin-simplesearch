@@ -1,9 +1,9 @@
 <?php
 namespace Grav\Plugin;
 
-use \Grav\Common\Iterator;
-use \Grav\Common\Grav;
-use \Grav\Common\Page\Page;
+use Grav\Common\Iterator;
+use Grav\Common\Grav;
+use Grav\Common\Page\Page;
 
 class GitHub extends Iterator {
 

@@ -1,14 +1,9 @@
 <?php
 namespace Grav\Plugin;
 
-use \Grav\Common\Plugin;
-use \Grav\Common\Page\Page;
-use \Grav\Common\Page\Pages;
-use \Grav\Common\Grav;
-use \Grav\Common\Uri;
-use \Grav\Common\Filesystem\File;
-use \Grav\Common\Twig;
-use \Grav\Plugin\Form;
+use Grav\Common\Plugin;
+use Grav\Common\Page\Page;
+use Grav\Common\Grav;
 use Tracy\Debugger;
 
 class GitHubPlugin extends Plugin

@@ -1,9 +1,18 @@
-name: GitHub Plugin
-version: 1.0.0
-description: Provides the ability to access GitHub API from Grav
-validation: strict
+name: GitHub
+version: 1.0.2
+description: "This plugin wraps the [GitHub v3 API](https://developer.github.com/v3/) and uses the [php-github-api](https://github.com/KnpLabs/php-github-api/) library to add a nice GitHub touch to your Grav pages."
+icon: github
+author:
+  name: Team Grav
+  email: devs@getgrav.org
+  url: http://getgrav.org
+homepage: https://github.com/getgrav/grav-plugin-github
+keywords: github, plugin, api
+bugs: https://github.com/getgrav/grav-plugin-github/issues
+license: MIT
 
 form:
+  validation: strict
   fields:
     enabled:
         type: toggle
