@@ -1,9 +1,18 @@
-name: SimpleSearch Plugin
-version: 1.0.0
-description: This plugin allows for searching of filtered content.
-validation: strict
+name: SimpleSearch
+version: 1.1.1
+description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
+icon: search
+author:
+  name: Team Grav
+  email: devs@getgrav.org
+  url: http://getgrav.org
+homepage: https://github.com/getgrav/grav-plugin-simplesearch
+keywords: simplesearch, plugin, search, page, content, find
+bugs: https://github.com/getgrav/grav-plugin-simplesearch/issues
+license: MIT
 
 form:
+  validation: strict
   fields:
     enabled:
       type: toggle
