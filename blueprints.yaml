@@ -11,9 +11,8 @@ keywords: simplesearch, plugin, search, page, content, find
 bugs: https://github.com/getgrav/grav-plugin-simplesearch/issues
 license: MIT
 
-validation: strict
-
 form:
+  validation: strict
   fields:
     enabled:
       type: toggle
