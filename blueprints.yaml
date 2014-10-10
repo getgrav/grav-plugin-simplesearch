@@ -11,9 +11,8 @@ keywords: github, plugin, api
 bugs: https://github.com/getgrav/grav-plugin-github/issues
 license: MIT
 
-validation: strict
-
 form:
+  validation: strict
   fields:
     enabled:
         type: toggle
