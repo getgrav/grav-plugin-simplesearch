@@ -52,11 +52,7 @@ class SimplesearchPlugin extends Plugin
 
         if ($route && $route == $uri->path() && $query) {
             $this->query = explode(',', $query);
-
-            // disable debugger if JSON format
-            if ($uri->extension() == 'json') {
-                $this->config->set('system.debugger.enabled', false);
-            }
+            $this->active = true;
 
             $this->enable([
                 'onPagesInitialized' => ['onPagesInitialized', 0],
