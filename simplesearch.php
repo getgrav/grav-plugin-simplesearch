@@ -29,7 +29,8 @@ class SimplesearchPlugin extends Plugin
     /**
      * @return array
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents()
+    {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
@@ -68,19 +69,18 @@ class SimplesearchPlugin extends Plugin
      */
     public function onPagesInitialized()
     {
-        if (!$this->active) return;
+        if (!$this->active) {
+            return;
+        }
 
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
 
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
+        $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
 
         $this->collection = new Collection();
-        foreach ($filters as $taxonomy => $items) {
-            if (isset($items)) {
-                $this->collection->append($taxonomy_map->findTaxonomy([$taxonomy => $items])->toArray());
-            }
-        }
+        $this->collection->append($taxonomy_map->findTaxonomy($filters, $operator)->toArray());
 
         /** @var Page $page */
         foreach ($this->collection as $page) {
@@ -99,7 +99,9 @@ class SimplesearchPlugin extends Plugin
      */
     public function onPageInitialized()
     {
-        if (!$this->active) return;
+        if (!$this->active) {
+            return;
+        }
 
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
@@ -122,7 +124,9 @@ class SimplesearchPlugin extends Plugin
      */
     public function onGetPageTemplates(Event $event)
     {
-        if (!$this->active) return;
+        if (!$this->active) {
+            return;
+        }
 
         /** @var Types $types */
         $types = $event->types;
@@ -134,7 +138,9 @@ class SimplesearchPlugin extends Plugin
      */
     public function onTwigTemplatePaths()
     {
-        if (!$this->active) return;
+        if (!$this->active) {
+            return;
+        }
 
         $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
     }
@@ -144,7 +150,9 @@ class SimplesearchPlugin extends Plugin
      */
     public function onTwigSiteVariables()
     {
-        if (!$this->active) return;
+        if (!$this->active) {
+            return;
+        }
 
         $twig = $this->grav['twig'];
         $twig->twig_vars['query'] = implode(', ', $this->query);
