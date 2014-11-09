@@ -36,7 +36,7 @@ form:
       validate:
         type: bool
 
-    filters.category:
+    filters:
       type: text
       label: Category filter
       help: Comma separated list of category names
