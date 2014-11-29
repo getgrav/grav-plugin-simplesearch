@@ -25,6 +25,12 @@ http://yoursite.com/search/query:something
 1. `/search`: This is the **route** setting and it can be changed
 2. `/query:something`: This is the query itself, where `something` is what you are searching for.
 
+After installing the SimpleSearch plugin, you can add a simple **searchbox** to your site by including the provided twig template.  Or copy it from the plugin to your theme and customize it as you please:
+
+```
+{% include 'partials/simplesearch_searchbox.html.twig' %}
+```
+
 To customize the plugin, you frst need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml][simplesearch] config file in there.
 
 You can also completely customize the look and feel of the results by overriding the template. There are two methods to do this.

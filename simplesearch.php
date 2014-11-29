@@ -34,6 +34,7 @@ class SimplesearchPlugin extends Plugin
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
+            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
         ];
     }
     /**
@@ -58,7 +59,6 @@ class SimplesearchPlugin extends Plugin
             $this->enable([
                 'onPagesInitialized' => ['onPagesInitialized', 0],
                 'onPageInitialized' => ['onPageInitialized', 0],
-                'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
                 'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
             ]);
         }
@@ -138,10 +138,6 @@ class SimplesearchPlugin extends Plugin
      */
     public function onTwigTemplatePaths()
     {
-        if (!$this->active) {
-            return;
-        }
-
         $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
     }
 
