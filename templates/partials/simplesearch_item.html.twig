@@ -4,7 +4,7 @@
 
     {% if banner %}
     <div class="search-image">
-        <img src="{{ banner.cropZoom(100,100) }}" />
+        <a href="{{ page.url }}"><img src="{{ banner.cropZoom(100,100) }}" /></a>
     </div>
     {% endif %}
     <div class="search-item">
@@ -13,7 +13,7 @@
         </div>
 
         <div class="search-details">
-            <span class="search-date">{{ page.date|date() }}</span>
+            <span class="search-date">{{ page.date|date(config.system.pages.dateformat.short) }}</span>
         </div>
 
         <p>{{ page.summary }}</p>

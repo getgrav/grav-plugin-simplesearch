@@ -34,8 +34,10 @@ class SimplesearchPlugin extends Plugin
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
+            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
         ];
     }
+
     /**
      * Enable search only if url matches to the configuration.
      */
@@ -58,10 +60,28 @@ class SimplesearchPlugin extends Plugin
             $this->enable([
                 'onPagesInitialized' => ['onPagesInitialized', 0],
                 'onPageInitialized' => ['onPageInitialized', 0],
-                'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
                 'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
             ]);
         }
+    }
+
+    /**
+     * Add page template types.
+     */
+    public function onGetPageTemplates(Event $event)
+    {
+        /** @var Types $types */
+        $types = $event->types;
+        $types->scanTemplates('plugins://simplesearch/templates');
+    }
+
+
+    /**
+     * Add current directory to twig lookup paths.
+     */
+    public function onTwigTemplatePaths()
+    {
+        $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
     }
 
     /**
@@ -69,10 +89,6 @@ class SimplesearchPlugin extends Plugin
      */
     public function onPagesInitialized()
     {
-        if (!$this->active) {
-            return;
-        }
-
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
 
@@ -99,10 +115,6 @@ class SimplesearchPlugin extends Plugin
      */
     public function onPageInitialized()
     {
-        if (!$this->active) {
-            return;
-        }
-
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
 
@@ -120,40 +132,10 @@ class SimplesearchPlugin extends Plugin
     }
 
     /**
-     * Add page template types.
-     */
-    public function onGetPageTemplates(Event $event)
-    {
-        if (!$this->active) {
-            return;
-        }
-
-        /** @var Types $types */
-        $types = $event->types;
-        $types->scanTemplates('plugins://simplesearch/templates');
-    }
-
-    /**
-     * Add current directory to twig lookup paths.
-     */
-    public function onTwigTemplatePaths()
-    {
-        if (!$this->active) {
-            return;
-        }
-
-        $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
-    }
-
-    /**
      * Set needed variables to display the search results.
      */
     public function onTwigSiteVariables()
     {
-        if (!$this->active) {
-            return;
-        }
-
         $twig = $this->grav['twig'];
         $twig->twig_vars['query'] = implode(', ', $this->query);
 
