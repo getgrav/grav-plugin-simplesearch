@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
     input.on('keypress', function(event) {
         if (event.which == 13 && input.val().length > 3) {
             event.preventDefault();
-            window.location.href = input.data('search-input') + ':' + input.val();
+            window.location.href = input.data('search-input') + '{{ config.system.param_sep }}' + input.val();
         }
     });
 });
