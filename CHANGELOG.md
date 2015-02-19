@@ -1,3 +1,9 @@
+# v1.2.4
+## 02/19/2015
+
+2. [](#improved)
+    * Implemented new `param_sep` variable from Grav 0.9.18
+
 # v1.2.3
 ## 01/06/2015
 
