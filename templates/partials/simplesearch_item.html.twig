@@ -4,7 +4,7 @@
 
     {% if banner %}
     <div class="search-image">
-        <a href="{{ page.url }}"><img src="{{ banner.cropZoom(100,100) }}" /></a>
+        <a href="{{ page.url }}">{{ banner.cropZoom(100,100).html }}</a>
     </div>
     {% endif %}
     <div class="search-item">
