@@ -1,3 +1,9 @@
+# v1.2.5
+## 04/24/2015
+
+1. [](#bugfix)
+    * Fixed issue with broken image
+
 # v1.2.4
 ## 02/19/2015
 
