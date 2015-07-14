@@ -1,3 +1,9 @@
+# v1.2.6
+## 07/14/2015
+
+1. [](#bugfix)
+    * Fixed URL issue that showed up with multi-languages
+
 # v1.2.5
 ## 04/24/2015
 
