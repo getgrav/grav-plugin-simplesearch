@@ -59,7 +59,6 @@ class SimplesearchPlugin extends Plugin
 
             $this->enable([
                 'onPagesInitialized' => ['onPagesInitialized', 0],
-                'onPageInitialized' => ['onPageInitialized', 0],
                 'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
             ]);
         }
@@ -108,13 +107,8 @@ class SimplesearchPlugin extends Plugin
                 }
             }
         }
-    }
 
-    /**
-     * Create search result page.
-     */
-    public function onPageInitialized()
-    {
+        // create the search page
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
 
@@ -130,6 +124,7 @@ class SimplesearchPlugin extends Plugin
 
         $this->grav['page'] = $page;
     }
+
 
     /**
      * Set needed variables to display the search results.
