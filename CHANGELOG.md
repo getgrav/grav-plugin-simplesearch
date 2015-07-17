@@ -1,3 +1,9 @@
+# v1.2.7
+## 07/17/2015
+
+1. [](#bugfix)
+    * Fixed "Undefined index: extension" error
+
 # v1.2.6
 ## 07/14/2015
 
