@@ -1,3 +1,9 @@
+# v1.3.0
+## 07/21/2015
+
+1. [](#new)
+    * Added support for modular pages in results
+
 # v1.2.7
 ## 07/17/2015
 

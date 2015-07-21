@@ -97,6 +97,8 @@ class SimplesearchPlugin extends Plugin
         $this->collection = new Collection();
         $this->collection->append($taxonomy_map->findTaxonomy($filters, $operator)->toArray());
 
+        $extras = [];
+
         /** @var Page $page */
         foreach ($this->collection as $page) {
             foreach ($this->query as $query) {
@@ -104,8 +106,19 @@ class SimplesearchPlugin extends Plugin
 
                 if (stripos($page->content(), $query) === false && stripos($page->title(), $query) === false) {
                     $this->collection->remove($page);
+                    continue;
+                }
+
+                if ($page->modular()) {
+                    $this->collection->remove($page);
+                    $parent = $page->parent();
+                    $extras[$parent->path()] = ['slug' => $parent->slug()];
                 }
             }
+        }
+
+        if (!empty($extras)) {
+            $this->collection->append($extras);
         }
 
         // create the search page
