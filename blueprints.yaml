@@ -37,6 +37,20 @@ form:
       validate:
         type: bool
 
+    route:
+      type: text
+      size: medium
+      label: Route
+      default: /random
+      help: Default route of the simplesearch plugin
+
+    template:
+      type: text
+      size: medium
+      label: Template
+      default: simplesearch_results
+      help: Name of the template for the search results
+
     filters:
       type: text
       label: Category filter
