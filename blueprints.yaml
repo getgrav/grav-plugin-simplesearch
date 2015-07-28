@@ -52,7 +52,7 @@ form:
       help: Name of the template for the search results
 
     filters:
-      type: text
+      type: selectize
       label: Category filter
       help: Comma separated list of category names
       validate:
