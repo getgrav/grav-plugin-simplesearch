@@ -123,10 +123,10 @@ class SimplesearchPlugin extends Plugin
 
         // use a configured sorting order
         $this->collection = $this->collection->order(
-            $this->config->get('order.by'),
-            $this->config->get('order.dir')
+            $this->config->get('plugins.simplesearch.order.by'),
+            $this->config->get('plugins.simplesearch.order.dir')
         );
-        
+
         // create the search page
         $page = new Page;
         $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
