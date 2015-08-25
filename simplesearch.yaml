@@ -4,4 +4,7 @@ route: /search
 template: simplesearch_results
 filters:
     category: blog
-filter_combinator: and       
+filter_combinator: and
+order:
+    by: date
+    dir: desc

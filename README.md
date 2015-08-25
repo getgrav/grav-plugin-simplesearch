@@ -6,7 +6,7 @@
 
 # Installation
 
-Installing the SimpleSearch plugin can be done in one of two ways. Our GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file. 
+Installing the SimpleSearch plugin can be done in one of two ways. Our GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file.
 
 ## GPM Installation (Preferred)
 
@@ -68,7 +68,7 @@ You can also completely customize the look and feel of the results by overriding
     {% endblock %}
     ```
 
-For further help with the `filters` settings, please refer to our [Taxonomy][taxonomy] and [Headers][headers] documentation.
+For further help with the `filters` and `order` settings, please refer to our [Taxonomy][taxonomy] and [Headers][headers] documentation.
 
 # Config Defaults
 
@@ -77,6 +77,9 @@ route: /search
 template: simplesearch_results
 filters:
     category: blog
+order:
+    by: date
+    dir: desc
 ```
 
 # Updating

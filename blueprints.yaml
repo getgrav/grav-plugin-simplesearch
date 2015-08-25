@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 1.3.0
+version: 1.4.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -37,8 +37,22 @@ form:
       validate:
         type: bool
 
-    filters:
+    route:
       type: text
+      size: medium
+      label: Route
+      default: /random
+      help: Default route of the simplesearch plugin
+
+    template:
+      type: text
+      size: medium
+      label: Template
+      default: simplesearch_results
+      help: Name of the template for the search results
+
+    filters:
+      type: selectize
       label: Category filter
       help: Comma separated list of category names
       validate:
