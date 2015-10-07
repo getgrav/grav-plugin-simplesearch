@@ -1,3 +1,9 @@
+# v1.5.0
+## 10/07/2015
+
+1. [](#new)
+    * Allow simplesearch to work with on-page collections
+
 # v1.4.1
 ## 08/31/2015
 
