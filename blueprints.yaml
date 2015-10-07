@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 1.4.1
+version: 1.5.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -51,7 +51,7 @@ form:
       default: simplesearch_results
       help: Name of the template for the search results
 
-    filters:
+    filters.category:
       type: selectize
       label: Category filter
       help: Comma separated list of category names
