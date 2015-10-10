@@ -126,6 +126,8 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
+
+
         if ($new_approach) {
             $params = $page->header()->content;
             $params['query'] = $this->config->get('plugins.simplesearch.query');
@@ -156,7 +158,7 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
 
-                if ($taxonomy_match === false && stripos($cpage->content(), $query) === false && stripos($cpage->title(), $query) === false) {
+                if ($taxonomy_match === false && (stripos($cpage->content(), $query) === false) && (stripos($cpage->title(), $query) === false)) {
                     $this->collection->remove($cpage);
                     continue;
                 }
