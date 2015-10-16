@@ -60,7 +60,7 @@ simplesearch:
 
 # Usage
 
-There are really two approaches to using SimpleSearch.  
+There are two approaches to using SimpleSearch.  
 
 ## 1. Standalone Search Page
 
