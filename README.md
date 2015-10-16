@@ -64,7 +64,7 @@ There are really two approaches to using SimpleSearch.
 
 ## 1. Standalone Search Page
 
-This is the traditional approach and it involves having a searchbox 'somewhere' on your site, and then when you search you get a new page that displays the search results.  From this page you can see a summary of the results and then click to the actual page location within your site.  Think how **Google** works and other traditional search engines.
+This is the traditional approach and involves having a searchbox 'somewhere' on your site. When you search you are shown a new page that displays the search results.  On this page you will see a summary of the results and be able to click a link to visit each applicable page within your site.  Think about how **Google** and other traditional search engines work.
 
 After installing the SimpleSearch plugin, you can add a simple **searchbox** to your site by including the provided twig template.  Or copy it from the plugin to your theme and customize it as you please:
 
