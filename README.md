@@ -2,7 +2,7 @@
 
 ![SimpleSearch](assets/readme_1.png)
 
-`SimpleSearch` is a simple, yet very powerful [Grav][grav] plugin that adds search capabilities to your Grav instance.
+`SimpleSearch` is a simple, yet very powerful [Grav][grav] plugin that adds search capabilities to your Grav instance. By default it can search Page **Titles**, **Content** and also **Taxonomy** (optional).
 
 # Installation
 
@@ -26,11 +26,53 @@ You should now have all the plugin files under
 
 > NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav), the [Error](https://github.com/getgrav/grav-plugin-error) and [Problems](https://github.com/getgrav/grav-plugin-problems) plugins, and a theme to be installed in order to operate.
 
+# Config Options
+
+To effectively use the plugin, you first need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml][simplesearch] config file in there.
+
+```
+enabled: true
+built_in_css: true
+route: /search
+template: simplesearch_results
+filters:
+    category: blog
+filter_combinator: and
+order:
+    by: date
+    dir: desc
+```
+
+By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.  
+
+To accomplish multiple search types in a single site, you should use **page-based** configuration. This is simple to do, simply provide any or all of the configuration options under a `simplesearch:` header in your page frontmatter.  For example:
+
+```
+simplesearch:
+    route: /blog
+    filters:
+        - @self
+        - @taxonomy: [tag]
+    filter_combinator: and
+```    
+ 
+ These page headers will only be taken into account of the search route points to this page.  For example here we have the route pointing to `/blog` and this header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
+
 # Usage
 
-`SimpleSearch` creates a **route** that you define and based on the **taxonomy** filters generates a search result.
+There are really two approaches to using SimpleSearch.  
 
-To make a search call, this is the URL you would go to:
+## 1. Standalone Search Page
+
+This is the traditional approach and it involves having a searchbox 'somewhere' on your site, and then when you search you get a new page that displays the search results.  From this page you can see a summary of the results and then click to the actual page location within your site.  Think how **Google** works and other traditional search engines.
+
+After installing the SimpleSearch plugin, you can add a simple **searchbox** to your site by including the provided twig template.  Or copy it from the plugin to your theme and customize it as you please:
+
+```
+{% include 'partials/simplesearch_searchbox.html.twig' %}
+```
+
+By default the **simplesearch_searchbox** Twig template uses the `route` as defined in the configuration.  The SimpleSearch plugin uses this route and then appends a `query:` paramater to create the following final URL.
 
 ```
 http://yoursite.com/search/query:something
@@ -39,13 +81,9 @@ http://yoursite.com/search/query:something
 1. `/search`: This is the **route** setting and it can be changed
 2. `/query:something`: This is the query itself, where `something` is what you are searching for.
 
-After installing the SimpleSearch plugin, you can add a simple **searchbox** to your site by including the provided twig template.  Or copy it from the plugin to your theme and customize it as you please:
+The plugin actively looks for URLs requested that match the configured `route` and if so it intercepts the call and renders the results template as specified by the configuration options, (defaults to `simplesearch_results.html.twig` as provided by the plugin). 
 
-```
-{% include 'partials/simplesearch_searchbox.html.twig' %}
-```
-
-To customize the plugin, you frst need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml][simplesearch] config file in there.
+With this approach, the filters control which pages are searched.  You can have multiple taxonomy filters here, and can configure the combinator to require **any** match (via `or`) or require **all** conditions to match (via `and`).
 
 You can also completely customize the look and feel of the results by overriding the template. There are two methods to do this.
 
@@ -68,19 +106,27 @@ You can also completely customize the look and feel of the results by overriding
     {% endblock %}
     ```
 
+## 2. Self-Controlled Search Page
+
+This is a new feature of SimpleSearch and it very useful and simple way to provide a 'filter' like search of a collection listing page.  In this example, we will assume you have a Blog listing page you wish to be able to search and filter based on a search box.
+
+To accomplish this, you need ot use the page-based configuration as described above, and configure multiple filters, `@self` to use the page's content collection: http://learn.getgrav.org/content/headers#collection-headers
+
+```
+content:
+    items: @self.children
+    order:
+        by: date
+        dir: desc
+```
+        
+This will mean the search will only search pages that this page already is using for the collection.  The Items could be anything the page collections support: 
+
 For further help with the `filters` and `order` settings, please refer to our [Taxonomy][taxonomy] and [Headers][headers] documentation.
 
-# Config Defaults
+Multiple filters can be provided, and in order to search in the page's **Tag** field you would add `- @taxonomy: [tag]` as shown in the configuration example above.
 
-```
-route: /search
-template: simplesearch_results
-filters:
-    category: blog
-order:
-    by: date
-    dir: desc
-```
+The only thing needed to provide this functionality is a search box that points to the current page and appends the `query` parameter.  You can again simple include the sample `simplesearch_searchbox.html.twig` file or add your own. Because the route is configured to point to the blog page, and because the blog page already iterates over a collection, SimpleSearch will replace the page collection with the search-filtered collection.  No results page is required.
 
 # Updating
 
@@ -94,14 +140,6 @@ The simplest way to update this plugin is via the [Grav Package Manager (GPM)](h
 
 This command will check your Grav install to see if your SimpleSearch plugin is due for an update. If a newer release is found, you will be asked whether or not you wish to update. To continue, type `y` and hit enter. The plugin will automatically update and clear Grav's cache.
 
-## Manual Update
-
-Manually updating SimpleSearch is pretty simple. Here is what you will need to do to get this done:
-
-* Delete the `your/site/user/plugins/simplesearch` directory.
-* Downalod the new version of the SimpleSearch plugin from either [GitHub](https://github.com/getgrav/grav-plugin-simplesearch) or [GetGrav.org](http://getgrav.org/downloads/plugins#extras).
-* Unzip the zip file in `your/site/user/plugins` and rename the resulting folder to `simplesearch`.
-* Clear the Grav cache. The simplest way to do this is by going to the root Grav directory in terminal and typing `bin/grav clear-cache`.
 
 > Note: Any changes you have made to any of the files listed under this directory will also be removed and replaced by the new set. Any files located elsewhere (for example a YAML settings file placed in `user/config/plugins`) will remain intact.
 
