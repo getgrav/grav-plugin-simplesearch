@@ -1,3 +1,12 @@
+# v1.5.1
+## 10/15/2015
+
+1. [](#improved)
+    * Minor performance fix
+    * Updated README.md with more help
+1. [](#bugfix)
+    * Fix for special character searches    
+
 # v1.5.0
 ## 10/07/2015
 
