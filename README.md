@@ -56,7 +56,7 @@ simplesearch:
     filter_combinator: and
 ```    
  
- These page headers will only be taken into account of the search route points to this page.  For example here we have the route pointing to `/blog` and this header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
+ These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `/blog`. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
 # Usage
 
