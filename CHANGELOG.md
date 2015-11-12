@@ -1,3 +1,9 @@
+# v1.6.1
+## 11/11/2015
+
+1. [](#improved)
+    * Strip HTML tags from title and content before searching
+
 # v1.6.0
 ## 11/11/2015
 
