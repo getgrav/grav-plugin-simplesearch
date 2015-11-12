@@ -45,6 +45,8 @@ order:
 
 By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.  
 
+> NOTE: If you remove the `filters:` section SimpleSearch will search **ALL PAGES**
+
 To accomplish multiple search types in a single site, you should use **page-based** configuration. This is simple to do, simply provide any or all of the configuration options under a `simplesearch:` header in your page frontmatter.  For example:
 
 ```

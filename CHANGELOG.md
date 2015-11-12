@@ -1,3 +1,9 @@
+# v1.6.0
+## 11/11/2015
+
+1. [](#new)
+    * Removing `filter:` from configuration will search **ALL** pages
+
 # v1.5.1
 ## 10/15/2015
 
