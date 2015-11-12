@@ -164,7 +164,7 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
 
-                if ($taxonomy_match === false && (mb_stripos($cpage->content(), $query) === false) && (mb_stripos($cpage->title(), $query) === false)) {
+                if ($taxonomy_match === false && (mb_stripos(strip_tags($cpage->content()), $query) === false) && (mb_stripos(strip_tags($cpage->title()), $query) === false)) {
                     $this->collection->remove($cpage);
                     continue;
                 }
