@@ -1,3 +1,9 @@
+# v1.6.2
+## 01/06/2016
+
+1. [](#improved)
+    * Improved the README instructions on how to save all pages 
+
 # v1.6.1
 ## 11/11/2015
 
