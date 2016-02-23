@@ -110,7 +110,9 @@ class SimplesearchPlugin extends Plugin
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
 
         $new_approach = false;
-        if ( ! $filters) {
+
+        // $filters is always a map with a property category, cause it is so defined in the blueprint
+        if ( ! $filters["category"]) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
