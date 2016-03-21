@@ -1,0 +1,14 @@
+en:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Search.."
+        SEARCH_RESULTS: "Search Results"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> found one result"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> found %s results"
+
+it:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Cerca.."
+        SEARCH_RESULTS: "Risultati della ricerca"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
+
