@@ -12,3 +12,10 @@ it:
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
 
+de:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Suche.."
+        SEARCH_RESULTS: "Suchergebnisse"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Suche: <strong>%s</strong> fand ein Ergebnis"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Suche: <strong>%s</strong> fand %s Ergebnisse"
+
