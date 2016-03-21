@@ -1,0 +1,17 @@
+en:
+  PLUGIN_SIMPLESEARCH:
+    TITLE: "SimpleSearch"
+    SEARCH_RESULTS: "Search Results"
+    SEARCH_PLACEHOLDER: "Search..."
+
+de:
+  PLUGIN_SIMPLESEARCH:
+    TITLE: "Einfache Suche"
+    SEARCH_RESULTS: "Suchergebnisse"
+    SEARCH_PLACEHOLDER: "Suche..."
+
+it:
+  PLUGIN_SIMPLESEARCH:
+    TITLE: "Ricerca facile"
+    SEARCH_RESULTS: "risultato della ricerca"
+    SEARCH_PLACEHOLDER: "Ricerca..."
