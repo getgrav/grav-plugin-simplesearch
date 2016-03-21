@@ -60,7 +60,6 @@ simplesearch:
  
  These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `/blog`. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
-
 # Usage
 
 There are two approaches to using SimpleSearch.  
