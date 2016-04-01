@@ -18,4 +18,11 @@ de:
         SEARCH_RESULTS: "Suchergebnisse"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Suche: <strong>%s</strong> fand ein Ergebnis"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Suche: <strong>%s</strong> fand %s Ergebnisse"
+        
+fr:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Recherche.."
+        SEARCH_RESULTS: "Résultats de la recherche"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche: <strong>%s</strong> trouvé un résultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche: <strong>%s</strong> trouvé %s résultats"
 
