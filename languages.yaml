@@ -18,7 +18,7 @@ de:
         SEARCH_RESULTS: "Suchergebnisse"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Suche: <strong>%s</strong> fand ein Ergebnis"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Suche: <strong>%s</strong> fand %s Ergebnisse"
-        
+
 fr:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Recherche.."
@@ -26,3 +26,9 @@ fr:
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche: <strong>%s</strong> trouvé un résultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche: <strong>%s</strong> trouvé %s résultats"
 
+zh:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "搜索.."
+        SEARCH_RESULTS: "搜索结果"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "查询: <strong>%s</strong> 找到 1 个结果"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "查询: <strong>%s</strong> 找到 %s 个结果"
