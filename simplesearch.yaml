@@ -3,7 +3,7 @@ built_in_css: true
 route: /search
 template: simplesearch_results
 filters:
-    category: blog
+    - category: blog
 filter_combinator: and
 order:
     by: date

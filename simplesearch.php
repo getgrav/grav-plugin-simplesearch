@@ -126,7 +126,7 @@ class SimplesearchPlugin extends Plugin
                     if ($filter == '@self') {
                         $new_approach = true;
                     }
-                    if ($filter == '@taxonomy') {
+                    if ($filter == '@taxonomy' && is_array($filter_saved)) {
                         $taxonomies = $filter_saved[$filter];
                     }
                 }
@@ -149,22 +149,8 @@ class SimplesearchPlugin extends Plugin
         foreach ($this->collection as $cpage) {
             foreach ($this->query as $query) {
                 $query = trim($query);
-                $taxonomy_match = false;
 
-                if (!empty($taxonomies)) {
-                    $page_taxonomies = $cpage->taxonomy();
-                    foreach ((array) $taxonomies as $taxonomy) {
-                        if (array_key_exists($taxonomy, $page_taxonomies)) {
-                            $taxonomy_values = implode('|',$page_taxonomies[$taxonomy]);
-                            if (mb_stripos($taxonomy_values, $query) !== false) {
-                                $taxonomy_match = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if ($taxonomy_match === false && (mb_stripos(strip_tags($cpage->content()), $query) === false) && (mb_stripos(strip_tags($cpage->title()), $query) === false)) {
+                if ($this->notFound($query, $cpage, $taxonomies)) {
                     $this->collection->remove($cpage);
                     continue;
                 }
@@ -174,6 +160,7 @@ class SimplesearchPlugin extends Plugin
                     $parent = $cpage->parent();
                     $extras[$parent->path()] = ['slug' => $parent->slug()];
                 }
+
             }
         }
 
@@ -223,4 +210,42 @@ class SimplesearchPlugin extends Plugin
             $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
         }
     }
+
+    private function notFound($query, $page, $taxonomies)
+    {
+        $searchable_types = ['title', 'content', 'taxonomy'];
+        $results = true;
+        foreach ($searchable_types as $type) {
+            if ($type === 'title') {
+                $result = mb_stripos(strip_tags($page->title()), $query) === false;
+            } elseif ($type === 'taxonomy') {
+                if ($taxonomies === false) {
+                    continue;
+                }
+                $page_taxonomies = $page->taxonomy();
+                $taxonomy_match = false;
+                foreach ((array) $page_taxonomies as $taxonomy => $values) {
+                    // if taxonomies filter set, make sure taxonomy filter is valid
+                    if (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies)) {
+                        continue;
+                    }
+
+                    $taxonomy_values = implode('|',$values);
+                    if (mb_stripos($taxonomy_values, $query) !== false) {
+                        $taxonomy_match = true;
+                        break;
+                    }
+                }
+                $result = !$taxonomy_match;
+            } else {
+                $result = mb_stripos(strip_tags($page->content()), $query) === false;
+            }
+            $results = $results && $result;
+            if ($results === false ) {
+                break;
+            }
+        }
+        return $results;
+    }
+
 }

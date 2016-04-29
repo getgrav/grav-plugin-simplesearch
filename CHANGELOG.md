@@ -1,3 +1,9 @@
+# v1.7.0
+## 04/29/2016
+
+1. [](#new)
+    * Added support for taxonomy searching in regular searches (not just on-page searches as was the case previously) 
+
 # v1.6.2
 ## 01/06/2016
 
