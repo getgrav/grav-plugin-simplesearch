@@ -69,7 +69,8 @@ class SimplesearchPlugin extends Plugin
         }
 
         $this->enable([
-            'onPagesInitialized' => ['onPagesInitialized', 0]
+            'onPagesInitialized' => ['onPagesInitialized', 0],
+            'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
         ]);
     }
 
@@ -94,13 +95,12 @@ class SimplesearchPlugin extends Plugin
         // Support `route: '@self'` syntax
         if($route === '@self') {
             $route = $page.route();
+            $this->config->set('plugins.simplesearch.route', $route);
         }
 
         // performance check
-        if ($route && $query && $route == $uri->path()) {
-            $this->enable([
-                'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
-            ]);
+        if ($route && $route == $uri->path()) {
+            // nothing to do right now
         } else {
             return;
         }
@@ -115,7 +115,7 @@ class SimplesearchPlugin extends Plugin
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
 
         $new_approach = false;
-        if ( ! $filters || (count($filters) == 1 && !reset($filters))) {
+        if ( ! $filters || $query === false || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
@@ -150,24 +150,26 @@ class SimplesearchPlugin extends Plugin
 
         $extras = [];
 
-        /** @var Page $cpage */
-        foreach ($this->collection as $cpage) {
-            foreach ($this->query as $query) {
-                $query = trim($query);
+        if ($query) {
+            foreach ($this->collection as $cpage) {
+                foreach ($this->query as $query) {
+                    $query = trim($query);
 
-                if ($this->notFound($query, $cpage, $taxonomies)) {
-                    $this->collection->remove($cpage);
-                    continue;
+                    if ($this->notFound($query, $cpage, $taxonomies)) {
+                        $this->collection->remove($cpage);
+                        continue;
+                    }
+
+                    if ($cpage->modular()) {
+                        $this->collection->remove($cpage);
+                        $parent = $cpage->parent();
+                        $extras[$parent->path()] = ['slug' => $parent->slug()];
+                    }
+
                 }
-
-                if ($cpage->modular()) {
-                    $this->collection->remove($cpage);
-                    $parent = $cpage->parent();
-                    $extras[$parent->path()] = ['slug' => $parent->slug()];
-                }
-
             }
         }
+
 
         if (!empty($extras)) {
             $this->collection->append($extras);
@@ -207,9 +209,11 @@ class SimplesearchPlugin extends Plugin
     public function onTwigSiteVariables()
     {
         $twig = $this->grav['twig'];
-        $twig->twig_vars['query'] = implode(', ', $this->query);
 
-        $twig->twig_vars['search_results'] = $this->collection;
+        if ($this->query) {
+            $twig->twig_vars['query'] = implode(', ', $this->query);
+            $twig->twig_vars['search_results'] = $this->collection;
+        }
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
             $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');

@@ -1,13 +1,23 @@
-<input type="text" placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
-<script>
-jQuery(document).ready(function($){
-    var input = $('[data-search-input]');
+<div class="search-wrapper">
+    <input class="search-input" type="text" placeholder="Search..." value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
+    {% if config.plugins.simplesearch.display_button %}
+        <button class="search-submit"><img src="{{ url('plugin://simplesearch/assets/search.svg') }}" /></button>
+    {% endif %}
+    <script>
+    jQuery(document).ready(function($){
+        var input = $('[data-search-input]');
 
-    input.on('keypress', function(event) {
-        if (event.which == 13 && input.val().length > 3) {
+        input.on('keypress', function(event) {
+            if (event.which == 13 && input.val().length > 3) {
+                event.preventDefault();
+                window.location.href = input.data('search-input') + '{{ config.system.param_sep }}' + input.val();
+            }
+        });
+
+        $('.search-submit').on('click', function(event) {
             event.preventDefault();
             window.location.href = input.data('search-input') + '{{ config.system.param_sep }}' + input.val();
-        }
+        });
     });
-});
-</script>
+    </script>
+</div>

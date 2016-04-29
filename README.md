@@ -33,6 +33,7 @@ To effectively use the plugin, you first need to create an override config. To d
 ```
 enabled: true
 built_in_css: true
+display_button: false
 route: /search
 template: simplesearch_results
 filters:

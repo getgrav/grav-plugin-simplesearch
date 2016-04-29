@@ -37,6 +37,17 @@ form:
       validate:
         type: bool
 
+    display_button:
+      type: toggle
+      label: Display Search Button
+      highlight: 0
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
     route:
       type: text
       size: medium
