@@ -51,14 +51,14 @@ To accomplish multiple search types in a single site, you should use **page-base
 
 ```
 simplesearch:
-    route: /blog
+    route: @self
     filters:
         - @self
         - @taxonomy: [tag]
     filter_combinator: and
 ```    
  
- These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `/blog`. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
+ These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicity with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
 # Usage
 

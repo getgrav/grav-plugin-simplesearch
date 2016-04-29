@@ -91,6 +91,11 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
+        // Support `route: '@self'` syntax
+        if($route === '@self') {
+            $route = $page.route();
+        }
+
         // performance check
         if ($route && $query && $route == $uri->path()) {
             $this->enable([
