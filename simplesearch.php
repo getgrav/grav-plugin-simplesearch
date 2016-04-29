@@ -110,7 +110,7 @@ class SimplesearchPlugin extends Plugin
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
 
         $new_approach = false;
-        if ( ! $filters) {
+        if ( ! $filters || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
