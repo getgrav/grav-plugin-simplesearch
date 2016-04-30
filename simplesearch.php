@@ -113,8 +113,8 @@ class SimplesearchPlugin extends Plugin
 
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
-
         $new_approach = false;
+
         if ( ! $filters || $query === false || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
@@ -122,7 +122,7 @@ class SimplesearchPlugin extends Plugin
             $this->collection = $pages->all();
         } else {
             // see if the filter uses the new 'items-type' syntax
-            foreach ($filters as $filter) {
+            foreach ($filters as $key => $filter) {
                 $filter_saved = $filter;
                 if (is_array($filter)) {
                     $filter = key($filter);
@@ -134,6 +134,12 @@ class SimplesearchPlugin extends Plugin
                     if ($filter == '@taxonomy' && is_array($filter_saved)) {
                         $taxonomies = $filter_saved[$filter];
                     }
+                    unset ($filters[$key]);
+                }
+                if (array_key_exists($filter, $filters)) {
+                    unset($filters[$filter]);
+                    unset($filters[$key]);
+                    $filters[$filter] = $filter_saved[$filter];
                 }
             }
 
@@ -256,5 +262,4 @@ class SimplesearchPlugin extends Plugin
         }
         return $results;
     }
-
 }
