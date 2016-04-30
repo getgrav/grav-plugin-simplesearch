@@ -92,24 +92,29 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
+        // performance check for query
+        if (empty($query)) {
+            return;
+        }
+
         // Support `route: '@self'` syntax
         if($route === '@self') {
             $route = $page.route();
             $this->config->set('plugins.simplesearch.route', $route);
         }
 
-        // performance check
-        if ($route && $route == $uri->path()) {
-            // nothing to do right now
-        } else {
+        // performance check for route
+        if (!($route && $route == $uri->path())) {
             return;
         }
 
+        // Explode query into multiple strings
         $this->query = explode(',', $query);
 
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
         $taxonomies = [];
+        $find_taxonomy = [];
 
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
@@ -121,25 +126,25 @@ class SimplesearchPlugin extends Plugin
 
             $this->collection = $pages->all();
         } else {
-            // see if the filter uses the new 'items-type' syntax
+
             foreach ($filters as $key => $filter) {
-                $filter_saved = $filter;
-                if (is_array($filter)) {
-                    $filter = key($filter);
-                }
-                if (Utils::startsWith($filter, '@')) {
-                    if ($filter == '@self') {
-                        $new_approach = true;
+                // flatten item if it's wrapped in an array
+                if (is_int($key)) {
+                    if (is_array($filter)) {
+                        $key = key($filter);
+                        $filter = $filter[$key];
+                    } else {
+                        $key = $filter;
                     }
-                    if ($filter == '@taxonomy' && is_array($filter_saved)) {
-                        $taxonomies = $filter_saved[$filter];
-                    }
-                    unset ($filters[$key]);
                 }
-                if (array_key_exists($filter, $filters)) {
-                    unset($filters[$filter]);
-                    unset($filters[$key]);
-                    $filters[$filter] = $filter_saved[$filter];
+
+                // see if the filter uses the new 'items-type' syntax
+                if ($key === '@self' || $key === 'self@') {
+                    $new_approach = true;
+                } elseif ($key === '@taxonomy' || $key === 'taxonomy@') {
+                    $taxonomies = $filter === false ? false : array_merge($taxonomies, (array) $filter);
+                } else {
+                    $find_taxonomy[$key] = $filter;
                 }
             }
 
@@ -149,7 +154,7 @@ class SimplesearchPlugin extends Plugin
                 $this->collection = $page->collection($params, false);
             } else {
                 $this->collection = new Collection();
-                $this->collection->append($taxonomy_map->findTaxonomy($filters, $operator)->toArray());
+                $this->collection->append($taxonomy_map->findTaxonomy($find_taxonomy, $operator)->toArray());
             }
         }
 
