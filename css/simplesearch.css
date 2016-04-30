@@ -1,3 +1,21 @@
+.search-wrapper .search-input {
+	width: 80%;
+	display: inline-block;
+}
+
+.search-submit {
+	display: inline-block;
+	border-radius: 4px;
+	background: #eee;
+	border: 1px solid #ccc;
+	vertical-align: top;
+}
+
+.search-submit img {
+	width: 20px;
+	vertical-align: middle;
+}
+
 .search-image {
 	float: left;
 }

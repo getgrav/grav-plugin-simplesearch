@@ -69,7 +69,8 @@ class SimplesearchPlugin extends Plugin
         }
 
         $this->enable([
-            'onPagesInitialized' => ['onPagesInitialized', 0]
+            'onPagesInitialized' => ['onPagesInitialized', 0],
+            'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
         ]);
     }
 
@@ -91,44 +92,59 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
-        // performance check
-        if ($route && $query && $route == $uri->path()) {
-            $this->enable([
-                'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
-            ]);
-        } else {
+        // performance check for query
+        if (empty($query)) {
             return;
         }
 
+        // Support `route: '@self'` syntax
+        if($route === '@self') {
+            $route = $page.route();
+            $this->config->set('plugins.simplesearch.route', $route);
+        }
+
+        // performance check for route
+        if (!($route && $route == $uri->path())) {
+            return;
+        }
+
+        // Explode query into multiple strings
         $this->query = explode(',', $query);
 
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
         $taxonomies = [];
+        $find_taxonomy = [];
 
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
-
         $new_approach = false;
-        if ( ! $filters) {
+
+        if ( ! $filters || $query === false || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
             $this->collection = $pages->all();
         } else {
-            // see if the filter uses the new 'items-type' syntax
-            foreach ($filters as $filter) {
-                $filter_saved = $filter;
-                if (is_array($filter)) {
-                    $filter = key($filter);
+
+            foreach ($filters as $key => $filter) {
+                // flatten item if it's wrapped in an array
+                if (is_int($key)) {
+                    if (is_array($filter)) {
+                        $key = key($filter);
+                        $filter = $filter[$key];
+                    } else {
+                        $key = $filter;
+                    }
                 }
-                if (Utils::startsWith($filter, '@')) {
-                    if ($filter == '@self') {
-                        $new_approach = true;
-                    }
-                    if ($filter == '@taxonomy') {
-                        $taxonomies = $filter_saved[$filter];
-                    }
+
+                // see if the filter uses the new 'items-type' syntax
+                if ($key === '@self' || $key === 'self@') {
+                    $new_approach = true;
+                } elseif ($key === '@taxonomy' || $key === 'taxonomy@') {
+                    $taxonomies = $filter === false ? false : array_merge($taxonomies, (array) $filter);
+                } else {
+                    $find_taxonomy[$key] = $filter;
                 }
             }
 
@@ -138,44 +154,33 @@ class SimplesearchPlugin extends Plugin
                 $this->collection = $page->collection($params, false);
             } else {
                 $this->collection = new Collection();
-                $this->collection->append($taxonomy_map->findTaxonomy($filters, $operator)->toArray());
+                $this->collection->append($taxonomy_map->findTaxonomy($find_taxonomy, $operator)->toArray());
             }
         }
 
 
         $extras = [];
 
-        /** @var Page $cpage */
-        foreach ($this->collection as $cpage) {
-            foreach ($this->query as $query) {
-                $query = trim($query);
-                $taxonomy_match = false;
+        if ($query) {
+            foreach ($this->collection as $cpage) {
+                foreach ($this->query as $query) {
+                    $query = trim($query);
 
-                if (!empty($taxonomies)) {
-                    $page_taxonomies = $cpage->taxonomy();
-                    foreach ((array) $taxonomies as $taxonomy) {
-                        if (array_key_exists($taxonomy, $page_taxonomies)) {
-                            $taxonomy_values = implode('|',$page_taxonomies[$taxonomy]);
-                            if (mb_stripos($taxonomy_values, $query) !== false) {
-                                $taxonomy_match = true;
-                                break;
-                            }
-                        }
+                    if ($this->notFound($query, $cpage, $taxonomies)) {
+                        $this->collection->remove($cpage);
+                        continue;
                     }
-                }
 
-                if ($taxonomy_match === false && (mb_stripos(strip_tags($cpage->content()), $query) === false) && (mb_stripos(strip_tags($cpage->title()), $query) === false)) {
-                    $this->collection->remove($cpage);
-                    continue;
-                }
+                    if ($cpage->modular()) {
+                        $this->collection->remove($cpage);
+                        $parent = $cpage->parent();
+                        $extras[$parent->path()] = ['slug' => $parent->slug()];
+                    }
 
-                if ($cpage->modular()) {
-                    $this->collection->remove($cpage);
-                    $parent = $cpage->parent();
-                    $extras[$parent->path()] = ['slug' => $parent->slug()];
                 }
             }
         }
+
 
         if (!empty($extras)) {
             $this->collection->append($extras);
@@ -215,12 +220,51 @@ class SimplesearchPlugin extends Plugin
     public function onTwigSiteVariables()
     {
         $twig = $this->grav['twig'];
-        $twig->twig_vars['query'] = implode(', ', $this->query);
 
-        $twig->twig_vars['search_results'] = $this->collection;
+        if ($this->query) {
+            $twig->twig_vars['query'] = implode(', ', $this->query);
+            $twig->twig_vars['search_results'] = $this->collection;
+        }
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
             $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
         }
+    }
+
+    private function notFound($query, $page, $taxonomies)
+    {
+        $searchable_types = ['title', 'content', 'taxonomy'];
+        $results = true;
+        foreach ($searchable_types as $type) {
+            if ($type === 'title') {
+                $result = mb_stripos(strip_tags($page->title()), $query) === false;
+            } elseif ($type === 'taxonomy') {
+                if ($taxonomies === false) {
+                    continue;
+                }
+                $page_taxonomies = $page->taxonomy();
+                $taxonomy_match = false;
+                foreach ((array) $page_taxonomies as $taxonomy => $values) {
+                    // if taxonomies filter set, make sure taxonomy filter is valid
+                    if (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies)) {
+                        continue;
+                    }
+
+                    $taxonomy_values = implode('|',$values);
+                    if (mb_stripos($taxonomy_values, $query) !== false) {
+                        $taxonomy_match = true;
+                        break;
+                    }
+                }
+                $result = !$taxonomy_match;
+            } else {
+                $result = mb_stripos(strip_tags($page->content()), $query) === false;
+            }
+            $results = $results && $result;
+            if ($results === false ) {
+                break;
+            }
+        }
+        return $results;
     }
 }

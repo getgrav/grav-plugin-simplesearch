@@ -2,7 +2,7 @@
 
 ![SimpleSearch](assets/readme_1.png)
 
-`SimpleSearch` is a simple, yet very powerful [Grav][grav] plugin that adds search capabilities to your Grav instance. By default it can search Page **Titles**, **Content** and also **Taxonomy** (optional).
+`SimpleSearch` is a simple, yet very powerful [Grav][grav] plugin that adds search capabilities to your Grav instance. By default it can search Page **Titles**, **Content** and also **Taxonomy**.
 
 # Installation
 
@@ -33,6 +33,7 @@ To effectively use the plugin, you first need to create an override config. To d
 ```
 enabled: true
 built_in_css: true
+display_button: false
 route: /search
 template: simplesearch_results
 filters:
@@ -51,14 +52,14 @@ To accomplish multiple search types in a single site, you should use **page-base
 
 ```
 simplesearch:
-    route: /blog
+    route: @self
     filters:
         - @self
         - @taxonomy: [tag]
     filter_combinator: and
 ```    
  
- These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `/blog`. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
+ These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicity with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
 # Usage
 
@@ -129,6 +130,31 @@ For further help with the `filters` and `order` settings, please refer to our [T
 Multiple filters can be provided, and in order to search in the page's **Tag** field you would add `- @taxonomy: [tag]` as shown in the configuration example above.
 
 The only thing needed to provide this functionality is a search box that points to the current page and appends the `query` parameter.  You can again simple include the sample `simplesearch_searchbox.html.twig` file or add your own. Because the route is configured to point to the blog page, and because the blog page already iterates over a collection, SimpleSearch will replace the page collection with the search-filtered collection.  No results page is required.
+
+## Searching Taxonomy
+
+By default **SimpleSearch** will search in the **Title**, **Content**, and **Taxonomy**.  All taxonomy will be searched unless you provide a **taxonomy filter** either in the page, or in the global plugin configuration:
+
+```
+filters:
+    - @taxonomy: [tag]
+```
+
+This will ensure that only **tag** taxonomy types will be searched for the query.
+
+```
+filters:
+    - @taxonomy: [tag, author]
+```
+
+Will ensure that both **tag** and **author** taxonomy types are searched.
+
+As **all taxonomy sis searched by default**, in order to stop searching of taxonomy completely simply set the filter to false:
+
+```
+filters:
+    - '@taxonomy': false
+```
 
 # Updating
 
