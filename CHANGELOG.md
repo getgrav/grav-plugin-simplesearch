@@ -1,10 +1,11 @@
 # v1.7.0
-## 04/29/2016
+## 04/30/2016
 
 1. [](#new)
     * Added support for taxonomy searching in regular searches (not just on-page searches as was the case previously) 
     * Added support for `route: '@self'` to use the route of the current page without specifying it.
     * Added display search button option - #33
+    * Refactored code for clarity
 
 # v1.6.2
 ## 01/06/2016
