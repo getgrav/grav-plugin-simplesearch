@@ -48,6 +48,15 @@ form:
       validate:
         type: bool
 
+    min_query_length:
+      type: text
+      size: x-small
+      label: Minimum query length
+      help: The mimimum number of characters needed before serach can be submitted
+      validate:
+        type: number
+        min: 0
+
     route:
       type: text
       size: medium
