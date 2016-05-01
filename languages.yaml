@@ -1,17 +1,3 @@
-en:
-    PLUGIN_SIMPLESEARCH:
-        SEARCH_PLACEHOLDER: "Search..."
-        SEARCH_RESULTS: "Search Results"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> found one result"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> found %s results"
-
-it:
-    PLUGIN_SIMPLESEARCH:
-        SEARCH_PLACEHOLDER: "Cerca..."
-        SEARCH_RESULTS: "Risultati della ricerca"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
-
 de:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Suche..."
@@ -19,12 +5,26 @@ de:
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Suche: <strong>%s</strong> fand ein Ergebnis"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Suche: <strong>%s</strong> fand %s Ergebnisse"
 
+en:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Search..."
+        SEARCH_RESULTS: "Search Results"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> found one result"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> found %s results"
+    
 fr:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Recherche..."
         SEARCH_RESULTS: "Résultats de la recherche"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche: <strong>%s</strong> trouvé un résultat"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche: <strong>%s</strong> trouvé %s résultats"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : Un résultat trouvé pour <strong>%s</strong>"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %s résultats trouvés pour <strong>%s</strong>"
+
+it:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Cerca..."
+        SEARCH_RESULTS: "Risultati della ricerca"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
 
 zh:
     PLUGIN_SIMPLESEARCH:
