@@ -1,3 +1,9 @@
+1.7.1
+## 05/03/2016
+
+1. [](#new)
+    * Added configurable `min length` option for how many characters needed before you can search
+    
 # v1.7.0
 ## 04/30/2016
 
