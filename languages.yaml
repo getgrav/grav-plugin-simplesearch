@@ -32,3 +32,9 @@ zh:
         SEARCH_RESULTS: "搜索结果"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "查询: <strong>%s</strong> 找到 1 个结果"
         SEARCH_RESULTS_SUMMARY_PLURAL: "查询: <strong>%s</strong> 找到 %s 个结果"
+nl:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Zoeken..."
+        SEARCH_RESULTS: "Zoek resultaat"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> is 1 keer gevonden"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> is %s keer gevonden"
