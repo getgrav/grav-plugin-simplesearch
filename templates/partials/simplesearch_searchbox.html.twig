@@ -1,5 +1,5 @@
 <div class="search-wrapper">
-    <input class="search-input" type="text" placeholder="Search..." value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
+    <input class="search-input" type="text" placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
     {% if config.plugins.simplesearch.display_button %}
         <button class="search-submit"><img src="{{ url('plugin://simplesearch/assets/search.svg') }}" /></button>
     {% endif %}
