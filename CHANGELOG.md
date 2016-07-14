@@ -1,4 +1,12 @@
-1.7.1
+# v1.8.0
+## 07/14/2016
+
+1. [](#new)
+    * Added dutch and romanian
+1. [](#bugfix)
+    * Fix translating the search input placeholder
+
+# v1.7.1
 ## 05/03/2016
 
 1. [](#new)
