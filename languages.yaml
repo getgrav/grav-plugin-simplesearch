@@ -4,7 +4,12 @@ en:
         SEARCH_RESULTS: "Search Results"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> found one result"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> found %s results"
-
+ro:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Caută..."
+        SEARCH_RESULTS: "Rezultatele căutării"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Căutarea: <strong>%s</strong> a găsit un rezultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Căutarea: <strong>%s</strong> a găsit %s rezultate"
 de:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Suche..."
@@ -32,3 +37,9 @@ zh:
         SEARCH_RESULTS: "搜索结果"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "查询: <strong>%s</strong> 找到 1 个结果"
         SEARCH_RESULTS_SUMMARY_PLURAL: "查询: <strong>%s</strong> 找到 %s 个结果"
+nl:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Zoeken..."
+        SEARCH_RESULTS: "Zoek resultaat"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> is 1 keer gevonden"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> is %s keer gevonden"
