@@ -74,7 +74,6 @@ class SimplesearchPlugin extends Plugin
         ]);
     }
 
-
     /**
      * Build search results.
      */
@@ -82,9 +81,23 @@ class SimplesearchPlugin extends Plugin
     {
         $page = $this->grav['page'];
 
+        // Support `route: '@self'` syntax
+        if ($this->config->get('plugins.simplesearch.route') === '@self') {
+            $route = $page->route();
+            $this->config->set('plugins.simplesearch.route', $route);
+        }
+
         // If a page exists merge the configs
         if ($page) {
-            $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
+            $mergedConfig = $this->mergeConfig($page);
+
+            // Support `route: '@self'` syntax
+            if ($mergedConfig->route === '@self') {
+                $route = $page->rawRoute();
+                $mergedConfig->route = $route;
+            }
+
+            $this->config->set('plugins.simplesearch', $mergedConfig);
         }
 
         /** @var Uri $uri */
@@ -95,12 +108,6 @@ class SimplesearchPlugin extends Plugin
         // performance check for query
         if (empty($query)) {
             return;
-        }
-
-        // Support `route: '@self'` syntax
-        if($route === '@self') {
-            $route = $page.route();
-            $this->config->set('plugins.simplesearch.route', $route);
         }
 
         // performance check for route
@@ -158,7 +165,6 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
-
         $extras = [];
 
         if ($query) {
@@ -181,7 +187,6 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
-
         if (!empty($extras)) {
             $this->collection->append($extras);
         }
@@ -194,23 +199,20 @@ class SimplesearchPlugin extends Plugin
             );
         }
 
-        // if page doesn't have settings set, create a page
-        if (!isset($page->header()->simplesearch)) {
-            // create the search page
-            $page = new Page;
-            $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
+        // create the search page
+        $page = new Page;
+        $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
 
-            // override the template is set in the config
-            $template_override = $this->config->get('plugins.simplesearch.template');
-            if ($template_override) {
-                $page->template($template_override);
-            }
-
-            // fix RuntimeException: Cannot override frozen service "page" issue
-            unset($this->grav['page']);
-
-            $this->grav['page'] = $page;
+        // override the template is set in the config
+        $template_override = $this->config->get('plugins.simplesearch.template');
+        if ($template_override) {
+            $page->template($template_override);
         }
+
+        // fix RuntimeException: Cannot override frozen service "page" issue
+        unset($this->grav['page']);
+
+        $this->grav['page'] = $page;
     }
 
 
