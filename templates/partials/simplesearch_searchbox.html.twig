@@ -19,6 +19,7 @@
             }, false);
         }
 
+        {% if config.plugins.simplesearch.display_button %}
         var button = document.getElementsByClassName('search-submit');
         for(i=0; i<input.length; i++) {
             el = button[i];
@@ -27,6 +28,7 @@
                 window.location.href = searchInput + '{{ config.system.param_sep }}' + input[0].value;
             });
         }
+        {% endif %}
 
     </script>
 </div>
