@@ -1,26 +1,27 @@
 <div class="search-wrapper">
-    <input id="searchfield" class="search-input" type="text" placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
+    <input class="search-input" type="text" placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
     {% if config.plugins.simplesearch.display_button %}
         <button class="search-submit"><img src="{{ url('plugin://simplesearch/assets/search.svg') }}" /></button>
     {% endif %}
     <script>
 
+        var i, el;
         var input = document.getElementsByClassName('search-input');
         var searchInput = input[0].dataset.searchInput;
 
-        for(var i=0; i<input.length; i++) {
-            var el = input[i];
+        for(i=0; i<input.length; i++) {
+            el = input[i];
             el.addEventListener('keypress', function(event){
-                if (event.keyCode == 13 && el.value.length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
+                if (event.keyCode == 13 && this.value.length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
                     event.preventDefault();
-                    window.location.href = searchInput + '{{ config.system.param_sep }}' + el.value;
+                    window.location.href = searchInput + '{{ config.system.param_sep }}' + this.value;
                 }
             }, false);
         }
 
         var button = document.getElementsByClassName('search-submit');
-        for(var i=0; i<input.length; i++) {
-            var el = button[i];
+        for(i=0; i<input.length; i++) {
+            el = button[i];
             el.addEventListener('click', function(event){
                 event.preventDefault();
                 window.location.href = searchInput + '{{ config.system.param_sep }}' + input[0].value;
