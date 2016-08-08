@@ -43,3 +43,9 @@ nl:
         SEARCH_RESULTS: "Zoek resultaat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> is 1 keer gevonden"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> is %s keer gevonden"
+hr:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Traži..."
+        SEARCH_RESULTS: "Rezultati pretrage"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Upit: <strong>%s</strong> je pronašao jedan rezultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Upit: <strong>%s</strong> je pronašao %s rezultata"
