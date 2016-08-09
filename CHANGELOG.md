@@ -3,6 +3,7 @@
 
 1. [](#new)
     * Multiple search boxes support [#52](https://github.com/getgrav/grav-plugin-simplesearch/pull/52)
+    * Added Croatian translation
 1. [](#bugfix)
     * Fix searching on `@self   `[#53](https://github.com/getgrav/grav-plugin-simplesearch/pull/53)
 
@@ -54,7 +55,7 @@
     * Minor performance fix
     * Updated README.md with more help
 1. [](#bugfix)
-    * Fix for special character searches    
+    * Fix for special character searches
 
 # v1.5.0
 ## 10/07/2015
