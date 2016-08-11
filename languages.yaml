@@ -49,3 +49,9 @@ hr:
         SEARCH_RESULTS: "Rezultati pretrage"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Upit: <strong>%s</strong> je pronašao jedan rezultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Upit: <strong>%s</strong> je pronašao %s rezultata"
+ru:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Найти..."
+        SEARCH_RESULTS: "Результат поиска"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "По запросу: <strong>%s</strong> ничего не найдено"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "По запросу: <strong>%s</strong> найдено %s результатов"
