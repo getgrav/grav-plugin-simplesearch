@@ -8,7 +8,9 @@
     </div>
 
     <p>
-        {% if search_results.count == 1 %}
+        {% if search_results.count == 0 %}
+            {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_NOTHING"|t(query) }}
+        {% elseif search_results.count == 1 %}
             {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query) }}
         {% else %}
             {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query, search_results.count) }}
