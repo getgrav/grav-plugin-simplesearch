@@ -62,5 +62,5 @@ ru:
         SEARCH_PLACEHOLDER: "Найти..."
         SEARCH_RESULTS: "Результат поиска"
         SEARCH_RESULTS_SUMMARY_NOTHING: "По запросу: <strong>%s</strong> ничего не найдено"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "По запросу: <strong>%s</strong> результатов найдено %s"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "По запросу: <strong>%s</strong> результатов найдено 1"
         SEARCH_RESULTS_SUMMARY_PLURAL: "По запросу: <strong>%s</strong> результатов найдено %s"
