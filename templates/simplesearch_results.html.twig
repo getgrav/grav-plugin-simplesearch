@@ -9,9 +9,9 @@
 
     <p>
         {% if search_results.count == 1 %}
-            {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query) }}
+            {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query)|raw }}
         {% else %}
-            {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query, search_results.count) }}
+            {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query, search_results.count)|raw }}
         {% endif %}
     </p>
     {% for page in search_results %}
