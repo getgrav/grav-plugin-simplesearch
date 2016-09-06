@@ -1,3 +1,14 @@
+# v1.9.0
+## 09/06/2016
+
+1. [](#new)
+    * Multiple search boxes support [#52](https://github.com/getgrav/grav-plugin-simplesearch/pull/52)
+    * Added Croatian and Russian translation
+1. [](#improved)
+    * Added support for Grav's autoescape twig setting
+1. [](#bugfix)
+    * Fix searching on `@self   `[#53](https://github.com/getgrav/grav-plugin-simplesearch/pull/53)
+
 # v1.8.0
 ## 07/14/2016
 
@@ -11,12 +22,12 @@
 
 1. [](#new)
     * Added configurable `min length` option for how many characters needed before you can search
-    
+
 # v1.7.0
 ## 04/30/2016
 
 1. [](#new)
-    * Added support for taxonomy searching in regular searches (not just on-page searches as was the case previously) 
+    * Added support for taxonomy searching in regular searches (not just on-page searches as was the case previously)
     * Added support for `route: '@self'` to use the route of the current page without specifying it.
     * Added display search button option - #33
     * Refactored code for clarity
@@ -25,7 +36,7 @@
 ## 01/06/2016
 
 1. [](#improved)
-    * Improved the README instructions on how to save all pages 
+    * Improved the README instructions on how to save all pages
 
 # v1.6.1
 ## 11/11/2015
@@ -46,7 +57,7 @@
     * Minor performance fix
     * Updated README.md with more help
 1. [](#bugfix)
-    * Fix for special character searches    
+    * Fix for special character searches
 
 # v1.5.0
 ## 10/07/2015
