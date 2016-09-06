@@ -1,5 +1,5 @@
-# v1.x.x
-## 07/xx/2016
+# v1.9.0
+## 09/06/2016
 
 1. [](#new)
     * Multiple search boxes support [#52](https://github.com/getgrav/grav-plugin-simplesearch/pull/52)
