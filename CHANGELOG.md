@@ -1,3 +1,9 @@
+# v1.9.1
+## 09/xx/2016
+
+1. [](#bugfix)
+    * Fixed logic to use `onPageInitialized` event
+
 # v1.9.0
 ## 09/06/2016
 
