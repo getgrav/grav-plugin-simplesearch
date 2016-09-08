@@ -69,7 +69,7 @@ class SimplesearchPlugin extends Plugin
         }
 
         $this->enable([
-            'onPagesInitialized' => ['onPagesInitialized', 0],
+            'onPageInitialized' => ['onPageInitialized', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
         ]);
     }
@@ -77,7 +77,7 @@ class SimplesearchPlugin extends Plugin
     /**
      * Build search results.
      */
-    public function onPagesInitialized()
+    public function onPageInitialized()
     {
         $page = $this->grav['page'];
 
