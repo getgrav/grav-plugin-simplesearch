@@ -1,3 +1,10 @@
+# v1.9.2
+## 09/19/2016
+
+1. [](#bugfix)
+    * Reverted chagne in events - causing problems
+    * Reverted fix for `route: @self`, breaking `filter: @self` (used in getgrav.org)
+
 # v1.9.1
 ## 09/08/2016
 
