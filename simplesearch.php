@@ -234,34 +234,42 @@ class SimplesearchPlugin extends Plugin
     {
         $searchable_types = ['title', 'content', 'taxonomy'];
         $results = true;
-        foreach ($searchable_types as $type) {
-            if ($type === 'title') {
-                $result = mb_stripos(strip_tags($page->title()), $query) === false;
-            } elseif ($type === 'taxonomy') {
-                if ($taxonomies === false) {
-                    continue;
-                }
-                $page_taxonomies = $page->taxonomy();
-                $taxonomy_match = false;
-                foreach ((array) $page_taxonomies as $taxonomy => $values) {
-                    // if taxonomies filter set, make sure taxonomy filter is valid
-                    if (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies)) {
+
+        // If the query string passed in is the empty string, we will treat it as not existing in
+        // the title, taxonomy values, or content of the page passed in.
+        // Otherwise, we will check whether it exists in those places.
+        if (0 === strcmp($query, '')) {
+            $results = true;
+        } else {
+            foreach ($searchable_types as $type) {
+                if ($type === 'title') {
+                    $result = mb_stripos(strip_tags($page->title()), $query) === false;
+                } elseif ($type === 'taxonomy') {
+                    if ($taxonomies === false) {
                         continue;
                     }
+                    $page_taxonomies = $page->taxonomy();
+                    $taxonomy_match = false;
+                    foreach ((array) $page_taxonomies as $taxonomy => $values) {
+                        // if taxonomies filter set, make sure taxonomy filter is valid
+                        if (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies)) {
+                            continue;
+                        }
 
-                    $taxonomy_values = implode('|',$values);
-                    if (mb_stripos($taxonomy_values, $query) !== false) {
-                        $taxonomy_match = true;
-                        break;
+                        $taxonomy_values = implode('|',$values);
+                        if (mb_stripos($taxonomy_values, $query) !== false) {
+                            $taxonomy_match = true;
+                            break;
+                        }
                     }
+                    $result = !$taxonomy_match;
+                } else {
+                    $result = mb_stripos(strip_tags($page->content()), $query) === false;
                 }
-                $result = !$taxonomy_match;
-            } else {
-                $result = mb_stripos(strip_tags($page->content()), $query) === false;
-            }
-            $results = $results && $result;
-            if ($results === false ) {
-                break;
+                $results = $results && $result;
+                if ($results === false ) {
+                    break;
+                }
             }
         }
         return $results;
