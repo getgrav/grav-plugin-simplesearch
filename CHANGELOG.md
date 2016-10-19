@@ -1,8 +1,14 @@
+# v1.9.3
+## 10/19/2016
+
+1. [](#bugfix)
+    * Fixed an issue with invalid syntax in `route: @self` logic
+
 # v1.9.2
 ## 09/19/2016
 
 1. [](#bugfix)
-    * Reverted chagne in events - causing problems
+    * Reverted change in events - causing problems
     * Reverted fix for `route: @self`, breaking `filter: @self` (used in getgrav.org)
 
 # v1.9.1
