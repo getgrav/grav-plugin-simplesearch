@@ -10,3 +10,5 @@ filter_combinator: and
 order:
     by: date
     dir: desc
+published: true
+routable: true
