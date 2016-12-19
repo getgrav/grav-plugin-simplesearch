@@ -158,7 +158,19 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
-
+        $filter_published = $this->config->get('plugins.simplesearch.published', null);
+        if ($filter_published === true) {
+           $this->collection->published();
+        } elseif ($filter_published === false) {
+           $this->collection->nonPublished();
+        }
+        $filter_routable = $this->config->get('plugins.simplesearch.routable', null);
+        if ($filter_routable === true) {
+           $this->collection->routable();
+        } elseif ($filter_routable === false) {
+           $this->collection->nonRoutable();
+        }
+        
         $extras = [];
 
         if ($query) {
