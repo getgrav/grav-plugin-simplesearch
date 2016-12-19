@@ -3,6 +3,7 @@
 
 1. [](#new)
     * Added spanish translation
+    * Added japanese translation
 
 # v1.9.3
 ## 10/19/2016
