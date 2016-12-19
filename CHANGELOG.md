@@ -6,6 +6,7 @@
     * Added japanese translation
 1. [](#bugfix)
     * Remove unpublished and unroutable pages from the result set
+    * Fixed issue when using @self as route
 
 # v1.9.3
 ## 10/19/2016
