@@ -11,6 +11,7 @@
     * Fixed issue when using @self as route
     * Fixed searching with @self route set in the page header.
     * Fix overloaded property issue when searching on a page with simplesearch header [#80](https://github.com/getgrav/grav-plugin-simplesearch/issues/80)
+    * Fix issue with empty string and leading commas [#71](https://github.com/getgrav/grav-plugin-simplesearch/issues/71)
 
 # v1.9.3
 ## 10/19/2016

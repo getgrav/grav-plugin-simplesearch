@@ -113,8 +113,8 @@ class SimplesearchPlugin extends Plugin
             return;
         }
 
-        // Explode query into multiple strings
-        $this->query = explode(',', $query);
+        // Explode query into multiple strings. Drop empty values
+        $this->query = array_filter(array_filter(explode(',', $query), 'trim'), 'strlen');
 
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
