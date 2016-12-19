@@ -4,19 +4,24 @@
         <button class="search-submit"><img src="{{ url('plugin://simplesearch/assets/search.svg') }}" /></button>
     {% endif %}
     <script>
-    jQuery(document).ready(function($){
-        $('.search-input').on('keypress', function(event) {
-            var input = $(event.currentTarget);
-            if (event.which == 13 && input.val().length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
-                event.preventDefault();
-                window.location.href = input.data('search-input') + '{{ config.system.param_sep }}' + input.val();
-            }
+    document.addEventListener('DOMContentLoaded', function(event) {
+      if (document.querySelector('.search-input')) {
+        var input = document.querySelector('.search-input');
+        input.addEventListener('keypress', function (event) {
+          if (event.which == 13 && input.value.length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
+              event.preventDefault();
+              window.location.href = input.getAttribute('data-search-input') + '{{ config.system.param_sep }}' + input.value;
+          }
         });
-        $('.search-submit').on('click', function(event) {
-            var input = $(event.currentTarget).prev('.search-input');
-            event.preventDefault();
-            window.location.href = input.data('search-input') + '{{ config.system.param_sep }}' + input.val();
+      }
+
+      if (document.querySelector('.search-submit')) {
+        var submit = document.querySelector('.search-submit');
+        submit.addEventListener('click', function (event) {
+          event.preventDefault();
+          window.location.href = input.getAttribute('data-search-input') + '{{ config.system.param_sep }}' + input.value;
         });
+      }
     });
     </script>
 </div>
