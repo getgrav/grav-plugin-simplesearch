@@ -7,6 +7,8 @@
 1. [](#bugfix)
     * Remove unpublished and unroutable pages from the result set
     * Fixed issue when using @self as route
+    * Fixed searching with @self route set in the page header.
+    * Fix overloaded property issue when searching on a page with simplesearch header [#80](https://github.com/getgrav/grav-plugin-simplesearch/issues/80)
 
 # v1.9.3
 ## 10/19/2016
