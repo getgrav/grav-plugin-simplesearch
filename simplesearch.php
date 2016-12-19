@@ -98,7 +98,7 @@ class SimplesearchPlugin extends Plugin
         }
 
         // Support `route: '@self'` syntax
-        if($route === '@self') {
+        if ($route === '@self') {
             $route = $page->route();
             $this->config->set('plugins.simplesearch.route', $route);
         }
@@ -120,7 +120,7 @@ class SimplesearchPlugin extends Plugin
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
         $new_approach = false;
 
-        if ( ! $filters || $query === false || (count($filters) == 1 && !reset($filters))) {
+        if (!$filters || $query === false || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
