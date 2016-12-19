@@ -4,6 +4,8 @@
 1. [](#new)
     * Added spanish translation
     * Added japanese translation
+1. [](#bugfix)
+    * Remove unpublished and unroutable pages from the result set
 
 # v1.9.3
 ## 10/19/2016

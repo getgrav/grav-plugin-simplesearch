@@ -158,6 +158,8 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
+        //Drop unpublished and unroutable pages
+        $this->collection->published()->routable();
 
         $extras = [];
 
