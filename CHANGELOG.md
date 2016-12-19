@@ -4,6 +4,8 @@
 1. [](#new)
     * Added spanish translation
     * Added japanese translation
+1. [](#improved)
+    * Removed jQuery dependency, fixes issue when jQuery is loaded in the footer [#57](https://github.com/getgrav/grav-plugin-simplesearch/pull/57)
 1. [](#bugfix)
     * Remove unpublished and unroutable pages from the result set
     * Fixed issue when using @self as route
