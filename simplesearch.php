@@ -82,6 +82,17 @@ class SimplesearchPlugin extends Plugin
     {
         $page = $this->grav['page'];
 
+        $route = null;
+        if (isset($page->header()->simplesearch['route'])) {
+            $route = $page->header()->simplesearch['route'];
+
+            // Support `route: '@self'` syntax
+            if ($route === '@self') {
+                $route = $page->route();
+                $page->header()->simplesearch['route'] = $route;
+            }
+        }
+
         // If a page exists merge the configs
         if ($page) {
             $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
@@ -95,12 +106,6 @@ class SimplesearchPlugin extends Plugin
         // performance check for query
         if (empty($query)) {
             return;
-        }
-
-        // Support `route: '@self'` syntax
-        if ($route === '@self') {
-            $route = $page->route();
-            $this->config->set('plugins.simplesearch.route', $route);
         }
 
         // performance check for route
