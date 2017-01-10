@@ -237,13 +237,24 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
+    private function matchText($haystack, $needle) {
+        if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
+            setlocale(LC_ALL, 'en_US');
+            $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            setlocale(LC_ALL, '');
+            return $result;
+        } else {
+            return mb_stripos($haystack, $needle);
+        }
+    }
+
     private function notFound($query, $page, $taxonomies)
     {
         $searchable_types = ['title', 'content', 'taxonomy'];
         $results = true;
         foreach ($searchable_types as $type) {
             if ($type === 'title') {
-                $result = mb_stripos(strip_tags($page->title()), $query) === false;
+                $result = $this->matchText(strip_tags($page->title()), $query) === false;
             } elseif ($type === 'taxonomy') {
                 if ($taxonomies === false) {
                     continue;
@@ -257,14 +268,14 @@ class SimplesearchPlugin extends Plugin
                     }
 
                     $taxonomy_values = implode('|',$values);
-                    if (mb_stripos($taxonomy_values, $query) !== false) {
+                    if ($this->matchText($taxonomy_values, $query) !== false) {
                         $taxonomy_match = true;
                         break;
                     }
                 }
                 $result = !$taxonomy_match;
             } else {
-                $result = mb_stripos(strip_tags($page->content()), $query) === false;
+                $result = $this->matchText(strip_tags($page->content()), $query) === false;
             }
             $results = $results && $result;
             if ($results === false ) {
