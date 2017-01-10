@@ -6,6 +6,7 @@
     * Added japanese translation
 1. [](#improved)
     * Removed jQuery dependency, fixes issue when jQuery is loaded in the footer [#57](https://github.com/getgrav/grav-plugin-simplesearch/pull/57)
+    * Added option to ignore accents when searching [#89](https://github.com/getgrav/grav-plugin-simplesearch/pull/89)
 1. [](#bugfix)
     * Remove unpublished and unroutable pages from the result set
     * Fixed issue when using @self as route
