@@ -1,9 +1,10 @@
 # v1.9.x
-## 11/xx/2016
+## xx/xx/2017
 
 1. [](#new)
     * Added spanish translation
     * Added japanese translation
+    * Added persian translation
 1. [](#improved)
     * Removed jQuery dependency, fixes issue when jQuery is loaded in the footer [#57](https://github.com/getgrav/grav-plugin-simplesearch/pull/57)
     * Added option to ignore accents when searching [#89](https://github.com/getgrav/grav-plugin-simplesearch/pull/89)
