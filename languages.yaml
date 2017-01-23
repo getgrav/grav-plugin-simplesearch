@@ -55,3 +55,21 @@ ru:
         SEARCH_RESULTS: "Результат поиска"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "По запросу: <strong>%s</strong> результатов найдено 1"
         SEARCH_RESULTS_SUMMARY_PLURAL: "По запросу: <strong>%s</strong> результатов найдено %s"
+es:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Buscar..."
+        SEARCH_RESULTS: "Resultados de la búsqueda"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Consulta: <strong>%s</strong> se encontró 1 resultado"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Consulta: <strong>%s</strong> se encontraron %s resultados"
+ja:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "検索する..."
+        SEARCH_RESULTS: "検索結果"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "検索 : <strong>%s</strong> に一つの結果があります。"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "検索 : <strong>%s</strong> に %s の結果があります。"
+fa:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "جستجو..."
+        SEARCH_RESULTS: "نتایج جستجو"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "جستار: <strong>%s</strong> یک نتیجه یافت شد"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "جستار: <strong>%s</strong> %s نتیجه یافت شد"

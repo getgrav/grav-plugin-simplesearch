@@ -45,7 +45,7 @@ order:
     dir: desc
 ```
 
-By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.  
+By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.
 
 > NOTE: If you want to search **ALL PAGES** just keep the `filters` section empty.
 
@@ -58,13 +58,13 @@ simplesearch:
         - @self
         - @taxonomy: [tag]
     filter_combinator: and
-```    
- 
+```
+
  These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicity with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
 # Usage
 
-There are two approaches to using SimpleSearch.  
+There are two approaches to using SimpleSearch.
 
 ## 1. Standalone Search Page
 
@@ -85,7 +85,7 @@ http://yoursite.com/search/query:something
 1. `/search`: This is the **route** setting and it can be changed
 2. `/query:something`: This is the query itself, where `something` is what you are searching for.
 
-The plugin actively looks for URLs requested that match the configured `route` and if so it intercepts the call and renders the results template as specified by the configuration options, (defaults to `simplesearch_results.html.twig` as provided by the plugin). 
+The plugin actively looks for URLs requested that match the configured `route` and if so it intercepts the call and renders the results template as specified by the configuration options, (defaults to `simplesearch_results.html.twig` as provided by the plugin).
 
 With this approach, the filters control which pages are searched.  You can have multiple taxonomy filters here, and can configure the combinator to require **any** match (via `or`) or require **all** conditions to match (via `and`).
 
@@ -123,8 +123,8 @@ content:
         by: date
         dir: desc
 ```
-        
-This will mean the search will only search pages that this page already is using for the collection.  The Items could be anything the page collections support: 
+
+This will mean the search will only search pages that this page already is using for the collection.  The Items could be anything the page collections support:
 
 For further help with the `filters` and `order` settings, please refer to our [Taxonomy][taxonomy] and [Headers][headers] documentation.
 
@@ -150,7 +150,7 @@ filters:
 
 Will ensure that both **tag** and **author** taxonomy types are searched.
 
-As **all taxonomy sis searched by default**, in order to stop searching of taxonomy completely simply set the filter to false:
+As **all taxonomy types are searched by default**, in order to stop searching into taxonomies completely simply set the filter to false:
 
 ```
 filters:

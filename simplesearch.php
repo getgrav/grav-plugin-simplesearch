@@ -82,6 +82,17 @@ class SimplesearchPlugin extends Plugin
     {
         $page = $this->grav['page'];
 
+        $route = null;
+        if (isset($page->header()->simplesearch['route'])) {
+            $route = $page->header()->simplesearch['route'];
+
+            // Support `route: '@self'` syntax
+            if ($route === '@self') {
+                $route = $page->route();
+                $page->header()->simplesearch['route'] = $route;
+            }
+        }
+
         // If a page exists merge the configs
         if ($page) {
             $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
@@ -97,19 +108,13 @@ class SimplesearchPlugin extends Plugin
             return;
         }
 
-        // Support `route: '@self'` syntax
-        if($route === '@self') {
-            $route = $page->route();
-            $this->config->set('plugins.simplesearch.route', $route);
-        }
-
         // performance check for route
         if (!($route && $route == $uri->path())) {
             return;
         }
 
-        // Explode query into multiple strings
-        $this->query = explode(',', $query);
+        // Explode query into multiple strings. Drop empty values
+        $this->query = array_filter(array_filter(explode(',', $query), 'trim'), 'strlen');
 
         /** @var Taxonomy $taxonomy_map */
         $taxonomy_map = $this->grav['taxonomy'];
@@ -120,7 +125,7 @@ class SimplesearchPlugin extends Plugin
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
         $new_approach = false;
 
-        if ( ! $filters || $query === false || (count($filters) == 1 && !reset($filters))) {
+        if (!$filters || $query === false || (count($filters) == 1 && !reset($filters))) {
             /** @var \Grav\Common\Page\Pages $pages */
             $pages = $this->grav['pages'];
 
@@ -158,6 +163,8 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
+        //Drop unpublished and unroutable pages
+        $this->collection->published()->routable();
 
         $extras = [];
 
@@ -230,13 +237,24 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
+    private function matchText($haystack, $needle) {
+        if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
+            setlocale(LC_ALL, 'en_US');
+            $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            setlocale(LC_ALL, '');
+            return $result;
+        } else {
+            return mb_stripos($haystack, $needle);
+        }
+    }
+
     private function notFound($query, $page, $taxonomies)
     {
         $searchable_types = ['title', 'content', 'taxonomy'];
         $results = true;
         foreach ($searchable_types as $type) {
             if ($type === 'title') {
-                $result = mb_stripos(strip_tags($page->title()), $query) === false;
+                $result = $this->matchText(strip_tags($page->title()), $query) === false;
             } elseif ($type === 'taxonomy') {
                 if ($taxonomies === false) {
                     continue;
@@ -250,14 +268,14 @@ class SimplesearchPlugin extends Plugin
                     }
 
                     $taxonomy_values = implode('|',$values);
-                    if (mb_stripos($taxonomy_values, $query) !== false) {
+                    if ($this->matchText($taxonomy_values, $query) !== false) {
                         $taxonomy_match = true;
                         break;
                     }
                 }
                 $result = !$taxonomy_match;
             } else {
-                $result = mb_stripos(strip_tags($page->content()), $query) === false;
+                $result = $this->matchText(strip_tags($page->content()), $query) === false;
             }
             $results = $results && $result;
             if ($results === false ) {

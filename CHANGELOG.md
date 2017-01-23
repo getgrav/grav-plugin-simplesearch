@@ -1,3 +1,19 @@
+# v1.10.0
+## 01/23/2017
+
+1. [](#new)
+    * Added spanish translation
+    * Added japanese translation
+    * Added persian translation
+1. [](#improved)
+    * Removed jQuery dependency, fixes issue when jQuery is loaded in the footer [#57](https://github.com/getgrav/grav-plugin-simplesearch/pull/57)
+    * Added option to ignore accents when searching [#89](https://github.com/getgrav/grav-plugin-simplesearch/pull/89)
+1. [](#bugfix)
+    * Remove unpublished and unroutable pages from the result set
+    * Fixed issue when using @self as route
+    * Fix overloaded property issue when searching on a page with simplesearch header [#80](https://github.com/getgrav/grav-plugin-simplesearch/issues/80)
+    * Fix issue with empty string and leading commas [#71](https://github.com/getgrav/grav-plugin-simplesearch/issues/71)
+
 # v1.9.3
 ## 10/19/2016
 
