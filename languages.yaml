@@ -73,3 +73,9 @@ fa:
         SEARCH_RESULTS: "نتایج جستجو"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "جستار: <strong>%s</strong> یک نتیجه یافت شد"
         SEARCH_RESULTS_SUMMARY_PLURAL: "جستار: <strong>%s</strong> %s نتیجه یافت شد"
+cs:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Vyhledat..."
+        SEARCH_RESULTS: "Výsledky hledání"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Hledání výrazu '<strong>%s</strong>' našlo jeden výsledek"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Hledání výrazu '<strong>%s</strong>' našlo %s výsledků"
