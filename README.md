@@ -162,6 +162,7 @@ filters:
 You can tell Simplesearch to return a positive value when searching for characters that have an accent. So `éè` for example will be both equivalent to `e`.
 
 To do so, enable _Ignore accented characters_ in Admin, or manually set `ignore_accented_characters` to true in the plugin configuration.
+The `en_US` locale must be installed on the server.
 
 # Updating
 
