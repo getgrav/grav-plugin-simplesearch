@@ -1,3 +1,9 @@
+# v1.10.1
+## 02/xx/2017
+
+1. [](#bugfix)
+    * Default `ignore_accented_characters` to false
+
 # v1.10.0
 ## 01/23/2017
 
