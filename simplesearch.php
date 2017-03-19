@@ -103,11 +103,6 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
-        // performance check for query
-        if (empty($query)) {
-            return;
-        }
-
         // performance check for route
         if (!($route && $route == $uri->path())) {
             return;
