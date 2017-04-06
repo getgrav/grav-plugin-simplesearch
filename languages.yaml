@@ -79,3 +79,9 @@ cs:
         SEARCH_RESULTS: "Výsledky hledání"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Hledání výrazu '<strong>%s</strong>' našlo jeden výsledek"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Hledání výrazu '<strong>%s</strong>' našlo %s výsledků"
+sv:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Sök..."
+        SEARCH_RESULTS: "Sökresultat"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Sökning: <strong>%s</strong> hittade ett resultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Sökning: <strong>%s</strong> hittade %s resultat"
