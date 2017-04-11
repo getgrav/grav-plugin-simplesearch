@@ -3,6 +3,7 @@
 
 1. [](#bugfix)
     * Default `ignore_accented_characters` to false
+    * Fallback to regular search if searching with `ignore_accented_characters` on an unsupported charset raises an exception [#107](https://github.com/getgrav/grav-plugin-simplesearch/issues/107)
 
 # v1.10.0
 ## 01/23/2017
