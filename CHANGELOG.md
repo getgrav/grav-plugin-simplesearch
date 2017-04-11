@@ -1,5 +1,5 @@
 # v1.10.1
-## 02/xx/2017
+## 04/11/2017
 
 1. [](#new)
     * Added portoguese translation
