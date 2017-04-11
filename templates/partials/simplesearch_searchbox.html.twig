@@ -1,5 +1,5 @@
 <div class="search-wrapper">
-    <form name="search" onSubmit="return validateSearch();">
+    <form name="search" onSubmit="return validateSearch(event);">
         <input
             name="searchfield"
             class="search-input"
@@ -15,7 +15,7 @@
         {% endif %}
     </form>
     <script>
-    function validateSearch() {
+    function validateSearch(event) {
         var input = document.forms["search"]["searchfield"];
         var target = input.getAttribute('data-search-input');
         if (input.value.length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
