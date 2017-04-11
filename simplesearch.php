@@ -103,11 +103,6 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
-        // performance check for query
-        if (empty($query)) {
-            return;
-        }
-
         // performance check for route
         if (!($route && $route == $uri->path())) {
             return;
@@ -166,6 +161,9 @@ class SimplesearchPlugin extends Plugin
         //Drop unpublished and unroutable pages
         $this->collection->published()->routable();
 
+        //Check if user has permission to view page
+        $this->collection = $this->checkForPermissions($this->collection);
+
         $extras = [];
 
         if ($query) {
@@ -219,6 +217,55 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
+    /**
+     * Filter the pages, and return only the pages the user has access to.
+     * Implementation based on Login Plugin authorizePage() function.
+     */
+    public function checkForPermissions($collection)
+    {
+        $user = $this->grav['user'];
+        $returnCollection = new Collection();
+        foreach ($collection as $page) {
+
+            $header = $page->header();
+            $rules = isset($header->access) ? (array)$header->access : [];
+
+            if ($this->config->get('plugins.login.parent_acl')) {
+                // If page has no ACL rules, use its parent's rules
+                if (!$rules) {
+                    $parent = $page->parent();
+                    while (!$rules and $parent) {
+                        $header = $parent->header();
+                        $rules = isset($header->access) ? (array)$header->access : [];
+                        $parent = $parent->parent();
+                    }
+                }
+            }
+
+            // Continue to the page if it has no ACL rules.
+            if (!$rules) {
+                $returnCollection[$page->path()] = ['slug' => $page->slug()];
+            } else {
+                // Continue to the page if user is authorized to access the page.
+                foreach ($rules as $rule => $value) {
+                    if (is_array($value)) {
+                        foreach ($value as $nested_rule => $nested_value) {
+                            if ($user->authorize($rule . '.' . $nested_rule) == $nested_value) {
+                                $returnCollection[$page->path()] = ['slug' => $page->slug()];
+                                break;
+                            }
+                        }
+                    } else {
+                        if ($user->authorize($rule) == $value) {
+                            $returnCollection[$page->path()] = ['slug' => $page->slug()];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return $returnCollection;
+    }
 
     /**
      * Set needed variables to display the search results.
@@ -240,7 +287,11 @@ class SimplesearchPlugin extends Plugin
     private function matchText($haystack, $needle) {
         if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
             setlocale(LC_ALL, 'en_US');
-            $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            try {
+                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            } catch (\Exception $e) {
+                $result = mb_stripos($haystack, $needle);
+            }
             setlocale(LC_ALL, '');
             return $result;
         } else {

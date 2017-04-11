@@ -1,34 +1,33 @@
+{% set min_chars = config.get('plugins.simplesearch.min_query_length', 3) %}
 <div class="search-wrapper">
-    <input class="search-input" type="text" placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route == '@self' ? '' : (config.plugins.simplesearch.route == '/' ? '' : config.plugins.simplesearch.route) }}/query" />
-    {% if config.plugins.simplesearch.display_button %}
-        <button class="search-submit"><img src="{{ url('plugin://simplesearch/assets/search.svg') }}" /></button>
-    {% endif %}
-    <script>
-
-        var i, el;
-        var input = document.getElementsByClassName('search-input');
-        var searchInput = input[0].dataset.searchInput;
-
-        for(i=0; i<input.length; i++) {
-            el = input[i];
-            el.addEventListener('keypress', function(event){
-                if (event.keyCode == 13 && this.value.length >= {{ config.get('plugins.simplesearch.min_query_length', 3) }}) {
-                    event.preventDefault();
-                    window.location.href = searchInput + '{{ config.system.param_sep }}' + this.value;
-                }
-            }, false);
-        }
-
+    <form name="search" onSubmit="return validateSearch(event);">
+        <input
+            name="searchfield"
+            class="search-input"
+            type="text"
+            pattern=".{ {{- min_chars -}} ,}"
+            required
+            oninvalid="this.setCustomValidity('{{ "PLUGIN_SIMPLESEARCH.SEARCH_FIELD_MINIUMUM_CHARACTERS"|t(min_chars)|raw }}')" onchange="try{setCustomValidity('')}catch(e){}"
+            placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}"
+            value="{{ query }}"
+            data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route == '@self' ? '' : (config.plugins.simplesearch.route == '/' ? '' : config.plugins.simplesearch.route) }}/query"
+        />
         {% if config.plugins.simplesearch.display_button %}
-        var button = document.getElementsByClassName('search-submit');
-        for(i=0; i<input.length; i++) {
-            el = button[i];
-            el.addEventListener('click', function(event){
-                event.preventDefault();
-                window.location.href = searchInput + '{{ config.system.param_sep }}' + input[0].value;
-            });
-        }
+            <button type="submit" class="search-submit">
+                <img src="{{ url('plugin://simplesearch/assets/search.svg') }}" />
+            </button>
         {% endif %}
-
+    </form>
+    <script>
+    function validateSearch(event) {
+        var input = document.forms["search"]["searchfield"];
+        var target = input.getAttribute('data-search-input');
+        if (input.value.length >= {{ min_chars }}) {
+            event.preventDefault();
+            window.location.href = target + '{{ config.system.param_sep }}' + input.value;
+        } else {
+            event.preventDefault();
+        }
+    }
     </script>
 </div>

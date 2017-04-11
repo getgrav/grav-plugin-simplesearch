@@ -7,7 +7,7 @@ template: simplesearch_results
 filters:
     category: blog
 filter_combinator: and
-ignore_accented_characters: true
+ignore_accented_characters: false
 order:
     by: date
     dir: desc

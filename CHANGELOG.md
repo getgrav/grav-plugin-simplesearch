@@ -1,3 +1,15 @@
+# v1.10.1
+## 04/11/2017
+
+1. [](#new)
+    * Added portoguese translation
+    * Add hint when the minimum search field length is not matched
+1. [](#bugfix)
+    * Default `ignore_accented_characters` to false
+    * Fallback to regular search if searching with `ignore_accented_characters` on an unsupported charset raises an exception [#107](https://github.com/getgrav/grav-plugin-simplesearch/issues/107)
+    * Check ACL before listing a page in the search results [#102](https://github.com/getgrav/grav-plugin-simplesearch/pull/102)
+    * Fix with ignoring `min_query_length` when using the button [#99](https://github.com/getgrav/grav-plugin-simplesearch/issues/99)
+
 # v1.10.0
 ## 01/23/2017
 
