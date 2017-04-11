@@ -1,6 +1,8 @@
 # v1.10.1
 ## 02/xx/2017
 
+1. [](#new)
+    * Added portoguese translation
 1. [](#bugfix)
     * Default `ignore_accented_characters` to false
     * Fallback to regular search if searching with `ignore_accented_characters` on an unsupported charset raises an exception [#107](https://github.com/getgrav/grav-plugin-simplesearch/issues/107)
