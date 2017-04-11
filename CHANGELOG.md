@@ -6,6 +6,7 @@
 1. [](#bugfix)
     * Default `ignore_accented_characters` to false
     * Fallback to regular search if searching with `ignore_accented_characters` on an unsupported charset raises an exception [#107](https://github.com/getgrav/grav-plugin-simplesearch/issues/107)
+    * Check ACL before listing a page in the search results [#102](https://github.com/getgrav/grav-plugin-simplesearch/pull/102)
 
 # v1.10.0
 ## 01/23/2017
