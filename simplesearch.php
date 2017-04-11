@@ -103,11 +103,6 @@ class SimplesearchPlugin extends Plugin
         $query = $uri->param('query') ?: $uri->query('query');
         $route = $this->config->get('plugins.simplesearch.route');
 
-        // performance check for query
-        if (empty($query)) {
-            return;
-        }
-
         // performance check for route
         if (!($route && $route == $uri->path())) {
             return;
@@ -240,7 +235,11 @@ class SimplesearchPlugin extends Plugin
     private function matchText($haystack, $needle) {
         if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
             setlocale(LC_ALL, 'en_US');
-            $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            try {
+                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            } catch (\Exception $e) {
+                $result = mb_stripos($haystack, $needle);
+            }
             setlocale(LC_ALL, '');
             return $result;
         } else {
