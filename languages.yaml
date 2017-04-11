@@ -79,6 +79,14 @@ cs:
         SEARCH_RESULTS: "Výsledky hledání"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Hledání výrazu '<strong>%s</strong>' našlo jeden výsledek"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Hledání výrazu '<strong>%s</strong>' našlo %s výsledků"
+
+pt:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "O que você procura?"
+        SEARCH_RESULTS: "Resultados da pesquisa"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Pesquisa: <strong>%s</strong>. Foram encontrados 1 resultados"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Pesquisa: <strong>%s</strong>. Foram encontrados %s resultados"
+
 sv:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Sök..."
