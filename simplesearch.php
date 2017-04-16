@@ -9,6 +9,7 @@ use Grav\Common\Page\Types;
 use Grav\Common\Taxonomy;
 use Grav\Common\Utils;
 use Grav\Common\Data\Data;
+use Grav\Common\Config\Config;
 use RocketTheme\Toolbox\Event\Event;
 
 class SimplesearchPlugin extends Plugin
@@ -162,8 +163,9 @@ class SimplesearchPlugin extends Plugin
         $this->collection->published()->routable();
 
         //Check if user has permission to view page
-        $this->collection = $this->checkForPermissions($this->collection);
-
+        if($this->grav['config']->get('plugins.login.enabled')) {
+            $this->collection = $this->checkForPermissions($this->collection);
+        }
         $extras = [];
 
         if ($query) {
