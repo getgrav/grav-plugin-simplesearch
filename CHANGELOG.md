@@ -1,3 +1,9 @@
+# v1.10.2
+## 04/19/2017
+
+1. [](#bugfix)
+    * Only check ACL if the Login plugin is installed [#112](https://github.com/getgrav/grav-plugin-simplesearch/pull/112)
+
 # v1.10.1
 ## 04/11/2017
 
