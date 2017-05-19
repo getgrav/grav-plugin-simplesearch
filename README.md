@@ -62,6 +62,14 @@ simplesearch:
 
  These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicity with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
+
+## Other languages
+
+If your site is not in English, you can use one of the other `simplesearch.<language>.md` files to copy as `simplesearch.md` into your pages folder.
+
+If you have a multi-language site you can simply take the files of the languages you need, and/or add files with the languages you are missing.
+
+
 # Usage
 
 There are two approaches to using SimpleSearch.
