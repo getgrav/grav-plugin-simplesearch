@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 1.10.2
+version: 1.11.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -86,7 +86,7 @@ form:
     filters.category:
       type: selectize
       label: Category filter
-      help: Comma separated list of category names
+      help: Comma separated list of category names. Enter "@none" to search in all pages.
       validate:
         type: commalist
 
