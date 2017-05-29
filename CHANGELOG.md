@@ -1,7 +1,7 @@
-# v1.10.x
-## 05/xx/2017
+# v1.11.0
+## 05/29/2017
 
-1. [](#bugfix)
+1. [](#new)
     * Allow to use "@none"/"none@" in the "Category filter" in Admin to allow removing the filter
 
 # v1.10.2
