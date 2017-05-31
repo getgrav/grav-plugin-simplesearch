@@ -3,6 +3,7 @@ built_in_css: true
 display_button: false
 min_query_length: 3
 route: /search
+search_content: rendered
 template: simplesearch_results
 filters:
     category: blog

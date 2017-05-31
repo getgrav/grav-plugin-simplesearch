@@ -26,6 +26,16 @@ form:
       validate:
         type: bool
 
+    search_content:
+      type: select
+      size: medium
+      classes: fancy
+      label: Search Content
+      default: rendered
+      options:
+        rendered: Rendered Content (Slower)
+        raw: Raw Markdown Content (Faster)
+
     built_in_css:
       type: toggle
       label: Use built in CSS
