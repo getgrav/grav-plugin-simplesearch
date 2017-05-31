@@ -312,10 +312,18 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
+    /**
+     * @param $query
+     * @param Page $page
+     * @param $taxonomies
+     * @return bool
+     */
     private function notFound($query, $page, $taxonomies)
     {
         $searchable_types = ['title', 'content', 'taxonomy'];
         $results = true;
+        $search_content = $this->config->get('plugins.simplesearch.search_content');
+
         foreach ($searchable_types as $type) {
             if ($type === 'title') {
                 $result = $this->matchText(strip_tags($page->title()), $query) === false;
@@ -339,7 +347,12 @@ class SimplesearchPlugin extends Plugin
                 }
                 $result = !$taxonomy_match;
             } else {
-                $result = $this->matchText(strip_tags($page->content()), $query) === false;
+                if ($search_content == 'raw') {
+                    $content = $page->rawMarkdown();
+                } else {
+                    $content = $page->content();
+                }
+                $result = $this->matchText(strip_tags($content), $query) === false;
             }
             $results = $results && $result;
             if ($results === false ) {
