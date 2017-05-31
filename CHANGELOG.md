@@ -1,5 +1,5 @@
 # v1.12.0
-## 06/xx/2017
+## 05/31/2017
 
 1. [](#new)
    * Added option to switch between Rendered HTML and Raw Markdown content searching.  Raw Markdown is faster than default.
