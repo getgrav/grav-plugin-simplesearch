@@ -7,7 +7,7 @@
             type="text"
             pattern=".{ {{- min_chars -}} ,}"
             required
-            oninvalid="this.setCustomValidity('{{ "PLUGIN_SIMPLESEARCH.SEARCH_FIELD_MINIUMUM_CHARACTERS"|t(min_chars)|raw }}')" onchange="try{setCustomValidity('')}catch(e){}"
+            oninvalid="this.setCustomValidity('{{ "PLUGIN_SIMPLESEARCH.SEARCH_FIELD_MINIMUM_CHARACTERS"|t(min_chars)|raw }}')" onchange="try{setCustomValidity('')}catch(e){}"
             placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}"
             value="{{ query }}"
             data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route == '@self' ? '' : (config.plugins.simplesearch.route == '/' ? '' : config.plugins.simplesearch.route) }}/query"

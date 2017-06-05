@@ -1,8 +1,14 @@
+# v1.12.1
+## 06/xx/2017
+
+1. [](#bugfix)
+    * Fix typo in `SEARCH_FIELD_MINIUMUM_CHARACTERS` translation string
+
 # v1.12.0
 ## 05/31/2017
 
 1. [](#new)
-   * Added option to switch between Rendered HTML and Raw Markdown content searching.  Raw Markdown is faster than default.
+   * Added option to switch between Rendered HTML and Raw Markdown content searching. Raw Markdown is faster than default.
 
 # v1.11.0
 ## 05/29/2017
