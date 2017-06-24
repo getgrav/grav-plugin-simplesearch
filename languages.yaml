@@ -22,8 +22,8 @@ fr:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Recherche..."
         SEARCH_RESULTS: "Résultats de la recherche"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : Un résultat trouvé pour <strong>%s</strong>"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %s résultats trouvés pour <strong>%s</strong>"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : <strong>%s</strong> a abouti à seul résultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : <strong>%s</strong> a abouti à %s résultats"
 
 it:
     PLUGIN_SIMPLESEARCH:
