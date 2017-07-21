@@ -6,7 +6,8 @@ route: /search
 search_content: rendered
 template: simplesearch_results
 filters:
-    category: blog
+  category:
+    - '@none'
 filter_combinator: and
 ignore_accented_characters: false
 order:
