@@ -117,7 +117,7 @@ class SimplesearchPlugin extends Plugin
         $taxonomies = [];
         $find_taxonomy = [];
 
- 		/* Steamlead hack: allows direct use of the search page by specifying the filter to use in url parameters
+ 		/* LO Hack: allows direct use of the search page by specifying the filter to use in url parameters
         Sample use to search among tags:
 		http://www.website.com/search/query;myword/filters;tag
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
@@ -300,7 +300,7 @@ class SimplesearchPlugin extends Plugin
             $twig->twig_vars['search_results'] = $this->collection;
         }
 
-		/* Steamlead hack: adds a parameter to show or not the search field and the number of results in search results page
+		/* LO Hack: adds a parameter to show or not the search field and the number of results in search results page
          Example of use to search among tags: http://www.mywebsite.com/search/query;myword/showsearch;0
         */
         $showsearch = (bool) $this->grav['uri']->param('showsearch');
