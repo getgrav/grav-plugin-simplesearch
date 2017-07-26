@@ -1,8 +1,19 @@
+# v1.13.0
+## 07/26/2017
+
+1. [](#improved)
+    * Support for multiple forms and fields in the same page
+1. [](#bugfix)
+    * Fix typo in `SEARCH_FIELD_MINIUMUM_CHARACTERS` translation string
+    * Fixed validation and JS submission
+    * Separated JS from inline to file
+    * Fixed issue with min query length always enforced. It is now possible to have no minimum length by setting to `false` or `0`
+
 # v1.12.0
 ## 05/31/2017
 
 1. [](#new)
-   * Added option to switch between Rendered HTML and Raw Markdown content searching.  Raw Markdown is faster than default.
+   * Added option to switch between Rendered HTML and Raw Markdown content searching. Raw Markdown is faster than default.
 
 # v1.11.0
 ## 05/29/2017

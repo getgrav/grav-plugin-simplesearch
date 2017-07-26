@@ -4,7 +4,7 @@ en:
         SEARCH_RESULTS: "Search Results"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> found one result"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> found %s results"
-        SEARCH_FIELD_MINIUMUM_CHARACTERS: "Please add at least %s characters"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Please add at least %s characters"
 ro:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Caută..."
@@ -23,7 +23,7 @@ fr:
         SEARCH_PLACEHOLDER: "Recherche..."
         SEARCH_RESULTS: "Résultats de la recherche"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : Un résultat trouvé pour <strong>%s</strong>"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %s résultats trouvés pour <strong>%s</strong>"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %2$s résultats trouvés pour <strong>%1$s</strong>"
 
 it:
     PLUGIN_SIMPLESEARCH:
@@ -31,7 +31,7 @@ it:
         SEARCH_RESULTS: "Risultati della ricerca"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
-        SEARCH_FIELD_MINIUMUM_CHARACTERS: "Inserisci almeno %s caratteri"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Inserisci almeno %s caratteri"
 
 zh:
     PLUGIN_SIMPLESEARCH:
