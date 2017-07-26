@@ -1,5 +1,5 @@
-# v1.12.1
-## 06/xx/2017
+# v1.13.0
+## 07/26/2017
 
 1. [](#improved)
     * Support for multiple forms and fields in the same page
