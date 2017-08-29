@@ -57,6 +57,8 @@ ru:
         SEARCH_RESULTS: "Результат поиска"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "По запросу: <strong>%s</strong> результатов найдено 1"
         SEARCH_RESULTS_SUMMARY_PLURAL: "По запросу: <strong>%s</strong> результатов найдено %s"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Добавьте не менее %s символов"
+        
 es:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Buscar..."
