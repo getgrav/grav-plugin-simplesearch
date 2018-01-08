@@ -31,16 +31,18 @@ You should now have all the plugin files under
 To effectively use the plugin, you first need to create an override config. To do so, create the folder `user/config/plugins` (if it doesn't exist already) and copy the [simplesearch.yaml][simplesearch] config file in there.
 
 ```
-search_content: rendered
 enabled: true
 built_in_css: true
+built_in_js: true
 display_button: false
 min_query_length: 3
 route: /search
+search_content: rendered
 template: simplesearch_results
 filters:
     category: blog
 filter_combinator: and
+ignore_accented_characters: false
 order:
     by: date
     dir: desc

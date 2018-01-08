@@ -1,5 +1,6 @@
 enabled: true
 built_in_css: true
+built_in_js: true
 display_button: false
 min_query_length: 3
 route: /search

@@ -47,6 +47,17 @@ form:
       validate:
         type: bool
 
+    built_in_js:
+      type: toggle
+      label: Use built in javascript
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
     display_button:
       type: toggle
       label: Display Search Button
