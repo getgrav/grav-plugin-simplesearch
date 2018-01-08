@@ -49,7 +49,7 @@ form:
 
     built_in_js:
       type: toggle
-      label: Use built in javascript
+      label: Use built in JavaScript
       highlight: 1
       default: 1
       options:

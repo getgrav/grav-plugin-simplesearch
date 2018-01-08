@@ -103,7 +103,7 @@ sv:
 
 da:
     PLUGIN_SIMPLESEARCH:
-        SEARCH_PLACEHOLDER: "Søg..."
+        SEARCH_PLACEHOLDER: "Søg …"
         SEARCH_RESULTS: "Søgeresultat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Søgning: <strong>%s</strong> fandt et resultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Søgning: <strong>%s</strong> fandt %s resultater"
