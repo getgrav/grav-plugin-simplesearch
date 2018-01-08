@@ -24,7 +24,8 @@ fr:
         SEARCH_RESULTS: "Résultats de la recherche"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : Un résultat trouvé pour <strong>%s</strong>"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %2$s résultats trouvés pour <strong>%1$s</strong>"
-
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Veuillez ajouter au moins %s caractères"
+        
 it:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Cerca …"
