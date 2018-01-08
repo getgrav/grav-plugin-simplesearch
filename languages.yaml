@@ -17,6 +17,8 @@ de:
         SEARCH_RESULTS: "Suchergebnisse"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Suche: <strong>%s</strong> fand ein Ergebnis"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Suche: <strong>%s</strong> fand %s Ergebnisse"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Bitte geben Sie mindestens %s Zeichen ein"
+        SEARCH_VALUE: 'Suchen'
 
 fr:
     PLUGIN_SIMPLESEARCH:
