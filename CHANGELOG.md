@@ -1,3 +1,16 @@
+# v1.14.0
+## 01/08/2018
+
+1. [](#new)
+    * Added Danish translations [#127](https://github.com/getgrav/grav-plugin-simplesearch/pull/127)
+1. [](#improved)
+    * New option to disable built-in JS [#130](https://github.com/getgrav/grav-plugin-simplesearch/pull/130)
+    * Changed elipsis from `...` to `…` [#133](https://github.com/getgrav/grav-plugin-simplesearch/pull/133)
+    * Added missing French translations [#136](https://github.com/getgrav/grav-plugin-simplesearch/pull/136)
+    * Added missing German translations [#128](https://github.com/getgrav/grav-plugin-simplesearch/pull/128)
+1. [](#bugfix)
+    * Escaped `query` in Twig templates for XSS protection
+
 # v1.13.0
 ## 07/26/2017
 

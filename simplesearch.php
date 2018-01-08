@@ -296,8 +296,9 @@ class SimplesearchPlugin extends Plugin
             $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
         }
 
-
-        $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', [ 'group' => 'bottom' ]);
+        if ($this->config->get('plugins.simplesearch.built_in_js')) {
+            $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', [ 'group' => 'bottom' ]);
+        }
     }
 
     private function matchText($haystack, $needle) {

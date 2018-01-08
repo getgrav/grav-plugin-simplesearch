@@ -11,9 +11,9 @@
         {% if query %}
             {% set count = search_results ? search_results.count : 0 %}
             {% if count == 1 %}
-                {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query)|raw }}
+                {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query|e) }}
             {% else %}
-                {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query, count)|raw }}
+                {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query|e, count) }}
             {% endif %}
         {% endif %}
     </p>
