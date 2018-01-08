@@ -117,7 +117,15 @@ class SimplesearchPlugin extends Plugin
         $taxonomies = [];
         $find_taxonomy = [];
 
+ 		/* LO Hack: allows direct use of the search page by specifying the filter to use in url parameters
+        Sample use to search among tags:
+		http://www.website.com/search/query;myword/filters;tag
         $filters = (array) $this->config->get('plugins.simplesearch.filters');
+        */        
+        $filters = (array) $uri->param('filter');
+        if (count($filters)<1) $filters = (array) $this->config->get('plugins.simplesearch.filters');
+
+
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
         $new_approach = false;
 
@@ -291,6 +299,13 @@ class SimplesearchPlugin extends Plugin
             $twig->twig_vars['query'] = implode(', ', $this->query);
             $twig->twig_vars['search_results'] = $this->collection;
         }
+
+		/* LO Hack: adds a parameter to show or not the search field and the number of results in search results page
+         Example of use to search among tags: http://www.mywebsite.com/search/query;myword/showsearch;0
+        */
+        $showsearch = (bool) $this->grav['uri']->param('showsearch');
+        $twig->twig_vars['showsearch'] = $showsearch;
+
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
             $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
