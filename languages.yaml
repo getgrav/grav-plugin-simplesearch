@@ -98,3 +98,10 @@ sv:
         SEARCH_RESULTS: "Sökresultat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Sökning: <strong>%s</strong> hittade ett resultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Sökning: <strong>%s</strong> hittade %s resultat"
+
+da:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Søg..."
+        SEARCH_RESULTS: "Søgeresultat"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Søgning: <strong>%s</strong> fandt et resultat"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Søgning: <strong>%s</strong> fandt %s resultater"
