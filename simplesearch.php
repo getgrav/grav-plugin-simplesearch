@@ -324,7 +324,7 @@ class SimplesearchPlugin extends Plugin
      */
     private function notFound($query, $page, $taxonomies)
     {
-        $searchable_types = ['title', 'content', 'taxonomy'];
+        $searchable_types = ['title', 'content', 'taxonomy', 'fields'];
         $results = true;
         $search_content = $this->config->get('plugins.simplesearch.search_content');
 
@@ -350,6 +350,25 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
                 $result = !$taxonomy_match;
+            } elseif ($type === 'fields') {
+            	$fields_match = false;
+              $page_fields = $page->header();
+              foreach ($page_fields as $field => $field_value) {
+                // TODO : add fields name filter
+                if (in_array($field, ['title', 'content', 'taxonomy'])) continue;
+                if (gettype($field_value) === 'string') {
+                  if ($this->matchText(strip_tags($field_value), $query) !== false) {
+                    $fields_match = true;
+                    break;
+                  }
+                } elseif (gettype($field_value) === 'array') {
+                  if ($this->matchArray($field_value, $query) !== false) {
+                    $fields_match = true;
+                    break;
+                  }
+                }
+              }
+              $result = !$fields_match;
             } else {
                 if ($search_content == 'raw') {
                     $content = $page->rawMarkdown();
@@ -365,4 +384,29 @@ class SimplesearchPlugin extends Plugin
         }
         return $results;
     }
+    
+    /* Recursive search for text inside arrays
+     * @param $arrayField
+     * @param $query
+     * @return bool
+     */
+    private function matchArray($arrayField, $query)
+    {
+      $fields_match = false;
+      foreach ($arrayField as $field => $field_value) {
+        if (gettype($field_value) === 'string') {
+          if ($this->matchText(strip_tags($field_value), $query) !== false) {
+            $fields_match = true;
+            break;
+          }
+        } elseif (gettype($field_value) === 'array') {
+          if ($this->matchArray($field_value, $query) !== false) {
+            $fields_match = true;
+            break;
+          }
+        }
+      }
+      return $fields_match;
+    }
+    
 }
