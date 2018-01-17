@@ -30,10 +30,11 @@ fr:
         
 it:
     PLUGIN_SIMPLESEARCH:
-        SEARCH_PLACEHOLDER: "Cerca …"
+        SEARCH_PLACEHOLDER: "Cerca…"
         SEARCH_RESULTS: "Risultati della ricerca"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Ricerca: <strong>%s</strong>. Trovato un risultato"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Ricerca: <strong>%s</strong>. Trovati %s risultati"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Trovato un risultato per <strong>%s</strong>"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "La ricerca di <strong>%s</strong> ha prodotto %s risultati"
+        SEARCH_RESULTS_FUZZY: "Forse intendevi <strong>%s</strong>?"
         SEARCH_FIELD_MINIMUM_CHARACTERS: "Inserisci almeno %s caratteri"
 
 zh:
