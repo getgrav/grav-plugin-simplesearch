@@ -107,3 +107,11 @@ da:
         SEARCH_RESULTS: "Søgeresultat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Søgning: <strong>%s</strong> fandt et resultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Søgning: <strong>%s</strong> fandt %s resultater"
+
+kk:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "іздеу …"
+        SEARCH_RESULTS: "Іздеу нәтижесі"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Сұраныс бойынша: <strong>%s</strong> табылды 1"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Сұраныс бойынша: <strong>%s</strong> табылды %s"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Кемінде %s таңба қосу"
