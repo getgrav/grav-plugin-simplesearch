@@ -107,3 +107,9 @@ da:
         SEARCH_RESULTS: "Søgeresultat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Søgning: <strong>%s</strong> fandt et resultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Søgning: <strong>%s</strong> fandt %s resultater"
+gl:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Procurar …"
+        SEARCH_RESULTS: "Resultados da procura"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Consulta: <strong>%s</strong> atopouse 1 resultado"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Consulta: <strong>%s</strong> atopáronse %s resultados"
