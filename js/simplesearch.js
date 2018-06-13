@@ -4,7 +4,7 @@
         return el;
     };
 
-    var fields = document.querySelectorAll('input[name="searchfield"][data-search-input]');
+    var fields = document.querySelectorAll('input[name="query"][data-search-input]');
     fields.forEach(function(field) {
         var form = findAncestor(field, 'form[data-simplesearch-form]'),
             min = field.getAttribute('min') || false,
