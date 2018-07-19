@@ -9,7 +9,7 @@
         <p>
             {% if query %}
                 {% set count = search_results ? search_results.count : 0 %}
-                {% if count == 1 %}
+                {% if count is same as( 1 ) %}
                     {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query|e)|raw }}
                 {% else %}
                     {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query|e, count)|raw }}
@@ -17,7 +17,7 @@
             {% endif %}
         </p>
         {% for page in search_results %}
-            {% include 'partials/simplesearch_item.html.twig' with {'page':page} %}
+            {% include 'partials/simplesearch_item.html.twig' with {'page': page} %}
         {% endfor %}
     </div>
 {% endblock %}
