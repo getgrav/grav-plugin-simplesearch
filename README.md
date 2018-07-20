@@ -63,7 +63,7 @@ simplesearch:
     filter_combinator: and
 ```
 
- These page headers will only be taken into account if the search route points to this page.  For example: here the the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicity with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
+ These page headers will only be taken into account if the search route points to this page.  For example: here the route points to `@self` which in turn resolves to `/blog`.  You can also specify the route explicitly with `route: /blog` if you so choose. This header is within the `/user/pages/blog/blog.md` file.  We will cover this self-controlled form of search handling below.
 
 # Usage
 
@@ -79,7 +79,7 @@ After installing the SimpleSearch plugin, you can add a simple **searchbox** to 
 {% include 'partials/simplesearch_searchbox.html.twig' %}
 ```
 
-By default the **simplesearch_searchbox** Twig template uses the `route` as defined in the configuration.  The SimpleSearch plugin uses this route and then appends a `query:` paramater to create the following final URL.
+By default the **simplesearch_searchbox** Twig template uses the `route` as defined in the configuration.  The SimpleSearch plugin uses this route and then appends a `query:` parameter to create the following final URL.
 
 ```
 http://yoursite.com/search/query:something
@@ -115,9 +115,9 @@ You can also completely customize the look and feel of the results by overriding
 
 ## 2. Self-Controlled Search Page
 
-This is a new feature of SimpleSearch and it very useful and simple way to provide a 'filter' like search of a collection listing page.  In this example, we will assume you have a Blog listing page you wish to be able to search and filter based on a search box.
+This is a new feature of SimpleSearch and it's a very useful and simple way to provide a 'filter' like search of a collection listing page.  In this example, we will assume you have a Blog listing page you wish to be able to search and filter based on a search box.
 
-To accomplish this, you need ot use the page-based configuration as described above, and configure multiple filters, `@self` to use the page's content collection: http://learn.getgrav.org/content/headers#collection-headers
+To accomplish this, you need to use the page-based configuration as described above, and configure multiple filters, `@self` to use the page's content collection: http://learn.getgrav.org/content/headers#collection-headers
 
 ```
 content:
@@ -137,7 +137,7 @@ The only thing needed to provide this functionality is a search box that points 
 
 ## Performance
 
-Simple search is not a full-fledged index-powered search engine.  It merely iterates over the pages and searches the content and title for matching strings.  That's it.  This is not going to result in screaming fast searches if your site has lots of content.  One way to optimize things a little is to change the `search_content` configuration option from `rendered` to `raw`.  This means the `rawMarkdown()` method is used rather than the `content()` method, to retrieve the page content, and in turn means plugin events, markdown processing, image processing, and other time consuming tasks are not performed.  This can often yield adequate search results without the need for all this extra work. 
+Simplesearch is not a full-fledged index-powered search engine.  It merely iterates over the pages and searches the content and title for matching strings.  That's it.  This is not going to result in screaming fast searches if your site has lots of content.  One way to optimize things a little is to change the `search_content` configuration option from `rendered` to `raw`.  This means the `rawMarkdown()` method is used rather than the `content()` method, to retrieve the page content, and in turn means plugin events, markdown processing, image processing, and other time-consuming tasks are not performed.  This can often yield adequate search results without the need for all this extra work. 
 
 ## Searching Taxonomy
 
