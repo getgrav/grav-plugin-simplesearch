@@ -28,6 +28,11 @@ class SimplesearchPlugin extends Plugin
      * @var Collection
      */
     protected $collection;
+    
+    /**
+     * @var fuzzy_result
+     */
+    protected $fuzzy_result;
 
     /**
      * @return array
@@ -302,18 +307,35 @@ class SimplesearchPlugin extends Plugin
     }
 
     private function matchText($haystack, $needle) {
-        if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
-            setlocale(LC_ALL, 'en_US');
-            try {
-                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
-            } catch (\Exception $e) {
-                $result = mb_stripos($haystack, $needle);
-            }
-            setlocale(LC_ALL, '');
-            return $result;
-        } else {
-            return mb_stripos($haystack, $needle);
+      $result = false;
+      if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
+        try {
+          setlocale(LC_ALL, 'en_US');
+          $haystack = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack);
+          $needle = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle);
+          setlocale(LC_ALL, '');
+          //$result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+        } catch (\Exception $e) {
+          //$result = mb_stripos($haystack, $needle);
         }
+      }
+      $result = mb_stripos($haystack, $needle);
+      if ($result === false) $result = $this->fuzzyMatch($haystack, $needle); // no direct match? try fuzzy search
+      return $result;
+    }
+    
+    private function fuzzyMatch($haystack, $needle) {
+      $haystack = strtolower($haystack);
+      $needle = strtolower($needle);
+      $words = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $haystack, -1, PREG_SPLIT_NO_EMPTY);
+      $this->fuzzy_result = false;
+      foreach ($words as $word) {
+        if (strlen($word) > 3 && (levenshtein($word, $needle) < 2 || metaphone($word) == metaphone($needle))) {
+          $this->fuzzy_result = $word;
+          break;
+        }
+      }
+      return $this->fuzzy_result == false ? false : true;
     }
 
     /**
@@ -324,17 +346,15 @@ class SimplesearchPlugin extends Plugin
      */
     private function notFound($query, $page, $taxonomies)
     {
-        $searchable_types = ['title', 'content', 'taxonomy'];
+        $searchable_types = ['title', 'content', 'taxonomy', 'fields']; /* --- fields added by TG */
         $results = true;
+        $this->fuzzy_result = false;
         $search_content = $this->config->get('plugins.simplesearch.search_content');
-
         foreach ($searchable_types as $type) {
             if ($type === 'title') {
-                $result = $this->matchText(strip_tags($page->title()), $query) === false;
+                $result = $this->matchText(strip_tags($page->title()), $query) !== false ? false : true;
             } elseif ($type === 'taxonomy') {
-                if ($taxonomies === false) {
-                    continue;
-                }
+                if ($taxonomies === false) continue;
                 $page_taxonomies = $page->taxonomy();
                 $taxonomy_match = false;
                 foreach ((array) $page_taxonomies as $taxonomy => $values) {
@@ -350,6 +370,29 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
                 $result = !$taxonomy_match;
+// ----------------------------------------- added by TG & manuel_84
+            } elseif ($type === 'fields') {
+            	$fields_match = false;
+              $page_fields = $page->header();
+              foreach ($page_fields as $field => $field_value) {
+                // TODO : add fields name filter
+                if (in_array($field, ['title', 'content', 'taxonomy'])) continue;
+                if (gettype($field_value) === 'string') {
+                  if ($this->matchText(strip_tags($field_value), $query) !== false) {
+                    $fields_match = true;
+                    break;
+                  }
+                } elseif (gettype($field_value) === 'array') {
+                  if (!isset($field_value[array_keys($field_value)[0]]['path'])) {// do not match path fields
+                    if ($this->matchArray($field_value, $query) !== false) {
+                      $fields_match = true;
+                      break;
+                    }
+                  }
+                }
+              }
+              $result = !$fields_match;
+// -----------------------------------------
             } else {
                 if ($search_content == 'raw') {
                     $content = $page->rawMarkdown();
@@ -359,10 +402,34 @@ class SimplesearchPlugin extends Plugin
                 $result = $this->matchText(strip_tags($content), $query) === false;
             }
             $results = $results && $result;
-            if ($results === false ) {
-                break;
-            }
+            if ($results === false) break;
         }
+        if ($this->fuzzy_result !== false) $page->fuzzy_result = $this->fuzzy_result; // add fuzzy result to output
         return $results;
     }
+    
+    /* --- by manuel_84
+     * @param $arrayField
+     * @param $query
+     * @return bool
+     */
+    private function matchArray($arrayField, $query)
+    {
+      $fields_match = false;
+      foreach ($arrayField as $field => $field_value) {
+        if (gettype($field_value) === 'string') {
+          if ($this->matchText(strip_tags($field_value), $query) !== false) {
+            $fields_match = true;
+            break;
+          }
+        } elseif (gettype($field_value) === 'array') {
+          if ($this->matchArray($field_value, $query) !== false) {
+            $fields_match = true;
+            break;
+          }
+        }
+      }
+      return $fields_match;
+    }
+    
 }
