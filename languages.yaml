@@ -107,3 +107,10 @@ da:
         SEARCH_RESULTS: "Søgeresultat"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Søgning: <strong>%s</strong> fandt et resultat"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Søgning: <strong>%s</strong> fandt %s resultater"
+pl:
+    PLUGIN_SIMPLESEARCH:
+        SEARCH_PLACEHOLDER: "Szukaj…"
+        SEARCH_RESULTS: "Wyniki wyszukiwania"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Znaleziono jeden wynik dla frazy <strong>%s</strong>."
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Znaleziono %2$s wyników dla frazy <strong>%1$s</strong>."
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Fraza musi składać się z minimum %s znaków."
