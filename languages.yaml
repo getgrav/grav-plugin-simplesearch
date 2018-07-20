@@ -45,9 +45,10 @@ zh:
 nl:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Zoeken …"
-        SEARCH_RESULTS: "Zoek resultaat"
+        SEARCH_RESULTS: "Zoek resultaten"
         SEARCH_RESULTS_SUMMARY_SINGULAR: "Query: <strong>%s</strong> is 1 keer gevonden"
         SEARCH_RESULTS_SUMMARY_PLURAL: "Query: <strong>%s</strong> is %s keer gevonden"
+        SEARCH_FIELD_MINIMUM_CHARACTERS: "Geef minstens %s tekens in"
 hr:
     PLUGIN_SIMPLESEARCH:
         SEARCH_PLACEHOLDER: "Traži …"
