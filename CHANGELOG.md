@@ -1,5 +1,5 @@
 # v1.14.2
-## mm/dd/2018
+## 12/07/2018
 
 1. [](#improved)
     * Optimize, cleanup and remove typos [#163](https://github.com/getgrav/grav-plugin-simplesearch/pull/163)
