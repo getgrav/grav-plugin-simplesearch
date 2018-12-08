@@ -1,15 +1,16 @@
 <?php
+
 namespace Grav\Plugin;
 
+use Grav\Common\Config\Config;
+use Grav\Common\Data\Data;
 use Grav\Common\Page\Collection;
-use Grav\Common\Plugin;
-use Grav\Common\Uri;
 use Grav\Common\Page\Page;
 use Grav\Common\Page\Types;
+use Grav\Common\Plugin;
 use Grav\Common\Taxonomy;
+use Grav\Common\Uri;
 use Grav\Common\Utils;
-use Grav\Common\Data\Data;
-use Grav\Common\Config\Config;
 use RocketTheme\Toolbox\Event\Event;
 
 class SimplesearchPlugin extends Plugin
@@ -117,7 +118,7 @@ class SimplesearchPlugin extends Plugin
         $taxonomies = [];
         $find_taxonomy = [];
 
-        $filters = (array) $this->config->get('plugins.simplesearch.filters');
+        $filters = (array)$this->config->get('plugins.simplesearch.filters');
         $operator = $this->config->get('plugins.simplesearch.filter_combinator', 'and');
         $new_approach = false;
 
@@ -154,7 +155,7 @@ class SimplesearchPlugin extends Plugin
                 if ($key === '@self' || $key === 'self@') {
                     $new_approach = true;
                 } elseif ($key === '@taxonomy' || $key === 'taxonomy@') {
-                    $taxonomies = $filter === false ? false : array_merge($taxonomies, (array) $filter);
+                    $taxonomies = $filter === false ? false : array_merge($taxonomies, (array)$filter);
                 } else {
                     $find_taxonomy[$key] = $filter;
                 }
@@ -174,7 +175,7 @@ class SimplesearchPlugin extends Plugin
         $this->collection->published()->routable();
 
         //Check if user has permission to view page
-        if($this->grav['config']->get('plugins.login.enabled')) {
+        if ($this->grav['config']->get('plugins.login.enabled')) {
             $this->collection = $this->checkForPermissions($this->collection);
         }
         $extras = [];
@@ -281,42 +282,6 @@ class SimplesearchPlugin extends Plugin
     }
 
     /**
-     * Set needed variables to display the search results.
-     */
-    public function onTwigSiteVariables()
-    {
-        $twig = $this->grav['twig'];
-
-        if ($this->query) {
-            $twig->twig_vars['query'] = implode(', ', $this->query);
-            $twig->twig_vars['search_results'] = $this->collection;
-        }
-
-        if ($this->config->get('plugins.simplesearch.built_in_css')) {
-            $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
-        }
-
-        if ($this->config->get('plugins.simplesearch.built_in_js')) {
-            $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', [ 'group' => 'bottom' ]);
-        }
-    }
-
-    private function matchText($haystack, $needle) {
-        if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
-            setlocale(LC_ALL, 'en_US');
-            try {
-                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
-            } catch (\Exception $e) {
-                $result = mb_stripos($haystack, $needle);
-            }
-            setlocale(LC_ALL, '');
-            return $result;
-        } else {
-            return mb_stripos($haystack, $needle);
-        }
-    }
-
-    /**
      * @param $query
      * @param Page $page
      * @param $taxonomies
@@ -337,13 +302,13 @@ class SimplesearchPlugin extends Plugin
                 }
                 $page_taxonomies = $page->taxonomy();
                 $taxonomy_match = false;
-                foreach ((array) $page_taxonomies as $taxonomy => $values) {
+                foreach ((array)$page_taxonomies as $taxonomy => $values) {
                     // if taxonomies filter set, make sure taxonomy filter is valid
-                    if (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies)) {
+                    if (!is_array($values) || (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies))) {
                         continue;
                     }
 
-                    $taxonomy_values = implode('|',$values);
+                    $taxonomy_values = implode('|', $values);
                     if ($this->matchText($taxonomy_values, $query) !== false) {
                         $taxonomy_match = true;
                         break;
@@ -359,10 +324,47 @@ class SimplesearchPlugin extends Plugin
                 $result = $this->matchText(strip_tags($content), $query) === false;
             }
             $results = $results && $result;
-            if ($results === false ) {
+            if ($results === false) {
                 break;
             }
         }
         return $results;
+    }
+
+    private function matchText($haystack, $needle)
+    {
+        if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
+            setlocale(LC_ALL, 'en_US');
+            try {
+                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
+            } catch (\Exception $e) {
+                $result = mb_stripos($haystack, $needle);
+            }
+            setlocale(LC_ALL, '');
+            return $result;
+        } else {
+            return mb_stripos($haystack, $needle);
+        }
+    }
+
+    /**
+     * Set needed variables to display the search results.
+     */
+    public function onTwigSiteVariables()
+    {
+        $twig = $this->grav['twig'];
+
+        if ($this->query) {
+            $twig->twig_vars['query'] = implode(', ', $this->query);
+            $twig->twig_vars['search_results'] = $this->collection;
+        }
+
+        if ($this->config->get('plugins.simplesearch.built_in_css')) {
+            $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
+        }
+
+        if ($this->config->get('plugins.simplesearch.built_in_js')) {
+            $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', ['group' => 'bottom']);
+        }
     }
 }

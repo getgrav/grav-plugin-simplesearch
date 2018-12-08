@@ -3,9 +3,9 @@
     {% set banner = page.media.images|first %}
 
     {% if banner %}
-    <div class="search-image">
-        <a href="{{ page.url }}">{{ banner.cropZoom(100,100).html|raw }}</a>
-    </div>
+        <div class="search-image">
+            <a href="{{ page.url }}">{{ banner.cropZoom(100,100).html|raw }}</a>
+        </div>
     {% endif %}
     <div class="search-item">
         <div class="search-title">
@@ -18,6 +18,6 @@
 
         <p>{{ page.summary|raw }}</p>
 
-        <hr />
+        <hr/>
     </div>
 </section>

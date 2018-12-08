@@ -1,3 +1,17 @@
+# v1.14.2
+## 12/07/2018
+
+1. [](#improved)
+    * Optimize, cleanup and remove typos [#163](https://github.com/getgrav/grav-plugin-simplesearch/pull/163)
+    * Removed `blog` as default filter [#166](https://github.com/getgrav/grav-plugin-simplesearch/pull/166)
+    * Polish translation [#144](https://github.com/getgrav/grav-plugin-simplesearch/pull/144)
+    * Kazakh translation [#153](https://github.com/getgrav/grav-plugin-simplesearch/pull/153)
+    * Spelling corrections [#145](https://github.com/getgrav/grav-plugin-simplesearch/pull/145)
+1. [](#bugfix)
+    * Fix JS to work with IE11 [#161](https://github.com/getgrav/grav-plugin-simplesearch/pull/161)
+    * Updated javascript to be compatible with IE11 [#161](https://github.com/getgrav/grav-plugin-simplesearch/pull/161)
+    * Ensure `$values` is an array to prevent PHP error on implode [#146](https://github.com/getgrav/grav-plugin-simplesearch/pull/146)
+
 # v1.14.1
 ## 01/11/2018
 
