@@ -171,8 +171,21 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
-        //Drop unpublished and unroutable pages
-        $this->collection->published()->routable();
+        //Drop unpublished pages, but do not drop unroutable pages right now to be able to search modular pages which are unroutable per se
+        $this->collection->published();
+        /** @var modular Pages $modularPageCollection */
+        $modularPageCollection = $this->collection->copy();
+        //Get published modular pages
+        $modularPageCollection->modular();
+        foreach ($modularPageCollection as $cpage) {
+            if (!$cpage->parent()->published()) {
+                $modularPageCollection->remove($cpage);
+            }
+        }
+        //Drop unroutable pages
+        $this->collection->routable();
+        //Add modular pages again
+        $this->collection->merge($modularPageCollection);
 
         //Check if user has permission to view page
         if ($this->grav['config']->get('plugins.login.enabled')) {
