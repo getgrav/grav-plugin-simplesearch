@@ -302,7 +302,7 @@ class SimplesearchPlugin extends Plugin
      */
     private function notFound($query, $page, $taxonomies)
     {
-        $searchable_types = ['title', 'content', 'taxonomy'];
+        $searchable_types = $search_content = $this->config->get('plugins.simplesearch.searchable_types');
         $results = true;
         $search_content = $this->config->get('plugins.simplesearch.search_content');
 
