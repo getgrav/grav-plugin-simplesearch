@@ -1,10 +1,11 @@
 {% set min_chars = config.get('plugins.simplesearch.min_query_length', 3) %}
 <div class="search-wrapper">
-    <form name="search" data-simplesearch-form>
+    <form name="search" aria-label="Search form" data-simplesearch-form>
         <input
             name="searchfield"
             class="search-input"
             type="text"
+            aria-label="Search input"
             {% if min_chars > 0 %} min="{{- min_chars -}}" {% endif %}
             required
             placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}"
