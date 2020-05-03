@@ -83,10 +83,10 @@ fa:
         SEARCH_RESULTS_SUMMARY_PLURAL: "جستار: <strong>%s</strong> %s نتیجه یافت شد"
 cs:
     PLUGIN_SIMPLESEARCH:
-        SEARCH_PLACEHOLDER: "Vyhledat …"
+        SEARCH_PLACEHOLDER: "Vyhledat…"
         SEARCH_RESULTS: "Výsledky hledání"
-        SEARCH_RESULTS_SUMMARY_SINGULAR: "Hledání výrazu '<strong>%s</strong>' našlo jeden výsledek"
-        SEARCH_RESULTS_SUMMARY_PLURAL: "Hledání výrazu '<strong>%s</strong>' našlo %s výsledků"
+        SEARCH_RESULTS_SUMMARY_SINGULAR: "Dotazu <strong>%s</strong> odpovídá jeden výsledek"
+        SEARCH_RESULTS_SUMMARY_PLURAL: "Dotazu <strong>%s</strong> odpovídá celkem výsledků: %s"
 
 pt:
     PLUGIN_SIMPLESEARCH:
