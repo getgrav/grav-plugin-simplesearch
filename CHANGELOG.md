@@ -1,3 +1,18 @@
+# v2.0.0
+## 05/13/2020
+
+1. [](#new)
+    * Allow searching the content of modular pages [#170](https://github.com/getgrav/grav-plugin-simplesearch/pull/170)
+    * Allow configuration of Title/Content/Taxononmy searchable types [#184](https://github.com/getgrav/grav-plugin-simplesearch/pull/184)
+1. [](#improved)
+    * Improved default vs custom search page functionality [#186](https://github.com/getgrav/grav-plugin-simplesearch/pull/186)
+    * Add field label for screen reader accessibility [#171](https://github.com/getgrav/grav-plugin-simplesearch/pull/171)
+    * Added Traditional Chinese [#169](https://github.com/getgrav/grav-plugin-simplesearch/pull/169)
+    * Updated Russian and English [#165](https://github.com/getgrav/grav-plugin-simplesearch/pull/165)
+    * Added Galacian [#155](https://github.com/getgrav/grav-plugin-simplesearch/pull/155)
+1. [](#bugfix)
+    * Fixed input attribute [#165](https://github.com/getgrav/grav-plugin-simplesearch/pull/165)
+
 # v1.14.2
 ## 12/07/2018
 
