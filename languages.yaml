@@ -213,3 +213,10 @@ pl:
     SEARCH_RESULTS_SUMMARY_SINGULAR: "Znaleziono jeden wynik dla frazy <strong>%s</strong>."
     SEARCH_RESULTS_SUMMARY_PLURAL: "Znaleziono %2$s wyników dla frazy <strong>%1$s</strong>."
     SEARCH_FIELD_MINIMUM_CHARACTERS: "Fraza musi składać się z minimum %s znaków."
+
+gl:
+  PLUGIN_SIMPLESEARCH:
+    SEARCH_PLACEHOLDER: "Procurar …"
+    SEARCH_RESULTS: "Resultados da procura"
+    SEARCH_RESULTS_SUMMARY_SINGULAR: "Consulta: <strong>%s</strong> atopouse 1 resultado"
+    SEARCH_RESULTS_SUMMARY_PLURAL: "Consulta: <strong>%s</strong> atopáronse %s resultados"    
