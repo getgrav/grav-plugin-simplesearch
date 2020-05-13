@@ -27,6 +27,7 @@ en:
     FILTER_COMBINATOR: 'Filter Combinator'
     AND_COMBINATOR: 'And - Boolean &&'
     OR_COMBINATOR: 'Or - Boolean ||'
+    SEARCHABLE_TYPES: "Searchable Types"
     
 ro:
   PLUGIN_SIMPLESEARCH:

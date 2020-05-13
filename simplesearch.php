@@ -314,10 +314,10 @@ class SimplesearchPlugin extends Plugin
         $results = true;
         $search_content = $this->config->get('plugins.simplesearch.search_content');
 
-        foreach ($searchable_types as $type) {
-            if ($type === 'title') {
+        foreach ($searchable_types as $type => $enabled) {
+            if ($type === 'title' && $enabled) {
                 $result = $this->matchText(strip_tags($page->title()), $query) === false;
-            } elseif ($type === 'taxonomy') {
+            } elseif ($type === 'taxonomy' && $enabled) {
                 if ($taxonomies === false) {
                     continue;
                 }
@@ -336,7 +336,7 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
                 $result = !$taxonomy_match;
-            } else {
+            } elseif ($type === 'content' && $enabled) {
                 if ($search_content == 'raw') {
                     $content = $page->rawMarkdown();
                 } else {

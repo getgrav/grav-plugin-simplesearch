@@ -100,6 +100,15 @@ form:
       help: PLUGIN_SIMPLESEARCH.SEARCH_PAGE_ROUTE_HELP
       default: /random
 
+    searchable_types:
+      type: checkboxes
+      label: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES
+      options:
+        title: Title
+        content: Content
+        taxonomy: Taxonomy
+      use: keys
+
     template:
       type: text
       size: medium
