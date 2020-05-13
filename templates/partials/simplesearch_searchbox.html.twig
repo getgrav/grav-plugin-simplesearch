@@ -4,8 +4,9 @@
         <input
             name="searchfield"
             class="search-input"
+            aria-label="search"
             type="text"
-            {% if min_chars > 0 %} min="{{- min_chars -}}" {% endif %}
+            {% if min_chars > 0 %} data-min="{{- min_chars -}}" {% endif %}
             required
             placeholder="{{"PLUGIN_SIMPLESEARCH.SEARCH_PLACEHOLDER"|t}}"
             value="{{ query|e }}"

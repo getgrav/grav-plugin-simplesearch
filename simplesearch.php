@@ -96,7 +96,7 @@ class SimplesearchPlugin extends Plugin
         }
 
         // If a page exists merge the configs
-        if ($page) {
+        if (isset($page)) {
             $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
         }
 
@@ -108,6 +108,12 @@ class SimplesearchPlugin extends Plugin
         // performance check for route
         if (!($route && $route == $uri->path())) {
             return;
+        }
+
+        // set the template is not set in the page header (the page header setting takes precedence over the plugin config setting)
+        if (!isset($page->header()->template)) {
+            $template_override = $this->config->get('plugins.simplesearch.template', 'simplesearch_results');
+            $page->template($template_override);
         }
 
         // Explode query into multiple strings. Drop empty values
@@ -171,8 +177,21 @@ class SimplesearchPlugin extends Plugin
             }
         }
 
-        //Drop unpublished and unroutable pages
-        $this->collection->published()->routable();
+        //Drop unpublished pages, but do not drop unroutable pages right now to be able to search modular pages which are unroutable per se
+        $this->collection->published();
+        /** @var modular Pages $modularPageCollection */
+        $modularPageCollection = $this->collection->copy();
+        //Get published modular pages
+        $modularPageCollection->modular();
+        foreach ($modularPageCollection as $cpage) {
+            if (!$cpage->parent()->published()) {
+                $modularPageCollection->remove($cpage);
+            }
+        }
+        //Drop unroutable pages
+        $this->collection->routable();
+        //Add modular pages again
+        $this->collection->merge($modularPageCollection);
 
         //Check if user has permission to view page
         if ($this->grav['config']->get('plugins.login.enabled')) {
@@ -212,15 +231,17 @@ class SimplesearchPlugin extends Plugin
             );
         }
 
-        // if page doesn't have settings set, create a page
-        if (!isset($page->header()->simplesearch)) {
+        // Display simplesearch page if no page was found for the current route
+        $pages = $this->grav['pages'];
+        $page = $pages->dispatch($this->config->get('plugins.simplesearch.route', '/search'), true);
+        if (!isset($page)) {
             // create the search page
             $page = new Page;
             $page->init(new \SplFileInfo(__DIR__ . '/pages/simplesearch.md'));
 
-            // override the template is set in the config
+            // override the template is set in the plugin config (the plugin config setting takes precedence over the page header setting)
             $template_override = $this->config->get('plugins.simplesearch.template');
-            if ($template_override) {
+            if (isset($template_override)) {
                 $page->template($template_override);
             }
 
@@ -289,14 +310,14 @@ class SimplesearchPlugin extends Plugin
      */
     private function notFound($query, $page, $taxonomies)
     {
-        $searchable_types = ['title', 'content', 'taxonomy'];
+        $searchable_types = $search_content = $this->config->get('plugins.simplesearch.searchable_types');
         $results = true;
         $search_content = $this->config->get('plugins.simplesearch.search_content');
 
-        foreach ($searchable_types as $type) {
-            if ($type === 'title') {
+        foreach ($searchable_types as $type => $enabled) {
+            if ($type === 'title' && $enabled) {
                 $result = $this->matchText(strip_tags($page->title()), $query) === false;
-            } elseif ($type === 'taxonomy') {
+            } elseif ($type === 'taxonomy' && $enabled) {
                 if ($taxonomies === false) {
                     continue;
                 }
@@ -315,7 +336,7 @@ class SimplesearchPlugin extends Plugin
                     }
                 }
                 $result = !$taxonomy_match;
-            } else {
+            } elseif ($type === 'content' && $enabled) {
                 if ($search_content == 'raw') {
                     $content = $page->rawMarkdown();
                 } else {

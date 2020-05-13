@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 1.14.2
+version: 2.0.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -30,15 +30,16 @@ form:
       type: select
       size: medium
       classes: fancy
-      label: Search Content
+      label: PLUGIN_SIMPLESEARCH.SEARCH_CONTENT
       default: rendered
       options:
-        rendered: Rendered Content (Slower)
-        raw: Raw Markdown Content (Faster)
+        rendered: PLUGIN_SIMPLESEARCH.RENDERED_CONTENT
+        raw: PLUGIN_SIMPLESEARCH.RAW_CONTENT
 
     built_in_css:
       type: toggle
-      label: Use built in CSS
+      label: PLUGIN_SIMPLESEARCH.BUILTIN_CSS
+      help: PLUGIN_SIMPLESEARCH.BUILTIN_CSS_HELP
       highlight: 1
       default: 1
       options:
@@ -49,7 +50,8 @@ form:
 
     built_in_js:
       type: toggle
-      label: Use built in JavaScript
+      label: PLUGIN_SIMPLESEARCH.BUILTIN_JS
+      help: PLUGIN_SIMPLESEARCH.BUILTIN_JS_HELP
       highlight: 1
       default: 1
       options:
@@ -60,32 +62,33 @@ form:
 
     display_button:
       type: toggle
-      label: Display Search Button
+      label: PLUGIN_SIMPLESEARCH.DISPLAY_SEARCH_BUTTON
+      help: PLUGIN_SIMPLESEARCH.DISPLAY_SEARCH_BUTTON_HELP
       highlight: 0
       default: 0
       options:
-        1: Enabled
-        0: Disabled
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
 
     ignore_accented_characters:
       type: toggle
-      label: Ignore accented characters
-      help: If enabled, search terms will match accented characters regardless to their diacritics i.e. search results will show up for "cafe" and "café" no matter how you typed it.
+      label: PLUGIN_SIMPLESEARCH.IGNORE_ACCENDED_CHARACTERS
+      help: PLUGIN_SIMPLESEARCH.IGNORE_ACCENDED_CHARACTERS_HELP
       highlight: 0
       default: 0
       options:
-        1: Enabled
-        0: Disabled
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
 
     min_query_length:
       type: text
       size: x-small
-      label: Minimum query length
-      help: The mimimum number of characters needed before serach can be submitted
+      label: PLUGIN_SIMPLESEARCH.MIN_QUERY_LENGTH
+      help: PLUGIN_SIMPLESEARCH.MIN_QUERY_LENGTH_HELP
       validate:
         type: number
         min: 0
@@ -93,21 +96,30 @@ form:
     route:
       type: text
       size: medium
-      label: Route
+      label: PLUGIN_SIMPLESEARCH.SEARCH_PAGE_ROUTE
+      help: PLUGIN_SIMPLESEARCH.SEARCH_PAGE_ROUTE_HELP
       default: /random
-      help: Default route of the simplesearch plugin
+
+    searchable_types:
+      type: checkboxes
+      label: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES
+      options:
+        title: Title
+        content: Content
+        taxonomy: Taxonomy
+      use: keys
 
     template:
       type: text
       size: medium
-      label: Template
+      label: PLUGIN_SIMPLESEARCH.SEARCH_PAGE_TEMPLATE
+      help: PLUGIN_SIMPLESEARCH.SEARCH_PAGE_TEMPLATE_HELP
       default: simplesearch_results
-      help: Name of the template for the search results
 
     filters.category:
       type: selectize
-      label: Category filter
-      help: Comma separated list of category names. Enter "@none" to search in all pages.
+      label: PLUGIN_SIMPLESEARCH.CATEGORY_FILTER
+      help: PLUGIN_SIMPLESEARCH.CATEGORY_FILTER_HELP
       validate:
         type: commalist
 
@@ -115,11 +127,11 @@ form:
       type: select
       size: medium
       classes: fancy
-      label: Filter Combinator
+      label: PLUGIN_SIMPLESEARCH.FILTER_COMBINATOR
       default: and
       options:
-        and: And - Boolean &&
-        or: Or - Boolean ||
+        and: PLUGIN_SIMPLESEARCH.AND_COMBINATOR
+        or: PLUGIN_SIMPLESEARCH.OR_COMBINATOR
 
     order.by:
         type: select
