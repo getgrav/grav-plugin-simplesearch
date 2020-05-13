@@ -67,6 +67,13 @@ zh:
     SEARCH_RESULTS_SUMMARY_SINGULAR: "查询: <strong>%s</strong> 找到 1 个结果"
     SEARCH_RESULTS_SUMMARY_PLURAL: "查询: <strong>%s</strong> 找到 %s 个结果"
 
+zh-TW:
+  PLUGIN_SIMPLESEARCH:
+    SEARCH_PLACEHOLDER: "搜尋 …"
+    SEARCH_RESULTS: "搜尋結果"
+    SEARCH_RESULTS_SUMMARY_SINGULAR: "查詢: <strong>%s</strong> 找到 1 個結果"
+    SEARCH_RESULTS_SUMMARY_PLURAL: "查詢: <strong>%s</strong> 找到 %s 個結果"
+    SEARCH_FIELD_MINIMUM_CHARACTERS: "請輸入至少 %s 個字元"
 nl:
   PLUGIN_SIMPLESEARCH:
     SEARCH_PLACEHOLDER: "Zoeken …"
