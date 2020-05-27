@@ -28,7 +28,8 @@ en:
     AND_COMBINATOR: 'And - Boolean &&'
     OR_COMBINATOR: 'Or - Boolean ||'
     SEARCHABLE_TYPES: "Searchable Types"
-    
+    SEARCHABLE_TYPES_DESCRIPTION: "<b>Title</b> = Search Page Title<br><b>Content</b> = Search Page Content<br><b>Header</b> = Search Raw Headers (excluding title, content, taxonomy)<br><b>Taxonomy</b> = Search Taxonomy"
+
 ro:
   PLUGIN_SIMPLESEARCH:
     SEARCH_PLACEHOLDER: "Caută …"

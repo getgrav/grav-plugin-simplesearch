@@ -1,3 +1,9 @@
+# v2.1.0
+## mm/dd/2020
+
+1. [](#new)
+    * Added ability to search page headers (exluding title, taxonomy, content)
+
 # v2.0.0
 ## 05/13/2020
 

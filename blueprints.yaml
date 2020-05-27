@@ -103,9 +103,11 @@ form:
     searchable_types:
       type: checkboxes
       label: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES
+      description: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES_DESCRIPTION
       options:
         title: Title
         content: Content
+        header: Header
         taxonomy: Taxonomy
       use: keys
 

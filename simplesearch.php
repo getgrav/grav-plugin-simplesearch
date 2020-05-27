@@ -343,6 +343,10 @@ class SimplesearchPlugin extends Plugin
                     $content = $page->content();
                 }
                 $result = $this->matchText(strip_tags($content), $query) === false;
+            } elseif ($type == 'header' && $enabled) {
+                $header = (array) $page->header();
+                $content = $this->getArrayValues($header);
+                $result = $this->matchText(strip_tags($content), $query) === false;
             }
             $results = $results && $result;
             if ($results === false) {
@@ -387,5 +391,18 @@ class SimplesearchPlugin extends Plugin
         if ($this->config->get('plugins.simplesearch.built_in_js')) {
             $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', ['group' => 'bottom']);
         }
+    }
+
+    protected function getArrayValues($array, $ignore_keys = ['title','taxonomy','content'], $output = '') {
+        foreach ($array as $key => $child) {
+            if (!in_array($key, $ignore_keys)) {
+                if (is_array($child)) {
+                    $output .= " " . $this->getArrayValues($child, $ignore_keys, $output);
+                } else {
+                    $output .= " " . $child;
+                }
+            }
+        }
+        return trim($output);
     }
 }

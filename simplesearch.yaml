@@ -17,3 +17,4 @@ searchable_types:
     title: true
     content: true
     taxonomy: true
+    header: false
