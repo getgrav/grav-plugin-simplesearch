@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 2.0.0
+version: 2.1.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -103,9 +103,11 @@ form:
     searchable_types:
       type: checkboxes
       label: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES
+      description: PLUGIN_SIMPLESEARCH.SEARCHABLE_TYPES_DESCRIPTION
       options:
         title: Title
         content: Content
+        header: Header
         taxonomy: Taxonomy
       use: keys
 
