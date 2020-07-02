@@ -97,7 +97,8 @@ class SimplesearchPlugin extends Plugin
 
         // If a page exists merge the configs
         if (isset($page)) {
-            $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
+            $data = $this->mergeConfig($page);
+            $this->config->set('plugins.simplesearch', $data->toArray());
         }
 
         /** @var Uri $uri */
