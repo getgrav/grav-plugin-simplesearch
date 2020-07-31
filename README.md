@@ -61,6 +61,7 @@ To accomplish multiple search types in a single site, you should use **page-base
 
 ```
 simplesearch:
+    process: true
     route: @self
     filters:
         - @self
@@ -167,6 +168,15 @@ As **all taxonomy types are searched by default**, in order to stop searching in
 ```
 filters:
     - '@taxonomy': false
+```
+
+## Ignoring a page
+
+A page can be setup to "opt-out" of being included in the search results by setting the following in page frontmatter:
+
+```yaml
+simplesearch:
+  process: false
 ```
 
 ## Ignoring accented characters
