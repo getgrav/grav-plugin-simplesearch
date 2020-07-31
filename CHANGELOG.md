@@ -2,8 +2,8 @@
 ## 7/31/2020
 
 1. [](#improved)
-    * Ignore `form` and `forms` in page header as this can lead to out-of-memory errors
-    * Explicit cast to array for more robustness
+    * Added ability to opt-out of page search by setting: `simplesearch: process: false` in page header
+    * Ignore `form` and `forms` in page header searches as these can get complex and lead to out-of-memory issues
 
 # v2.1.0
 ## 05/27/2020
