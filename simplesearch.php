@@ -394,7 +394,7 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
-    protected function getArrayValues($array, $ignore_keys = ['title','taxonomy','content'], $output = '') {
+    protected function getArrayValues($array, $ignore_keys = ['title','taxonomy','content','form','forms'], $output = '') {
         foreach ($array as $key => $child) {
             if (!in_array($key, $ignore_keys)) {
                 if (is_array($child)) {

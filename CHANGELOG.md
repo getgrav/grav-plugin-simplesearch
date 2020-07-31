@@ -1,3 +1,10 @@
+# v2.1.1
+## 7/31/2020
+
+1. [](#improved)
+    * Ignore `form` and `forms` in page header as this can lead to out-of-memory errors
+    * Explicit cast to array for more robustness
+
 # v2.1.0
 ## 05/27/2020
 
