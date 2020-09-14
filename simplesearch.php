@@ -201,6 +201,13 @@ class SimplesearchPlugin extends Plugin
 
         if ($query) {
             foreach ($this->collection as $cpage) {
+
+                $header = $cpage->header();
+                if (isset($header->simplesearch['process']) && $header->simplesearch['process'] === false) {
+                    $this->collection->remove($cpage);
+                    continue;
+                }
+
                 foreach ($this->query as $query) {
                     $query = trim($query);
 
@@ -393,15 +400,24 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
-    protected function getArrayValues($array, $ignore_keys = ['title','taxonomy','content'], $output = '') {
+    protected function getArrayValues($array, $ignore_keys = null, $level = 0) {
+        $output = '';
+
+        if (is_null($ignore_keys)) {
+            $ignore_keys = $this->config()->header_keys_ignored;
+        }
         foreach ($array as $key => $child) {
-            if (!in_array($key, $ignore_keys)) {
-                if (is_array($child)) {
-                    $output .= " " . $this->getArrayValues($child, $ignore_keys, $output);
-                } else {
-                    $output .= " " . $child;
-                }
+
+            if ($level === 0 && in_array($key, $ignore_keys)) {
+                continue;
             }
+
+            if (is_array($child)) {
+                $output .= " " . $this->getArrayValues($child, $ignore_keys, $level + 1);
+            } else {
+                $output .= " " . $child;
+            }
+
         }
         return trim($output);
     }

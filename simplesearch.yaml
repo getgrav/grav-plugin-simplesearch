@@ -7,14 +7,15 @@ route: /search
 search_content: rendered
 template: simplesearch_results
 filters:
-    category:
+  category:
 filter_combinator: and
 ignore_accented_characters: false
 order:
-    by: date
-    dir: desc
+  by: date
+  dir: desc
 searchable_types:
-    title: true
-    content: true
-    taxonomy: true
-    header: false
+  title: true
+  content: true
+  taxonomy: true
+  header: false
+header_keys_ignored: [ 'title', 'taxonomy','content', 'form', 'forms', 'media_order' ]

@@ -51,6 +51,7 @@ searchable_types:
     content: true
     taxonomy: true
     header: false
+header_keys_ignored: ['title', 'taxonomy','content', 'form', 'forms', 'media_order']
 ```
 
 By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.
@@ -61,6 +62,7 @@ To accomplish multiple search types in a single site, you should use **page-base
 
 ```
 simplesearch:
+    process: true
     route: @self
     filters:
         - @self
@@ -167,6 +169,15 @@ As **all taxonomy types are searched by default**, in order to stop searching in
 ```
 filters:
     - '@taxonomy': false
+```
+
+## Ignoring a page
+
+A page can be setup to "opt-out" of being included in the search results by setting the following in page frontmatter:
+
+```yaml
+simplesearch:
+  process: false
 ```
 
 ## Ignoring accented characters

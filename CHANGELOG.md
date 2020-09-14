@@ -1,3 +1,14 @@
+# v2.2.0
+## 09/14/2020
+
+1. [](#improved)
+    * Added config option to choose keys to ignore when searching header
+    * Added ability to opt-out of page search by setting: `simplesearch: process: false` in page header
+    * Added `form` and `forms` to default list of ignores in page header searches
+1. [](#bugfix)
+    * Fix issue to ensure matching ignore keys only checked at root level
+    * Fix issue where searchable header content was growing exponentially
+
 # v2.1.0
 ## 05/27/2020
 

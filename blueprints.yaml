@@ -1,5 +1,5 @@
 name: SimpleSearch
-version: 2.1.0
+version: 2.2.0
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -111,6 +111,15 @@ form:
         taxonomy: Taxonomy
       use: keys
 
+    header_keys_ignored:
+      type: selectize
+      size: large
+      label: PLUGIN_SIMPLESEARCH.HEADER_KEYS_IGNORED
+      help: PLUGIN_SIMPLESEARCH.HEADER_KEYS_IGNORED_HELP
+      classes: fancy
+      validate:
+        type: commalist
+
     template:
       type: text
       size: medium
@@ -136,23 +145,23 @@ form:
         or: PLUGIN_SIMPLESEARCH.OR_COMBINATOR
 
     order.by:
-        type: select
-        size: long
-        classes: fancy
-        label: PLUGIN_ADMIN.DEFAULT_ORDERING
-        help: PLUGIN_ADMIN.DEFAULT_ORDERING_HELP
-        options:
-            default: PLUGIN_ADMIN.DEFAULT_ORDERING_DEFAULT
-            folder: PLUGIN_ADMIN.DEFAULT_ORDERING_FOLDER
-            title: PLUGIN_ADMIN.DEFAULT_ORDERING_TITLE
-            date: PLUGIN_ADMIN.DEFAULT_ORDERING_DATE
+      type: select
+      size: long
+      classes: fancy
+      label: PLUGIN_ADMIN.DEFAULT_ORDERING
+      help: PLUGIN_ADMIN.DEFAULT_ORDERING_HELP
+      options:
+        default: PLUGIN_ADMIN.DEFAULT_ORDERING_DEFAULT
+        folder: PLUGIN_ADMIN.DEFAULT_ORDERING_FOLDER
+        title: PLUGIN_ADMIN.DEFAULT_ORDERING_TITLE
+        date: PLUGIN_ADMIN.DEFAULT_ORDERING_DATE
 
     order.dir:
-        type: toggle
-        label: PLUGIN_ADMIN.DEFAULT_ORDER_DIRECTION
-        highlight: asc
-        default: desc
-        help: PLUGIN_ADMIN.DEFAULT_ORDER_DIRECTION_HELP
-        options:
-            asc: PLUGIN_ADMIN.ASCENDING
-            desc: PLUGIN_ADMIN.DESCENDING
+      type: toggle
+      label: PLUGIN_ADMIN.DEFAULT_ORDER_DIRECTION
+      highlight: asc
+      default: desc
+      help: PLUGIN_ADMIN.DEFAULT_ORDER_DIRECTION_HELP
+      options:
+        asc: PLUGIN_ADMIN.ASCENDING
+        desc: PLUGIN_ADMIN.DESCENDING
