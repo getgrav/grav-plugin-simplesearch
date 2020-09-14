@@ -51,6 +51,7 @@ searchable_types:
     content: true
     taxonomy: true
     header: false
+header_keys_ignored: ['title', 'taxonomy','content', 'form', 'forms', 'media_order']
 ```
 
 By creating the configuration file: `user/config/plugins/simplesearch.yaml` you have effectively created a site-wide configuration for SimpleSearch.  However, you may want to have multiple searches.

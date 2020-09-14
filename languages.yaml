@@ -28,7 +28,9 @@ en:
     AND_COMBINATOR: 'And - Boolean &&'
     OR_COMBINATOR: 'Or - Boolean ||'
     SEARCHABLE_TYPES: "Searchable Types"
-    SEARCHABLE_TYPES_DESCRIPTION: "<b>Title</b> = Search Page Title<br><b>Content</b> = Search Page Content<br><b>Header</b> = Search Raw Headers (excluding title, content, taxonomy)<br><b>Taxonomy</b> = Search Taxonomy"
+    SEARCHABLE_TYPES_DESCRIPTION: "<b>Title</b> = Search Page Title<br><b>Content</b> = Search Page Content<br><b>Header</b> = Search Raw Page Headers<br><b>Taxonomy</b> = Search Taxonomy"
+    HEADER_KEYS_IGNORED: Header Keys to Ignore
+    HEADER_KEYS_IGNORED_HELP: The root-level header keys that should be skipped when searching type "Header"
 
 ro:
   PLUGIN_SIMPLESEARCH:
@@ -53,7 +55,7 @@ fr:
     SEARCH_RESULTS_SUMMARY_SINGULAR: "Recherche : Un résultat trouvé pour <strong>%s</strong>"
     SEARCH_RESULTS_SUMMARY_PLURAL: "Recherche : %2$s résultats trouvés pour <strong>%1$s</strong>"
     SEARCH_FIELD_MINIMUM_CHARACTERS: "Veuillez ajouter au moins %s caractères"
-   
+
 it:
   PLUGIN_SIMPLESEARCH:
     SEARCH_PLACEHOLDER: "Cerca …"
@@ -150,7 +152,7 @@ uk:
     FILTER_COMBINATOR: 'Фільтр комбінатор'
     AND_COMBINATOR: 'І - Булева &&'
     OR_COMBINATOR: 'Або - Булева ||'
-  
+
 es:
   PLUGIN_SIMPLESEARCH:
     SEARCH_PLACEHOLDER: "Buscar …"

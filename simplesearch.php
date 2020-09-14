@@ -97,8 +97,7 @@ class SimplesearchPlugin extends Plugin
 
         // If a page exists merge the configs
         if (isset($page)) {
-            $data = $this->mergeConfig($page);
-            $this->config->set('plugins.simplesearch', $data->toArray());
+            $this->config->set('plugins.simplesearch', $this->mergeConfig($page));
         }
 
         /** @var Uri $uri */
@@ -401,15 +400,24 @@ class SimplesearchPlugin extends Plugin
         }
     }
 
-    protected function getArrayValues($array, $ignore_keys = ['title','taxonomy','content', 'form', 'forms'], $output = '') {
+    protected function getArrayValues($array, $ignore_keys = null, $level = 0) {
+        $output = '';
+
+        if (is_null($ignore_keys)) {
+            $ignore_keys = $this->config()->header_keys_ignored;
+        }
         foreach ($array as $key => $child) {
-            if (!in_array($key, $ignore_keys)) {
-                if (is_array($child)) {
-                    $output .= " " . $this->getArrayValues($child, $ignore_keys, $output);
-                } else {
-                    $output .= " " . $child;
-                }
+
+            if ($level === 0 && in_array($key, $ignore_keys)) {
+                continue;
             }
+
+            if (is_array($child)) {
+                $output .= " " . $this->getArrayValues($child, $ignore_keys, $level + 1);
+            } else {
+                $output .= " " . $child;
+            }
+
         }
         return trim($output);
     }
