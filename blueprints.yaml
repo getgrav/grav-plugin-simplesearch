@@ -12,6 +12,9 @@ keywords: simplesearch, plugin, search, page, content, find
 bugs: https://github.com/getgrav/grav-plugin-simplesearch/issues
 license: MIT
 
+dependencies:
+    - { name: grav, version: '>=1.6.0' }
+
 form:
   validation: strict
   fields:

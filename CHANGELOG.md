@@ -1,4 +1,11 @@
 # v2.2.0
+## mm/dd/2020
+
+1. [](#new)
+    * Added autoloader
+    * Require Grav 1.6.0+
+
+# v2.2.0
 ## 09/14/2020
 
 1. [](#improved)
