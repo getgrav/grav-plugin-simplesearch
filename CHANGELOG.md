@@ -2,8 +2,11 @@
 ## mm/dd/2020
 
 1. [](#new)
-    * Added autoloader
     * Require Grav 1.6.0+
+    * Added autoloader
+    * Pass phpstan level 3 tests
+1. [](#bugfix)
+    * Fixed `header_keys_ignored` configuration option not taking effect
 
 # v2.2.0
 ## 09/14/2020
