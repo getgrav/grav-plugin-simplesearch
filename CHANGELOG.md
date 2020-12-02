@@ -1,3 +1,13 @@
+# v2.2.1
+## 12/02/2020
+
+1. [](#new)
+    * Require Grav 1.6.0+
+    * Added autoloader
+    * Pass phpstan level 3 tests
+1. [](#bugfix)
+    * Fixed `header_keys_ignored` configuration option not taking effect
+
 # v2.2.0
 ## 09/14/2020
 
@@ -149,7 +159,7 @@
 1. [](#improved)
     * Added support for Grav's autoescape twig setting
 1. [](#bugfix)
-    * Fix searching on `@self   `[#53](https://github.com/getgrav/grav-plugin-simplesearch/pull/53)
+    * Fix searching on `@self  `[#53](https://github.com/getgrav/grav-plugin-simplesearch/pull/53)
 
 # v1.8.0
 ## 07/14/2016

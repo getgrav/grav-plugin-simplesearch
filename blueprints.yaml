@@ -1,5 +1,7 @@
 name: SimpleSearch
-version: 2.2.0
+type: plugin
+slug: simplesearch
+version: 2.2.1
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
@@ -11,6 +13,9 @@ demo: http://demo.getgrav.org/blog-skeleton
 keywords: simplesearch, plugin, search, page, content, find
 bugs: https://github.com/getgrav/grav-plugin-simplesearch/issues
 license: MIT
+
+dependencies:
+    - { name: grav, version: '>=1.6.0' }
 
 form:
   validation: strict
