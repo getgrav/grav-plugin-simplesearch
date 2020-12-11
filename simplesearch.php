@@ -383,7 +383,7 @@ class SimplesearchPlugin extends Plugin
     private function matchText($haystack, $needle)
     {
         if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
-            setlocale(LC_ALL, 'en_US');
+            setlocale(LC_ALL, 'en_US.utf8');
             try {
                 $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
             } catch (\Exception $e) {
