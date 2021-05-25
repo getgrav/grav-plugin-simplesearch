@@ -1,3 +1,9 @@
+# v2.2.2
+## 05/25/2021
+
+1. [](#bugfix)
+    * `|raw` missing in JSON template
+
 # v2.2.1
 ## 12/02/2020
 

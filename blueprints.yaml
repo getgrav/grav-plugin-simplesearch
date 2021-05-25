@@ -1,7 +1,7 @@
 name: SimpleSearch
 type: plugin
 slug: simplesearch
-version: 2.2.1
+version: 2.2.2
 description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
 icon: search
 author:
