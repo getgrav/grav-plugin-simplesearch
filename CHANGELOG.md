@@ -1,5 +1,5 @@
 # v2.2.2
-## mm/dd/2021
+## 05/25/2021
 
 1. [](#bugfix)
     * `|raw` missing in JSON template
