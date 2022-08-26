@@ -1,3 +1,9 @@
+# v2.3.0
+## mm/dd/2022
+
+1. [](#new)
+    * Added new `onSimpleSearchCollection()` event to allow for custom integration into SimpleSearch.
+
 # v2.2.2
 ## 05/25/2021
 
