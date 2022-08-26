@@ -187,6 +187,40 @@ You can tell Simplesearch to return a positive value when searching for characte
 To do so, enable _Ignore accented characters_ in Admin, or manually set `ignore_accented_characters` to true in the plugin configuration.
 The `en_US` locale must be installed on the server.
 
+# Extending
+
+As of version `2.3.0` SimpleSearch has a Grav even that allow for integrating into custom logic and adding your own 'pages' into the searchable collection.  Because SimpleSearch utilizes Grav pages for its searching mechanism, your event needs to build fake 'pages' from your data, then you can add to the collection being passed to the event.  Some example psudeo code should help you out:
+
+```php
+    public function onSimpleSearchCollection(Event $event)
+    {
+        $collection = $event['collection'];
+        $locator = $this->grav['locator'];
+        $pages = $this->grav['pages'];
+
+        //find all my custom files
+        $finder = new Finder();
+        $data_location = $locator->findResource("user://data/custom-data");
+        
+        foreach($finder->in($data_location)->name('*.json') as $file) {
+            $content = $file->getContents();
+            $data = json_decode($content, true);
+
+            $header['routes']['default'] = $data['url'],
+            $page = new Page();
+            $page->title($data['title']);
+            $page->content($data['content']);
+            $page->path($file->getPathname());
+            $page->header($header);
+
+            // Page needs to be added to Pages inorder to work in Collection
+            $pages->addPage($page);
+            // Add the fake page to the collection used to search
+            $collection->addPage($page);
+        }
+    }
+```
+
 # Updating
 
 As development for SimpleSearch continues, new versions may become available that add additional features and functionality, improve compatibility with newer Grav releases, and generally provide a better user experience. Updating SimpleSearch is easy, and can be done through Grav's GPM system, as well as manually.

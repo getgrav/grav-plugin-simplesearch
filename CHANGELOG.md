@@ -1,3 +1,10 @@
+# v2.3.0
+## 08/26/2022
+
+1. [](#new)
+    * Added new `onSimpleSearchCollection()` event to allow for custom integration into SimpleSearch.
+    * Require Grav 1.7+
+
 # v2.2.2
 ## 05/25/2021
 
