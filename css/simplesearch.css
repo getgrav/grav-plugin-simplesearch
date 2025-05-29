@@ -40,3 +40,93 @@
 .search-row:last-child hr {
 	display: none;
 }
+
+/* Search Suggestions Styles */
+.search-wrapper {
+    position: relative; /* Important for absolute positioning of suggestions */
+}
+
+.simplesearch-suggestions-container {
+    position: absolute;
+    left: 0;
+    /* Assuming the input is 80% and inside .search-wrapper. 
+       If .search-input is directly inside .search-wrapper, this might need adjustment 
+       or make .search-input 100% of .search-wrapper if that's the layout.
+       For now, let's assume it should span the same width as .search-input approximately.
+       A more robust way would be to set this width via JS based on the input's actual width.
+       Given the current .search-input width: 80%, this will make it 80% of the .search-wrapper.
+    */
+    width: 80%; 
+    top: 100%; /* Position it right below the input field */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 1000; /* Ensure it's above other content */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+ul.simplesearch-suggestions-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.simplesearch-suggestion-item a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee; /* Separator for items */
+}
+
+li.simplesearch-suggestion-item:last-child a {
+    border-bottom: none;
+}
+
+li.simplesearch-suggestion-item a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Search Term Highlighting */
+mark {
+    background-color: yellow;
+    color: black;
+    padding: 0.1em 0.2em; /* Slightly less padding than example for subtlety */
+    border-radius: 3px; /* Optional: slightly rounded corners */
+}
+
+/* Specificity for simplesearch results if needed */
+.simplesearch .search-item mark {
+    /* Styles here would override generic mark if needed, e.g. different color */
+    /* For now, the generic mark style is likely fine */
+}
+
+/* Pagination Styles */
+.simplesearch-pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.simplesearch-pagination a,
+.simplesearch-pagination span.current {
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #337ab7; /* A common link color */
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.simplesearch-pagination span.current {
+    background-color: #eee;
+    color: #333;
+    border-color: #ccc;
+}
+
+.simplesearch-pagination a:hover {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+}

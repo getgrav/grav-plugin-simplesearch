@@ -31,6 +31,18 @@ en:
     SEARCHABLE_TYPES_DESCRIPTION: "<b>Title</b> = Search Page Title<br><b>Content</b> = Search Page Content<br><b>Header</b> = Search Raw Page Headers<br><b>Taxonomy</b> = Search Taxonomy"
     HEADER_KEYS_IGNORED: Header Keys to Ignore
     HEADER_KEYS_IGNORED_HELP: The root-level header keys that should be skipped when searching type "Header"
+    ENABLE_SEARCH_SUGGESTIONS: Enable search suggestions
+    ENABLE_SEARCH_SUGGESTIONS_HELP: Enable AJAX-based search suggestions
+    MIN_QUERY_LENGTH_SUGGESTIONS: Minimum query length for suggestions
+    MIN_QUERY_LENGTH_SUGGESTIONS_HELP: The minimum number of characters to trigger search suggestions
+    MAX_SUGGESTIONS: Maximum suggestions
+    MAX_SUGGESTIONS_HELP: The maximum number of search suggestions to display
+    ENABLE_AJAX_SEARCH: Enable AJAX Search Results
+    ENABLE_AJAX_SEARCH_HELP: If enabled, search results can be fetched via AJAX and returned as JSON.
+    PER_PAGE: Results Per Page
+    PER_PAGE_HELP: How many search results to display per page (used for pagination, primarily with AJAX search).
+    PREVIOUS: "Previous"
+    NEXT: "Next"
 
 ro:
   PLUGIN_SIMPLESEARCH:

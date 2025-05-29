@@ -29,6 +29,11 @@ class SimplesearchPlugin extends Plugin
     protected $collection;
 
     /**
+     * @var ?array
+     */
+    protected $pagination_details = null;
+
+    /**
      * @return array
      */
     public static function getSubscribedEvents()
@@ -37,6 +42,7 @@ class SimplesearchPlugin extends Plugin
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
+            'onTask.simplesearch.searchSuggestions' => ['onAjaxSearchSuggestions', 0],
         ];
     }
 
@@ -249,7 +255,96 @@ class SimplesearchPlugin extends Plugin
             );
         }
 
-        // Display simplesearch page if no page was found for the current route
+        // Determine if this is an AJAX request for full results
+        $is_ajax_request = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+        $is_ajax_results_request = $is_ajax_request && 
+                                   $this->config->get('plugins.simplesearch.enable_ajax_search') && 
+                                   ($uri->param('ajax_results') || $uri->query('ajax_results'));
+
+        if ($this->query) { // Only proceed if there's a query
+            if ($is_ajax_results_request) {
+                // AJAX full results processing
+                $output_results = [];
+                // For AJAX, we send all results and let client handle pagination based on this data,
+                // or the client can send a page param which we'd use to slice $this->collection.
+                // Current JS sends all results and paginates client-side, so no server-side slice for AJAX here.
+                // However, the pagination data should still reflect the full set.
+                $total_results_ajax = $this->collection->count();
+                $per_page_ajax = (int)$this->config->get('plugins.simplesearch.per_page', 10);
+                $current_page_ajax = (int)($uri->param('page') ?: $uri->query('page') ?: 1); // Client might send this
+                $total_pages_ajax = $total_results_ajax > 0 ? ceil($total_results_ajax / $per_page_ajax) : 0;
+
+                foreach ($this->collection as $cpage) { // Iterate over potentially full collection for AJAX
+                    $page_content_raw = $this->config->get('plugins.simplesearch.search_content', 'rendered') === 'raw'
+                                       ? $cpage->rawMarkdown()
+                                       : $cpage->content();
+                    $snippet_plain = mb_substr(strip_tags($page_content_raw), 0, 200) . '...';
+
+                    $output_results[] = [
+                        'title' => $this->highlightQueryTerms($cpage->title(), $this->query),
+                        'url' => $cpage->url(),
+                        'content_snippet' => $this->highlightQueryTerms($snippet_plain, $this->query),
+                    ];
+                }
+                // If server-side pagination for AJAX is desired in future:
+                // $offset = ($current_page_ajax - 1) * $per_page_ajax;
+                // $output_results = array_slice($output_results, $offset, $per_page_ajax);
+
+                $pagination_data_ajax = [
+                    'total_results' => $total_results_ajax,
+                    'per_page' => $per_page_ajax,
+                    'current_page' => $current_page_ajax,
+                    'total_pages' => $total_pages_ajax,
+                ];
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'query' => implode(', ', $this->query),
+                    'results' => $output_results, // This might be the full set or sliced if server-side AJAX pagination
+                    'pagination' => $pagination_data_ajax,
+                ]);
+                exit;
+            } else {
+                // Non-AJAX HTML results: Paginate the collection server-side
+                $current_page = (int)($uri->param('page') ?: $uri->query('page') ?: 1);
+                $per_page = (int)$this->config->get('plugins.simplesearch.per_page', 10);
+                $total_results = $this->collection->count();
+
+                if ($total_results > 0) {
+                    $total_pages = ceil($total_results / $per_page);
+                    if ($current_page < 1) $current_page = 1;
+                    if ($current_page > $total_pages) $current_page = $total_pages;
+
+                    $this->collection = $this->collection->slice(($current_page - 1) * $per_page, $per_page);
+                    
+                    $this->pagination_details = [
+                        'total_results' => $total_results,
+                        'current_page' => $current_page,
+                        'per_page' => $per_page,
+                        'total_pages' => $total_pages,
+                        // base_url will be added in onTwigSiteVariables using page context
+                    ];
+                } else {
+                     $this->pagination_details = [ // Still set empty pagination data
+                        'total_results' => 0,
+                        'current_page' => 1,
+                        'per_page' => $per_page,
+                        'total_pages' => 0,
+                    ];
+                }
+            }
+        } else { // No query
+             $this->pagination_details = [
+                'total_results' => 0,
+                'current_page' => 1,
+                'per_page' => (int)$this->config->get('plugins.simplesearch.per_page', 10),
+                'total_pages' => 0,
+            ];
+        }
+
+
+        // Display simplesearch page if no page was found for the current route (for non-AJAX requests)
+        // This part should only run for non-AJAX requests. AJAX requests would have exited.
         $pages = $this->grav['pages'];
         $page = $pages->dispatch($this->config->get('plugins.simplesearch.route', '/search'), true);
         if (!isset($page)) {
@@ -408,9 +503,79 @@ class SimplesearchPlugin extends Plugin
     {
         $twig = $this->grav['twig'];
 
-        if ($this->query) {
+        if ($this->query && isset($this->collection)) {
             $twig->twig_vars['query'] = implode(', ', $this->query);
             $twig->twig_vars['search_results'] = $this->collection;
+
+            // Prepare highlighted versions for non-AJAX display
+            // Check if this is NOT an AJAX request for full results, as that's handled separately
+            $uri = $this->grav['uri'];
+            $is_ajax_request = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+            $is_ajax_results_request = $is_ajax_request && 
+                                       $this->config->get('plugins.simplesearch.enable_ajax_search') && 
+                                       ($uri->param('ajax_results') || $uri->query('ajax_results'));
+
+            if (!$is_ajax_results_request && $this->collection->count() > 0) {
+                $highlighted_titles = [];
+                $highlighted_snippets = [];
+                // $this->collection is now paginated for non-AJAX requests
+                foreach ($this->collection as $page_item) { // Renamed to avoid conflict with outer $page
+                    $page_content_raw = $this->config->get('plugins.simplesearch.search_content', 'rendered') === 'raw'
+                                       ? $page_item->rawMarkdown()
+                                       : $page_item->content();
+                    $snippet_plain = mb_substr(strip_tags($page_content_raw), 0, 200) . '...';
+
+                    $highlighted_titles[$page_item->path()] = $this->highlightQueryTerms($page_item->title(), $this->query);
+                    $highlighted_snippets[$page_item->path()] = $this->highlightQueryTerms($snippet_plain, $this->query);
+                }
+                $twig->twig_vars['highlighted_titles'] = $highlighted_titles;
+                $twig->twig_vars['highlighted_snippets'] = $highlighted_snippets;
+            }
+            
+            // Pass pagination details to Twig for non-AJAX requests
+            if (!$is_ajax_results_request && $this->pagination_details) {
+                $current_search_page = $this->grav['page']; // This should be the search results page itself
+                $this->pagination_details['base_url'] = $current_search_page->url();
+                // Ensure query parameters are part of the base_url for pagination links if using standard URL query params
+                // However, Grav uses segment params, so `uri.params` will be appended in Twig.
+                // For segment based like /query:foo, the base_url should be /search-results-page/query:foo
+                // And then /page:N is added.
+                // If $current_search_page->url() is just /search-results-page, then we need to add query params.
+                // Let's build the base_url for pagination to include the query params correctly.
+                
+                $base_pagination_url = $current_search_page->route();
+                $query_params_for_link = [];
+                if ($this->query) {
+                    // Assuming $this->query is an array of terms and we want to pass it as a single 'query' param
+                    $query_string = implode(' ', $this->query); // Or how it was originally passed
+                     // Check if $uri->params() already contains the query.
+                    $current_uri_params = $uri->params(null, true); // Get as array
+                    if (isset($current_uri_params['query'])) {
+                         $base_pagination_url = rtrim($current_search_page->url(), '/');
+                         // remove /page:X if it exists from current url for base
+                         $base_pagination_url = preg_replace('/\/page' . preg_quote($this->grav['config']->get('system.param_sep')) . '\d+$/', '', $base_pagination_url);
+
+                    } else {
+                        // This case might not happen if route is /search/query:myterm
+                        // If route is just /search and query is from ?query=myterm, then this is needed.
+                        // For now, assuming Grav's segment based routing is primary.
+                        // $base_pagination_url .= $this->grav['config']->get('system.param_sep') . 'query' . $this->grav['config']->get('system.param_sep') . urlencode(implode(' ', $this->query));
+                    }
+                }
+                 $this->pagination_details['base_url'] = $base_pagination_url;
+
+
+                $twig->twig_vars['pagination'] = $this->pagination_details;
+            } elseif (!$is_ajax_results_request && !$this->pagination_details && $this->query) {
+                // Case where query was made, but no results, still provide empty pagination structure for Twig
+                 $twig->twig_vars['pagination'] = [
+                    'total_results' => 0,
+                    'current_page' => 1,
+                    'per_page' => (int)$this->config->get('plugins.simplesearch.per_page', 10),
+                    'total_pages' => 0,
+                    'base_url' => $this->grav['page']->url()
+                ];
+            }
         }
 
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
@@ -449,5 +614,88 @@ class SimplesearchPlugin extends Plugin
 
         }
         return trim($output);
+    }
+
+    /**
+     * Handles AJAX requests for search suggestions.
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function onAjaxSearchSuggestions(Event $event)
+    {
+        // Ensure this is an AJAX request
+        if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+            // Not an AJAX request
+            return;
+        }
+
+        $query_param = trim(strtolower($this->grav['uri']->param('query', $this->grav['uri']->query('query','')))); // Also check actual query
+        $min_query_length = $this->config->get('plugins.simplesearch.min_query_length_suggestions', 3);
+
+        if (strlen($query_param) < $min_query_length) {
+            header('Content-Type: application/json');
+            echo json_encode([]);
+            exit;
+        }
+
+        $suggestions = [];
+        $max_suggestions = $this->config->get('plugins.simplesearch.max_suggestions', 5);
+
+        $this->grav['pages']->enablePages(); // Ensure pages are loaded
+        $pages = $this->grav['pages']->all();
+        $pages->published()->routable();
+
+        foreach ($pages as $page) {
+            if (count($suggestions) >= $max_suggestions) {
+                break;
+            }
+
+            // Using a simplified match for titles
+            if ($this->matchText(strip_tags($page->title()), $query_param) !== false) {
+                $suggestions[] = [
+                    // For suggestions, we usually don't highlight, but if we wanted to:
+                    // 'title' => $this->highlightQueryTerms($page->title(), [$query_param]),
+                    'title' => $page->title(),
+                    'url' => $page->url(),
+                ];
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($suggestions);
+        exit;
+    }
+
+    /**
+     * Highlights search terms in a given text string.
+     *
+     * @param string $text The text to highlight.
+     * @param array|string $query_terms The search term(s) as an array or a single string.
+     * @param string $tag The HTML tag to wrap around highlighted terms.
+     * @return string The text with search terms highlighted.
+     */
+    private function highlightQueryTerms($text, $query_terms, $tag = 'mark') {
+        if (empty($query_terms) || empty(trim((string)$text))) {
+            return $text;
+        }
+        if (!is_array($query_terms)) {
+            $query_terms = [$query_terms];
+        }
+
+        foreach ($query_terms as $term) {
+            $term = trim($term);
+            if (empty($term)) {
+                continue;
+            }
+            
+            $escapedTerm = preg_quote($term, '/');
+            // Regex:
+            // (?![^<]*?>)  -- Negative lookahead: ensures we are not inside an HTML tag's attributes. Not foolproof for all HTML.
+            // ( ... )       -- Capturing group for the term itself.
+            // /ui           -- Case-insensitive (u) and Unicode (u) flags.
+            $text = preg_replace('/(?![^<]*?>)(' . $escapedTerm . ')/ui', "<{$tag}>$1</{$tag}>", (string)$text);
+        }
+        return $text;
     }
 }

@@ -9,14 +9,14 @@
     {% endif %}
     <div class="search-item">
         <div class="search-title">
-            <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+            <h3><a href="{{ page.url }}">{% if highlighted_titles[page.path()] %}{{ highlighted_titles[page.path()]|raw }}{% else %}{{ page.title }}{% endif %}</a></h3>
         </div>
 
         <div class="search-details">
             <span class="search-date">{{ page.date|date(config.system.pages.dateformat.short) }}</span>
         </div>
 
-        <p>{{ page.summary|raw }}</p>
+        <p>{% if highlighted_snippets[page.path()] %}{{ highlighted_snippets[page.path()]|raw }}{% else %}{{ page.summary|slice(0, 200) ~ '...' }}{% endif %}</p> {# Fallback to basic summary if no snippet #}
 
         <hr/>
     </div>
