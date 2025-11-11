@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Grav\Plugin;
 
 use Grav\Common\Page\Collection;
@@ -11,22 +13,37 @@ use Grav\Common\Taxonomy;
 use Grav\Common\Uri;
 use RocketTheme\Toolbox\Event\Event;
 
+/**
+ * SimpleSearch Plugin for Grav CMS
+ *
+ * Provides advanced full-text search capabilities with relevance scoring,
+ * pagination, highlighting, and intelligent query parsing.
+ *
+ * @package    Grav\Plugin
+ * @author     Team Grav
+ * @license    MIT
+ */
 class SimplesearchPlugin extends Plugin
 {
     /**
-     * @var array
+     * @var array<string> Parsed search query terms
      */
-    protected $query;
+    protected $query = [];
 
     /**
-     * @var string
+     * @var string|null Unique query identifier for caching
      */
     protected $query_id;
 
     /**
-     * @var Collection
+     * @var Collection|null Collection of pages to search
      */
     protected $collection;
+
+    /**
+     * @var array<string, array> Search results with relevance scores
+     */
+    protected $scored_results = [];
 
     /**
      * @return array
@@ -36,6 +53,7 @@ class SimplesearchPlugin extends Plugin
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+            'onTwigExtensions' => ['onTwigExtensions', 0],
             'onGetPageTemplates' => ['onGetPageTemplates', 0],
         ];
     }
@@ -61,6 +79,17 @@ class SimplesearchPlugin extends Plugin
     public function onTwigTemplatePaths()
     {
         $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+    }
+
+    /**
+     * Add Twig extensions for search highlighting
+     *
+     * @return void
+     */
+    public function onTwigExtensions()
+    {
+        require_once(__DIR__ . '/twig/SimplesearchTwigExtension.php');
+        $this->grav['twig']->twig->addExtension(new SimplesearchTwigExtension());
     }
 
     /**
@@ -241,8 +270,23 @@ class SimplesearchPlugin extends Plugin
             $this->collection->append($extras);
         }
 
-        // use a configured sorting order if not already done
-        if (!$new_approach) {
+        // Sort by relevance score if we have scored results
+        if (!empty($this->scored_results) && $this->config->get('plugins.simplesearch.relevance_sort', true)) {
+            // Sort scored results by score (descending)
+            uasort($this->scored_results, function($a, $b) {
+                return $b['score'] <=> $a['score'];
+            });
+
+            // Rebuild collection with sorted pages
+            $sorted_collection = new Collection();
+            foreach ($this->scored_results as $path => $data) {
+                if ($this->collection->offsetExists($path)) {
+                    $sorted_collection[$path] = ['slug' => $data['page']->slug()];
+                }
+            }
+            $this->collection = $sorted_collection;
+        } elseif (!$new_approach) {
+            // use a configured sorting order if not already done
             $this->collection = $this->collection->order(
                 $this->config->get('plugins.simplesearch.order.by'),
                 $this->config->get('plugins.simplesearch.order.dir')
@@ -324,58 +368,128 @@ class SimplesearchPlugin extends Plugin
     }
 
     /**
-     * @param string $query
-     * @param Page $page
-     * @param array|false $taxonomies
-     * @return bool
+     * Calculate relevance score for a page based on query matches
+     *
+     * @param string $query Search query
+     * @param Page $page Page to score
+     * @param array|false $taxonomies Taxonomy filters
+     * @return float Relevance score (0 = no match, higher = better match)
      */
-    private function notFound($query, $page, $taxonomies)
+    private function calculateRelevanceScore(string $query, Page $page, $taxonomies): float
     {
-        $searchable_types = $search_content = $this->config->get('plugins.simplesearch.searchable_types');
-        $results = true;
+        $score = 0.0;
+        $searchable_types = $this->config->get('plugins.simplesearch.searchable_types');
         $search_content = $this->config->get('plugins.simplesearch.search_content');
 
-        $result = null;
+        // Weight factors for different content types
+        $weights = [
+            'title' => 10.0,
+            'taxonomy' => 5.0,
+            'header' => 3.0,
+            'content' => 1.0
+        ];
+
         foreach ($searchable_types as $type => $enabled) {
-            if ($type === 'title' && $enabled) {
-                $result = $this->matchText(strip_tags($page->title()), $query) === false;
-            } elseif ($type === 'taxonomy' && $enabled) {
-                if ($taxonomies === false) {
-                    continue;
-                }
+            if (!$enabled) {
+                continue;
+            }
+
+            $text = '';
+            $weight = $weights[$type] ?? 1.0;
+
+            if ($type === 'title') {
+                $text = strip_tags($page->title());
+            } elseif ($type === 'taxonomy' && $taxonomies !== false) {
                 $page_taxonomies = $page->taxonomy();
-                $taxonomy_match = false;
                 foreach ((array)$page_taxonomies as $taxonomy => $values) {
-                    // if taxonomies filter set, make sure taxonomy filter is valid
                     if (!is_array($values) || (is_array($taxonomies) && !empty($taxonomies) && !in_array($taxonomy, $taxonomies))) {
                         continue;
                     }
-
-                    $taxonomy_values = implode('|', $values);
-                    if ($this->matchText($taxonomy_values, $query) !== false) {
-                        $taxonomy_match = true;
-                        break;
-                    }
+                    $text .= ' ' . implode(' ', $values);
                 }
-                $result = !$taxonomy_match;
-            } elseif ($type === 'content' && $enabled) {
-                if ($search_content === 'raw') {
-                    $content = $page->rawMarkdown();
-                } else {
-                    $content = $page->content();
-                }
-                $result = $this->matchText(strip_tags($content), $query) === false;
-            } elseif ($type === 'header' && $enabled) {
+            } elseif ($type === 'content') {
+                $text = $search_content === 'raw' ? $page->rawMarkdown() : $page->content();
+                $text = strip_tags($text);
+            } elseif ($type === 'header') {
                 $header = (array) $page->header();
-                $content = $this->getArrayValues($header);
-                $result = $this->matchText(strip_tags($content), $query) === false;
+                $text = strip_tags($this->getArrayValues($header));
             }
-            $results = (bool)$result;
-            if ($results === false) {
-                break;
+
+            if ($text) {
+                $score += $this->scoreText($text, $query) * $weight;
             }
         }
-        return $results;
+
+        return $score;
+    }
+
+    /**
+     * Score text relevance for a query
+     *
+     * @param string $text Text to search
+     * @param string $query Search query
+     * @return float Score based on matches and density
+     */
+    private function scoreText(string $text, string $query): float
+    {
+        $score = 0.0;
+        $text_lower = mb_strtolower($text);
+        $query_lower = mb_strtolower($query);
+        $text_length = mb_strlen($text);
+
+        if ($text_length === 0) {
+            return 0.0;
+        }
+
+        // Exact phrase match (highest score)
+        if (mb_stripos($text, $query) !== false) {
+            $score += 100.0;
+        }
+
+        // Word boundary match
+        if (preg_match('/\b' . preg_quote($query_lower, '/') . '\b/ui', $text_lower)) {
+            $score += 50.0;
+        }
+
+        // Count occurrences and calculate density
+        $occurrences = mb_substr_count($text_lower, $query_lower);
+        if ($occurrences > 0) {
+            $score += $occurrences * 10.0;
+            // Density bonus (prefer shorter texts with same number of matches)
+            $density = $occurrences / ($text_length / 100);
+            $score += $density * 5.0;
+        }
+
+        // Starts with query (early occurrence bonus)
+        if (mb_strpos($text_lower, $query_lower) === 0) {
+            $score += 20.0;
+        }
+
+        return $score;
+    }
+
+    /**
+     * Check if page matches query (legacy method for backward compatibility)
+     *
+     * @param string $query Search query
+     * @param Page $page Page to check
+     * @param array|false $taxonomies Taxonomy filters
+     * @return bool True if page does NOT match
+     */
+    private function notFound(string $query, Page $page, $taxonomies): bool
+    {
+        $score = $this->calculateRelevanceScore($query, $page, $taxonomies);
+
+        // Store score for later sorting
+        if ($score > 0) {
+            $path = $page->path();
+            if (!isset($this->scored_results[$path])) {
+                $this->scored_results[$path] = ['page' => $page, 'score' => 0.0];
+            }
+            $this->scored_results[$path]['score'] += $score;
+        }
+
+        return $score === 0.0;
     }
 
     /**
@@ -411,15 +525,111 @@ class SimplesearchPlugin extends Plugin
         if ($this->query) {
             $twig->twig_vars['query'] = implode(', ', $this->query);
             $twig->twig_vars['search_results'] = $this->collection;
+
+            // Pagination support
+            $results_per_page = (int) $this->config->get('plugins.simplesearch.results_per_page', 10);
+            $uri = $this->grav['uri'];
+            $current_page = (int) ($uri->param('page') ?: $uri->query('page') ?: 1);
+
+            if ($results_per_page > 0 && $this->collection) {
+                $total_results = $this->collection->count();
+                $total_pages = (int) ceil($total_results / $results_per_page);
+                $current_page = max(1, min($current_page, $total_pages));
+                $offset = ($current_page - 1) * $results_per_page;
+
+                // Slice collection for current page
+                $paginated_results = new Collection();
+                $items = $this->collection->slice($offset, $results_per_page);
+                foreach ($items as $path => $page) {
+                    $paginated_results[$path] = $page;
+                }
+
+                $twig->twig_vars['search_results'] = $paginated_results;
+                $twig->twig_vars['pagination'] = [
+                    'current_page' => $current_page,
+                    'total_pages' => $total_pages,
+                    'total_results' => $total_results,
+                    'results_per_page' => $results_per_page,
+                    'has_prev' => $current_page > 1,
+                    'has_next' => $current_page < $total_pages,
+                ];
+            }
+
+            // Pass scored results for relevance display
+            $twig->twig_vars['scored_results'] = $this->scored_results;
         }
 
+        // Load CSS assets
         if ($this->config->get('plugins.simplesearch.built_in_css')) {
-            $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
+            if ($this->config->get('plugins.simplesearch.use_modern_assets', true)) {
+                $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.modern.css');
+            } else {
+                $this->grav['assets']->add('plugin://simplesearch/css/simplesearch.css');
+            }
         }
 
+        // Load JavaScript assets
         if ($this->config->get('plugins.simplesearch.built_in_js')) {
-            $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', ['group' => 'bottom']);
+            if ($this->config->get('plugins.simplesearch.use_modern_assets', true)) {
+                $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.modern.js', ['group' => 'bottom']);
+            } else {
+                $this->grav['assets']->addJs('plugin://simplesearch/js/simplesearch.js', ['group' => 'bottom']);
+            }
         }
+    }
+
+    /**
+     * Highlight search terms in text
+     *
+     * @param string $text Text to highlight
+     * @param string $query Search query
+     * @param string $class CSS class for highlighting
+     * @return string Text with highlighted terms
+     */
+    public function highlightText(string $text, string $query, string $class = 'search-highlight'): string
+    {
+        if (empty($query) || empty($text)) {
+            return $text;
+        }
+
+        $query_lower = mb_strtolower($query);
+
+        // Protect HTML tags from being split
+        $pattern = '/(' . preg_quote($query, '/') . ')/ui';
+        $replacement = '<mark class="' . $class . '">$1</mark>';
+
+        return preg_replace($pattern, $replacement, $text);
+    }
+
+    /**
+     * Extract relevant excerpt from text containing search query
+     *
+     * @param string $text Full text
+     * @param string $query Search query
+     * @param int $length Excerpt length
+     * @return string Excerpt with query context
+     */
+    public function extractExcerpt(string $text, string $query, int $length = 200): string
+    {
+        $text = strip_tags($text);
+        $query_lower = mb_strtolower($query);
+        $text_lower = mb_strtolower($text);
+
+        $pos = mb_strpos($text_lower, $query_lower);
+
+        if ($pos === false) {
+            // Query not found, return beginning
+            return mb_substr($text, 0, $length) . (mb_strlen($text) > $length ? '...' : '');
+        }
+
+        // Center the excerpt around the query
+        $start = max(0, $pos - (int)($length / 2));
+        $excerpt = mb_substr($text, $start, $length);
+
+        $prefix = $start > 0 ? '...' : '';
+        $suffix = ($start + $length) < mb_strlen($text) ? '...' : '';
+
+        return $prefix . $excerpt . $suffix;
     }
 
     /**

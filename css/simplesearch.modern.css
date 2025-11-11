@@ -1,0 +1,633 @@
+/**
+ * SimpleSearch Modern CSS
+ * Responsive, accessible design with dark mode support
+ */
+
+/* ============================================
+   CSS Variables for theming
+   ============================================ */
+:root {
+    --search-primary: #3b82f6;
+    --search-primary-hover: #2563eb;
+    --search-bg: #ffffff;
+    --search-input-bg: #f9fafb;
+    --search-input-border: #d1d5db;
+    --search-input-focus: #3b82f6;
+    --search-text: #111827;
+    --search-text-secondary: #6b7280;
+    --search-highlight-bg: #fef08a;
+    --search-highlight-text: #854d0e;
+    --search-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --search-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --search-radius: 0.5rem;
+    --search-transition: all 0.2s ease;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --search-primary: #60a5fa;
+        --search-primary-hover: #3b82f6;
+        --search-bg: #1f2937;
+        --search-input-bg: #374151;
+        --search-input-border: #4b5563;
+        --search-text: #f9fafb;
+        --search-text-secondary: #9ca3af;
+        --search-highlight-bg: #a16207;
+        --search-highlight-text: #fef08a;
+        --search-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+        --search-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+    }
+}
+
+/* Explicit dark mode class */
+[data-theme="dark"] {
+    --search-primary: #60a5fa;
+    --search-primary-hover: #3b82f6;
+    --search-bg: #1f2937;
+    --search-input-bg: #374151;
+    --search-input-border: #4b5563;
+    --search-text: #f9fafb;
+    --search-text-secondary: #9ca3af;
+    --search-highlight-bg: #a16207;
+    --search-highlight-text: #fef08a;
+}
+
+/* ============================================
+   Search Wrapper & Form
+   ============================================ */
+.search-wrapper {
+    position: relative;
+    margin: 2rem auto;
+    max-width: 48rem;
+}
+
+form[data-simplesearch-form] {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* ============================================
+   Search Input
+   ============================================ */
+.search-input {
+    flex: 1;
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--search-text);
+    background-color: var(--search-input-bg);
+    border: 2px solid var(--search-input-border);
+    border-radius: var(--search-radius);
+    outline: none;
+    transition: var(--search-transition);
+    box-shadow: var(--search-shadow);
+}
+
+.search-input:focus {
+    border-color: var(--search-input-focus);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--search-text-secondary);
+}
+
+.search-input:invalid {
+    border-color: #ef4444;
+}
+
+/* Search input with keyboard hint */
+.search-input[data-keyboard-hint]::before {
+    content: attr(data-keyboard-hint);
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: var(--search-text-secondary);
+    background: var(--search-input-bg);
+    border: 1px solid var(--search-input-border);
+    border-radius: 0.25rem;
+}
+
+/* ============================================
+   Search Buttons
+   ============================================ */
+.search-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background: var(--search-primary);
+    border: none;
+    border-radius: var(--search-radius);
+    cursor: pointer;
+    transition: var(--search-transition);
+    box-shadow: var(--search-shadow);
+}
+
+.search-submit:hover {
+    background: var(--search-primary-hover);
+    box-shadow: var(--search-shadow-lg);
+}
+
+.search-submit:active {
+    transform: translateY(1px);
+}
+
+.search-submit img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.search-clear {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--search-text-secondary);
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--search-transition);
+}
+
+.search-clear:hover {
+    color: var(--search-text);
+    background: var(--search-input-border);
+}
+
+/* ============================================
+   Loading Indicator
+   ============================================ */
+.search-loading {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--search-input-border);
+    border-top-color: var(--search-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Autocomplete
+   ============================================ */
+.search-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--search-bg);
+    border: 1px solid var(--search-input-border);
+    border-radius: var(--search-radius);
+    box-shadow: var(--search-shadow-lg);
+    max-height: 20rem;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.autocomplete-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: var(--search-transition);
+    border-bottom: 1px solid var(--search-input-border);
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background: var(--search-input-bg);
+    color: var(--search-primary);
+}
+
+.autocomplete-item mark {
+    background: none;
+    color: var(--search-primary);
+    font-weight: 600;
+}
+
+/* ============================================
+   Search Results
+   ============================================ */
+.simplesearch {
+    color: var(--search-text);
+}
+
+.search-header {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--search-text);
+}
+
+.search-results-summary {
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    color: var(--search-text-secondary);
+}
+
+.search-pagination-info {
+    color: var(--search-text-secondary);
+    margin-left: 0.5rem;
+}
+
+/* ============================================
+   Search Result Items
+   ============================================ */
+.search-results-list {
+    margin: 2rem 0;
+}
+
+.search-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--search-bg);
+    border-radius: var(--search-radius);
+    box-shadow: var(--search-shadow);
+    transition: var(--search-transition);
+}
+
+.search-row:hover {
+    box-shadow: var(--search-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.search-image {
+    flex-shrink: 0;
+}
+
+.search-image img {
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.search-item {
+    min-width: 0; /* Allow text truncation */
+}
+
+.search-item p {
+    margin: 0.75rem 0 0;
+    line-height: 1.6;
+    color: var(--search-text-secondary);
+}
+
+.search-title h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.search-title a {
+    color: var(--search-text);
+    text-decoration: none;
+    transition: var(--search-transition);
+}
+
+.search-title a:hover {
+    color: var(--search-primary);
+}
+
+.search-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--search-text-secondary);
+}
+
+.search-date {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* ============================================
+   Relevance Score Bar
+   ============================================ */
+.search-relevance {
+    display: inline-block;
+    width: 60px;
+    height: 4px;
+    background: var(--search-input-border);
+    border-radius: 2px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.relevance-bar {
+    display: block;
+    height: 100%;
+    background: var(--search-primary);
+    transition: width 0.3s ease;
+}
+
+/* ============================================
+   Highlighting
+   ============================================ */
+mark.search-highlight,
+.search-highlight {
+    padding: 0.125rem 0.25rem;
+    background-color: var(--search-highlight-bg);
+    color: var(--search-highlight-text);
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+.search-pagination {
+    margin: 3rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-item {
+    display: inline-block;
+}
+
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--search-text);
+    background: var(--search-bg);
+    border: 1px solid var(--search-input-border);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: var(--search-transition);
+}
+
+.page-link:hover {
+    background: var(--search-input-bg);
+    border-color: var(--search-primary);
+    color: var(--search-primary);
+}
+
+.page-item.active .page-link {
+    background: var(--search-primary);
+    border-color: var(--search-primary);
+    color: white;
+    cursor: default;
+}
+
+.page-item.disabled .page-link {
+    color: var(--search-text-secondary);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.page-item.disabled .page-link:hover {
+    background: var(--search-bg);
+    border-color: var(--search-input-border);
+}
+
+/* ============================================
+   No Results
+   ============================================ */
+.search-no-results {
+    padding: 3rem;
+    text-align: center;
+    color: var(--search-text-secondary);
+}
+
+.search-no-results p {
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   Instant Search Results
+   ============================================ */
+.instant-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--search-bg);
+    border: 1px solid var(--search-input-border);
+    border-radius: var(--search-radius);
+    box-shadow: var(--search-shadow-lg);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.instant-results-header {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--search-text-secondary);
+    border-bottom: 1px solid var(--search-input-border);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.instant-result-item {
+    border-bottom: 1px solid var(--search-input-border);
+}
+
+.instant-result-item:last-child {
+    border-bottom: none;
+}
+
+.instant-result-item a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--search-text);
+    text-decoration: none;
+    transition: var(--search-transition);
+}
+
+.instant-result-item a:hover {
+    background: var(--search-input-bg);
+}
+
+.result-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.result-excerpt {
+    font-size: 0.875rem;
+    color: var(--search-text-secondary);
+    line-height: 1.4;
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid var(--search-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    .search-wrapper {
+        margin: 1rem;
+    }
+
+    .search-header {
+        font-size: 1.5rem;
+    }
+
+    .search-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .search-image {
+        text-align: center;
+    }
+
+    .search-image img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    form[data-simplesearch-form] {
+        flex-direction: column;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .search-submit {
+        width: 100%;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .page-link {
+        min-width: 2rem;
+        height: 2rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .search-relevance {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    .search-wrapper,
+    .search-pagination,
+    .search-submit,
+    .search-clear,
+    .search-loading,
+    .search-autocomplete,
+    .instant-search-results {
+        display: none !important;
+    }
+
+    .search-row {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-autocomplete,
+.instant-search-results {
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Smooth scrolling for pagination */
+html {
+    scroll-behavior: smooth;
+}
