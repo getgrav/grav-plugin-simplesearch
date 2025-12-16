@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitca0f44aa14891d4b4dfc9b834c0e0763
 {
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Grav\\Plugin\\SimplesearchPlugin' => __DIR__ . '/../..' . '/simplesearch.php',
     );
 
