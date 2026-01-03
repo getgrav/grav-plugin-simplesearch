@@ -1,8 +1,8 @@
 name: SimpleSearch
 type: plugin
 slug: simplesearch
-version: 2.3.0
-description: "Don't be fooled, the **SimpleSearch** plugin provides a **fast** and highly **configurable** way to search your content."
+version: 3.0.0-enhanced
+description: "Enhanced **SimpleSearch** plugin with intelligent relevance scoring, pagination, highlighting, instant search, autocomplete, dark mode, and modern responsive design. Fast and highly configurable search for your content."
 icon: search
 author:
   name: Team Grav
@@ -57,6 +57,18 @@ form:
       type: toggle
       label: PLUGIN_SIMPLESEARCH.BUILTIN_JS
       help: PLUGIN_SIMPLESEARCH.BUILTIN_JS_HELP
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    use_modern_assets:
+      type: toggle
+      label: "Use Modern Assets"
+      help: "Enable enhanced CSS and JavaScript with modern features (ES6+, dark mode, etc.)"
       highlight: 1
       default: 1
       options:
@@ -170,3 +182,141 @@ form:
       options:
         asc: PLUGIN_ADMIN.ASCENDING
         desc: PLUGIN_ADMIN.DESCENDING
+
+    relevance_sort:
+      type: toggle
+      label: "Sort by Relevance"
+      help: "Sort search results by relevance score instead of date/title (overrides order settings)"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    results_per_page:
+      type: number
+      size: x-small
+      label: "Results Per Page"
+      help: "Number of search results to display per page (0 = no pagination)"
+      default: 10
+      validate:
+        min: 0
+        max: 100
+
+    show_pagination_info:
+      type: toggle
+      label: "Show Pagination Info"
+      help: "Display result count information (e.g., 'Showing 1-10 of 234')"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    show_excerpts:
+      type: toggle
+      label: "Show Smart Excerpts"
+      help: "Display context-aware excerpts centered around search terms"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    excerpt_length:
+      type: number
+      size: small
+      label: "Excerpt Length"
+      help: "Length of smart excerpts in characters"
+      default: 200
+      validate:
+        min: 50
+        max: 500
+
+    show_relevance_score:
+      type: toggle
+      label: "Show Relevance Score"
+      help: "Display visual relevance indicators in search results"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    instant_search:
+      type: toggle
+      label: "Enable Instant Search"
+      help: "Show live search results as you type (requires JSON API)"
+      highlight: 0
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    autocomplete:
+      type: toggle
+      label: "Enable Autocomplete"
+      help: "Show search suggestions and recent searches"
+      highlight: 0
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    keyboard_shortcuts:
+      type: toggle
+      label: "Enable Keyboard Shortcuts"
+      help: "Enable Ctrl+K and / shortcuts to focus search"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    cache_enabled:
+      type: toggle
+      label: "Enable Search Cache"
+      help: "Cache search results for improved performance"
+      highlight: 0
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    cache_lifetime:
+      type: number
+      size: small
+      label: "Cache Lifetime"
+      help: "Cache duration in seconds"
+      default: 3600
+      validate:
+        min: 60
+        max: 86400
+
+    enable_json_api:
+      type: toggle
+      label: "Enable JSON API"
+      help: "Enable JSON endpoint for AJAX requests"
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool

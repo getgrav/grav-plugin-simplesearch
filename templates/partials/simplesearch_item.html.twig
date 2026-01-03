@@ -4,19 +4,32 @@
 
     {% if banner %}
         <div class="search-image">
-            <a href="{{ page.url }}">{{ banner.cropZoom(100,100).html|raw }}</a>
+            <a href="{{ page.url }}" aria-label="{{ 'View'|t }} {{ page.title }}">
+                {{ banner.cropZoom(100,100).html|raw }}
+            </a>
         </div>
     {% endif %}
     <div class="search-item">
         <div class="search-title">
-            <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+            <h3><a href="{{ page.url }}">{{ page.title|highlight(query)|raw }}</a></h3>
         </div>
 
         <div class="search-details">
             <span class="search-date">{{ page.date|date(config.system.pages.dateformat.short) }}</span>
+            {% if scored_results[page.path()] is defined %}
+                <span class="search-relevance" title="Relevance score">
+                    <span class="relevance-bar" style="width: {{ min(100, (scored_results[page.path()].score / 10)) }}%"></span>
+                </span>
+            {% endif %}
         </div>
 
-        <p>{{ page.summary|raw }}</p>
+        {% if config.plugins.simplesearch.show_excerpts|default(true) %}
+            {% set content_text = page.content %}
+            {% set smart_excerpt = content_text|excerpt(query, config.plugins.simplesearch.excerpt_length|default(200)) %}
+            <p>{{ smart_excerpt|highlight(query)|raw }}</p>
+        {% else %}
+            <p>{{ page.summary|highlight(query)|raw }}</p>
+        {% endif %}
 
         <hr/>
     </div>

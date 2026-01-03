@@ -6,18 +6,88 @@
         <div class="center">
             {% include 'partials/simplesearch_searchbox.html.twig' %}
         </div>
-        <p>
+        <div class="search-results-summary">
             {% if query %}
-                {% set count = search_results ? search_results.count : 0 %}
-                {% if count is same as( 1 ) %}
+                {% set count = pagination.total_results|default(search_results ? search_results.count : 0) %}
+                {% if count is same as(1) %}
                     {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query|e)|raw }}
                 {% else %}
                     {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query|e, count)|raw }}
                 {% endif %}
+                {% if pagination is defined %}
+                    <span class="search-pagination-info">
+                        ({{ ((pagination.current_page - 1) * pagination.results_per_page + 1) }} -
+                        {{ min(pagination.current_page * pagination.results_per_page, pagination.total_results) }})
+                    </span>
+                {% endif %}
             {% endif %}
-        </p>
-        {% for page in search_results %}
-            {% include 'partials/simplesearch_item.html.twig' with {'page': page} %}
-        {% endfor %}
+        </div>
+
+        {% if search_results and search_results.count > 0 %}
+            <div class="search-results-list">
+                {% for page in search_results %}
+                    {% include 'partials/simplesearch_item.html.twig' with {'page': page} %}
+                {% endfor %}
+            </div>
+
+            {% if pagination is defined and pagination.total_pages > 1 %}
+                <nav class="search-pagination" aria-label="Search results pagination">
+                    <ul class="pagination">
+                        {% if pagination.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ uri.route(true) }}/query{{ config.system.param_sep }}{{ query }}/page{{ config.system.param_sep }}{{ pagination.current_page - 1 }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% set start_page = max(1, pagination.current_page - 2) %}
+                        {% set end_page = min(pagination.total_pages, pagination.current_page + 2) %}
+
+                        {% if start_page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ uri.route(true) }}/query{{ config.system.param_sep }}{{ query }}/page{{ config.system.param_sep }}1">1</a>
+                            </li>
+                            {% if start_page > 2 %}
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                        {% endif %}
+
+                        {% for i in start_page..end_page %}
+                            <li class="page-item {% if i == pagination.current_page %}active{% endif %}">
+                                {% if i == pagination.current_page %}
+                                    <span class="page-link current">{{ i }}</span>
+                                {% else %}
+                                    <a class="page-link" href="{{ uri.route(true) }}/query{{ config.system.param_sep }}{{ query }}/page{{ config.system.param_sep }}{{ i }}">{{ i }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+
+                        {% if end_page < pagination.total_pages %}
+                            {% if end_page < pagination.total_pages - 1 %}
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ uri.route(true) }}/query{{ config.system.param_sep }}{{ query }}/page{{ config.system.param_sep }}{{ pagination.total_pages }}">{{ pagination.total_pages }}</a>
+                            </li>
+                        {% endif %}
+
+                        {% if pagination.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ uri.route(true) }}/query{{ config.system.param_sep }}{{ query }}/page{{ config.system.param_sep }}{{ pagination.current_page + 1 }}" aria-label="Next">
+                                    <span class="sr-only">Next</span>
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% elseif query %}
+            <div class="search-no-results">
+                <p>{{ "No results found for your search."|t }}</p>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

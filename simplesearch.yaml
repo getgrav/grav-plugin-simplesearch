@@ -1,21 +1,54 @@
 enabled: true
 built_in_css: true
 built_in_js: true
+use_modern_assets: true  # Use modern ES6+ JavaScript and enhanced CSS
 display_button: false
 min_query_length: 3
 route: /search
 search_content: rendered
 template: simplesearch_results
+
+# Search behavior
 filters:
   category:
 filter_combinator: and
 ignore_accented_characters: false
+
+# Sorting
 order:
   by: date
   dir: desc
+relevance_sort: true  # Sort by relevance score (overrides order settings)
+
+# Pagination
+results_per_page: 10  # Set to 0 to disable pagination
+show_pagination_info: true
+
+# Result display
+show_excerpts: true
+excerpt_length: 200
+show_relevance_score: true
+show_result_count: true
+
+# Advanced search features
+instant_search: false  # Enable live search as you type
+autocomplete: false    # Enable search suggestions
+keyboard_shortcuts: true  # Enable Ctrl+K and / shortcuts
+
+# Searchable content types
 searchable_types:
   title: true
   content: true
   taxonomy: true
   header: false
+
+# Header search configuration
 header_keys_ignored: [ 'title', 'taxonomy','content', 'form', 'forms', 'media_order' ]
+
+# Performance
+cache_enabled: false
+cache_lifetime: 3600  # Cache duration in seconds
+
+# API endpoints
+enable_json_api: true
+enable_autocomplete_api: false
