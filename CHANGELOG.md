@@ -1,3 +1,9 @@
+# v2.3.2
+## 07/20/2026
+
+1. [](#bugfix)
+    * Accent-insensitive search now works regardless of the server's locale, so accented and unaccented spellings match each other in languages beyond Western European ([#207](https://github.com/getgrav/grav-plugin-simplesearch/issues/207)).
+
 # v2.3.1
 ## 05/01/2026
 
