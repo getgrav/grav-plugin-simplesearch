@@ -386,17 +386,34 @@ class SimplesearchPlugin extends Plugin
     private function matchText($haystack, $needle)
     {
         if ($this->config->get('plugins.simplesearch.ignore_accented_characters')) {
-            setlocale(LC_ALL, 'en_US');
-            try {
-                $result = mb_stripos(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $haystack), iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $needle));
-            } catch (\Exception $e) {
-                $result = mb_stripos($haystack, $needle);
-            }
-            setlocale(LC_ALL, '');
-            return $result;
+            return mb_stripos(static::deaccent($haystack), static::deaccent($needle));
         }
 
         return mb_stripos($haystack, $needle);
+    }
+
+    /**
+     * Fold accented characters to their ASCII equivalents for accent-insensitive search.
+     *
+     * Uses the intl Transliterator, which is locale-independent (no setlocale global-state
+     * mutation) and covers non-Latin-1 scripts that the old iconv//TRANSLIT approach silently
+     * dropped. The Any-Latin; Latin-ASCII chain matches Grav core's symfony/string convention
+     * and correctly folds both the comma-below and cedilla forms of characters like ș/ț.
+     * Falls back to the raw text (plain mb_stripos matching) when ext-intl is unavailable.
+     *
+     * @param string $text
+     * @return string
+     */
+    private static function deaccent($text)
+    {
+        static $tl = false;
+        if ($tl === false) {
+            $tl = class_exists(\Transliterator::class)
+                ? \Transliterator::create('Any-Latin; Latin-ASCII')
+                : null;
+        }
+
+        return $tl ? $tl->transliterate($text) : $text;
     }
 
     /**
