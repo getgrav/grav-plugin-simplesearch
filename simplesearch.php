@@ -3,6 +3,7 @@
 namespace Grav\Plugin;
 
 use Grav\Common\Page\Collection;
+use Grav\Common\Page\Header;
 use Grav\Common\Page\Page;
 use Grav\Common\Page\Pages;
 use Grav\Common\Page\Types;
@@ -366,7 +367,11 @@ class SimplesearchPlugin extends Plugin
                 }
                 $result = $this->matchText(strip_tags($content), $query) === false;
             } elseif ($type === 'header' && $enabled) {
-                $header = (array) $page->header();
+                // Flex pages return a Header object whose data is a protected
+                // property, so a plain (array) cast yields one mangled "\0*\0items"
+                // key and header_keys_ignored silently stops matching.
+                $header = $page->header();
+                $header = $header instanceof Header ? $header->toArray() : (array) $header;
                 $content = $this->getArrayValues($header);
                 $result = $this->matchText(strip_tags($content), $query) === false;
             }
@@ -448,6 +453,12 @@ class SimplesearchPlugin extends Plugin
     protected function getArrayValues($array, $ignore_keys = null, $level = 0) {
         $output = '';
 
+        // Header values can be arbitrary objects injected by other plugins via
+        // Page::modifyHeader(); bail out rather than recurse a cyclic graph.
+        if ($level > 16) {
+            return $output;
+        }
+
         if (is_null($ignore_keys)) {
             $config = $this->config();
             $ignore_keys = $config['header_keys_ignored'] ?? ['title', 'taxonomy','content', 'form', 'forms', 'media_order'];
@@ -458,9 +469,11 @@ class SimplesearchPlugin extends Plugin
                 continue;
             }
 
-            if (is_array($child)) {
-                $output .= " " . $this->getArrayValues($child, $ignore_keys, $level + 1);
-            } else {
+            if (is_object($child) && method_exists($child, '__toString')) {
+                $output .= " " . $child;
+            } elseif (is_array($child) || is_object($child)) {
+                $output .= " " . $this->getArrayValues((array) $child, $ignore_keys, $level + 1);
+            } elseif (is_scalar($child)) {
                 $output .= " " . $child;
             }
 
