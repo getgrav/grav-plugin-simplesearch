@@ -1,5 +1,5 @@
 # v2.3.3
-## 08/26/2026
+## 08/27/2026
 
 1. [](#bugfix)
     * Fixed searching page headers failing with a 500 error when a header held anything other than plain text or a plain list, which another plugin can put there. Thanks to @nerdyjan for the report and the fix ([#209](https://github.com/getgrav/grav-plugin-simplesearch/issues/209)).
