@@ -155,10 +155,37 @@ uk:
 
 es:
   PLUGIN_SIMPLESEARCH:
-    SEARCH_PLACEHOLDER: "Buscar …"
-    SEARCH_RESULTS: "Resultados de la búsqueda"
-    SEARCH_RESULTS_SUMMARY_SINGULAR: "Consulta: <strong>%s</strong> se encontró 1 resultado"
-    SEARCH_RESULTS_SUMMARY_PLURAL: "Consulta: <strong>%s</strong> se encontraron %s resultados"
+    SEARCH_PLACEHOLDER: 'Buscar …'
+    SEARCH_RESULTS: 'Resultados de búsqueda'
+    SEARCH_RESULTS_SUMMARY_SINGULAR: 'Consulta: <strong>%s</strong> encontró un resultado'
+    SEARCH_RESULTS_SUMMARY_PLURAL: 'Consulta: <strong>%s</strong> encontró %s resultados'
+    SEARCH_FIELD_MINIMUM_CHARACTERS: 'Por favor agrega al menos %s caracteres'
+    SEARCH_CONTENT: 'Buscar contenido'
+    RENDERED_CONTENT:  'Contenido procesado (más lento)'
+    RAW_CONTENT: 'Contenido Markdown sin procesar (más rápido)'
+    BUILTIN_CSS: 'Usar CSS integrado'
+    BUILTIN_CSS_HELP: 'Incluir el CSS proporcionado por el plugin simplesearch'
+    BUILTIN_JS: 'Usar JavaScript integrado'
+    BUILTIN_JS_HELP: 'Incluir el JavaScript proporcionado por el plugin simplesearch'
+    DISPLAY_SEARCH_BUTTON: 'Mostrar botón de búsqueda'
+    DISPLAY_SEARCH_BUTTON_HELP: 'Mostrar un botón de búsqueda cerca del campo de búsqueda'
+    IGNORE_ACCENDED_CHARACTERS: 'Ignorar caracteres acentuados'
+    IGNORE_ACCENDED_CHARACTERS_HELP: 'Si está habilitado, los términos de búsqueda coincidirán con caracteres acentuados independientemente de sus diacríticos, es decir, los resultados de búsqueda se mostrarán para "cafe" y "café" sin importar cómo lo escribas.'
+    MIN_QUERY_LENGTH: 'Longitud mínima de la consulta'
+    MIN_QUERY_LENGTH_HELP: 'El número mínimo de caracteres necesarios antes de que se pueda enviar la búsqueda'
+    SEARCH_PAGE_ROUTE: 'Ruta'
+    SEARCH_PAGE_ROUTE_HELP: 'Ruta predeterminada del plugin simplesearch'
+    SEARCH_PAGE_TEMPLATE: 'Plantilla'
+    SEARCH_PAGE_TEMPLATE_HELP: 'Nombre de la plantilla para los resultados de búsqueda'
+    CATEGORY_FILTER: 'Filtro de categoría'
+    CATEGORY_FILTER_HELP: 'Lista de nombres de categorías separados por comas. Ingresa "@none" para buscar en todas las páginas.'
+    FILTER_COMBINATOR: 'Combinador de filtros'
+    AND_COMBINATOR: 'Y - Booleano &&'
+    OR_COMBINATOR: 'O - Booleano ||'
+    SEARCHABLE_TYPES: "Tipos buscables"
+    SEARCHABLE_TYPES_DESCRIPTION: "<b>Título</b> = Buscar título de página<br><b>Contenido</b> = Buscar contenido de página<br><b>Encabezado</b> = Buscar encabezados sin procesar de página<br><b>Taxonomía</b> = Buscar taxonomía"
+    HEADER_KEYS_IGNORED: Claves de encabezado a ignorar
+    HEADER_KEYS_IGNORED_HELP: Las claves de encabezado de nivel raíz que deben omitirse al buscar el tipo "Encabezado"
 
 ja:
   PLUGIN_SIMPLESEARCH:
