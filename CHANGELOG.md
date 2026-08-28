@@ -1,3 +1,9 @@
+# v2.3.4
+## 08/28/2026
+
+1. [](#improved)
+    * The Spanish translation now covers every string, up from four. Thanks to @pmoreno-rodriguez
+
 # v2.3.3
 ## 08/27/2026
 
