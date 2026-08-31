@@ -101,6 +101,60 @@ form:
         type: number
         min: 0
 
+    enable_search_suggestions:
+      type: toggle
+      label: PLUGIN_SIMPLESEARCH.ENABLE_SEARCH_SUGGESTIONS
+      help: PLUGIN_SIMPLESEARCH.ENABLE_SEARCH_SUGGESTIONS_HELP
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+
+    min_query_length_suggestions:
+      type: text
+      size: x-small
+      label: PLUGIN_SIMPLESEARCH.MIN_QUERY_LENGTH_SUGGESTIONS
+      help: PLUGIN_SIMPLESEARCH.MIN_QUERY_LENGTH_SUGGESTIONS_HELP
+      default: 3
+      validate:
+        type: number
+        min: 0
+
+    max_suggestions:
+      type: text
+      size: x-small
+      label: PLUGIN_SIMPLESEARCH.MAX_SUGGESTIONS
+      help: PLUGIN_SIMPLESEARCH.MAX_SUGGESTIONS_HELP
+      default: 5
+      validate:
+        type: number
+        min: 1
+
+    enable_ajax_search:
+      type: toggle
+      label: PLUGIN_SIMPLESEARCH.ENABLE_AJAX_SEARCH
+      help: PLUGIN_SIMPLESEARCH.ENABLE_AJAX_SEARCH_HELP
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    
+    per_page:
+      type: text
+      size: x-small
+      label: PLUGIN_SIMPLESEARCH.PER_PAGE
+      help: PLUGIN_SIMPLESEARCH.PER_PAGE_HELP
+      default: 10
+      validate:
+        type: number
+        min: 1
+
     route:
       type: text
       size: medium

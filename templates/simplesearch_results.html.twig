@@ -8,16 +8,52 @@
         </div>
         <p>
             {% if query %}
-                {% set count = search_results ? search_results.count : 0 %}
-                {% if count is same as( 1 ) %}
+                {# For non-AJAX, total count comes from pagination data. For AJAX, JS will handle summary. #}
+                {% set total_count = pagination.total_results ?? (search_results ? search_results.count : 0) %}
+                {% if total_count is same as(1) %}
                     {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_SINGULAR"|t(query|e)|raw }}
                 {% else %}
-                    {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query|e, count)|raw }}
+                    {{ "PLUGIN_SIMPLESEARCH.SEARCH_RESULTS_SUMMARY_PLURAL"|t(query|e, total_count)|raw }}
                 {% endif %}
             {% endif %}
         </p>
-        {% for page in search_results %}
-            {% include 'partials/simplesearch_item.html.twig' with {'page': page} %}
-        {% endfor %}
+
+        <div id="simplesearch-ajax-results-container">
+            {# JavaScript will populate this if AJAX search is enabled and query is made #}
+            {# Fallback or initial server-rendered content for non-AJAX or no-query AJAX: #}
+            {% if not config.plugins.simplesearch.enable_ajax_search or not query %}
+                {% for page_item in search_results %} {# Renamed to avoid conflict with outer page if any #}
+                    {% include 'partials/simplesearch_item.html.twig' with {'page': page_item} %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {# Non-AJAX Pagination Controls #}
+        {% if not config.plugins.simplesearch.enable_ajax_search and pagination and pagination.total_pages > 1 %}
+            <div class="simplesearch-pagination">
+                {# Previous Page Link #}
+                {% if pagination.current_page > 1 %}
+                    <a href="{{ pagination.base_url }}/page{{ config.system.param_sep }}{{ pagination.current_page - 1 }}">&laquo; {{ "PLUGIN_SIMPLESEARCH.PREVIOUS"|t }}</a>
+                {% else %}
+                    <span>&laquo; {{ "PLUGIN_SIMPLESEARCH.PREVIOUS"|t }}</span>
+                {% endif %}
+
+                {# Page Number Links #}
+                {% for i in 1..pagination.total_pages %}
+                    {% if i == pagination.current_page %}
+                        <span class="current">{{ i }}</span>
+                    {% else %}
+                        <a href="{{ pagination.base_url }}/page{{ config.system.param_sep }}{{ i }}">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {# Next Page Link #}
+                {% if pagination.current_page < pagination.total_pages %}
+                    <a href="{{ pagination.base_url }}/page{{ config.system.param_sep }}{{ pagination.current_page + 1 }}">{{ "PLUGIN_SIMPLESEARCH.NEXT"|t }} &raquo;</a>
+                {% else %}
+                    <span>{{ "PLUGIN_SIMPLESEARCH.NEXT"|t }} &raquo;</span>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
