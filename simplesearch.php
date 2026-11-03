@@ -30,6 +30,11 @@ class SimplesearchPlugin extends Plugin
     protected $collection;
 
     /**
+     * @var bool
+     */
+    protected $is_search_page = false;
+
+    /**
      * @return array
      */
     public static function getSubscribedEvents()
@@ -116,6 +121,8 @@ class SimplesearchPlugin extends Plugin
         if (!($route && $route == $uri->path())) {
             return;
         }
+
+        $this->is_search_page = true;
 
         // set the template is not set in the page header (the page header setting takes precedence over the plugin config setting)
         if (!isset($page->header()->template)) {
@@ -429,6 +436,7 @@ class SimplesearchPlugin extends Plugin
     public function onTwigSiteVariables()
     {
         $twig = $this->grav['twig'];
+        $twig->twig_vars['simplesearch_is_search_page'] = $this->is_search_page;
 
         if ($this->query) {
             $twig->twig_vars['query'] = implode(', ', $this->query);

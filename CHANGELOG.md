@@ -1,3 +1,9 @@
+# v2.3.5
+## 11/02/2026
+
+1. [](#bugfix)
+    * The search box now only takes focus on the search page itself, so a search box in a sidebar no longer scrolls the page down to it when a page loads, notably on mobile ([#203](https://github.com/getgrav/grav-plugin-simplesearch/pull/203)).
+
 # v2.3.4
 ## 08/28/2026
 
